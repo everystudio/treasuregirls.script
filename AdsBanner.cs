@@ -27,12 +27,7 @@ public class AdsBanner : MonoBehaviour {
 
 		if (m_bAutoShow)
 		{
-			MobileAds.Initialize(aa =>
-			{
-				Debug.Log(aa);
-				Show();
-
-			});
+			Show();
 		}
 	}
 
