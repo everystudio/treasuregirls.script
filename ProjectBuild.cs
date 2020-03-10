@@ -16,7 +16,7 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 
 		if (target == BuildTarget.StandaloneWindows || target == BuildTarget.StandaloneWindows64)
 		{
-			EditDirectory.Delete(Application.dataPath + "/../" + Path.Combine(BuildScript.BUILD_PROJECT_DIRECTORY, BuildScript.GetPlatformFolderForAssetBundles(target)));
+			//EditDirectory.Delete(Application.dataPath + "/../" + Path.Combine(BuildScript.BUILD_PROJECT_DIRECTORY, BuildScript.GetPlatformFolderForAssetBundles(target)));
 		}
 
 
