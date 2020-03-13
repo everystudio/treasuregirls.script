@@ -11,5 +11,6 @@ public class Defines
 	public const string FILENAME_MASTERCHARA = "master_chara";
 
 	public const string FILENAME_DATACHARA = "data_chara";
+	public const string FILENAME_DATAARMOR = "data_armor";
 
 }

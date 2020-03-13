@@ -15,7 +15,11 @@ public class DataManager : DataManagerBase<DataManager>
 	public TextAssetHolder m_textAssetHolder;
 
 	public MasterChara masterChara = new MasterChara();
+	public MasterArmor masterArmor = new MasterArmor();
+
+
 	public DataChara dataChara = new DataChara();
+	public DataArmor dataArmor = new DataArmor();
 
 	public bool UseGem( int _iGem)
 	{
@@ -38,6 +42,8 @@ public class DataManager : DataManagerBase<DataManager>
 
 		#region 通信初期化
 		yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
+		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
+		
 		#endregion
 
 		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
@@ -49,6 +55,21 @@ public class DataManager : DataManagerBase<DataManager>
 			slime.status = DataChara.STATUS.USING.ToString();
 			dataChara.list.Add(slime);
 		}
+
+		dataArmor.SetSaveFilename(Defines.FILENAME_DATAARMOR);
+		if( dataArmor.LoadMulti() == false)
+		{
+			for( int i = 0; i < MasterArmor.ArmorPositionArr.Length; i++)
+			{
+				DataArmorParam add = new DataArmorParam();
+				add.position = MasterArmor.ArmorPositionArr[i];
+				add.level = 1;
+				dataArmor.list.Add(add);
+			}
+		}
+
+
+
 
 		Initialized = true;
 		Debug.Log("init_network end");

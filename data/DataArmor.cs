@@ -8,6 +8,6 @@ public class DataArmorParam : CsvDataParam
     public int level { get; set; }
 }
 
-public class DataArmor : MonoBehaviour
+public class DataArmor : CsvData<DataArmorParam>
 {
 }

@@ -20,4 +20,14 @@ public class MasterArmorParam : CsvDataParam
 
 public class MasterArmor : CsvData<MasterArmorParam>
 {
+	public static readonly string[] ArmorPositionArr = new string[8]{
+		"helmet",
+		"body",
+		"gloves",
+		"shield",
+		"bracelet",
+		"necklace",
+		"pants",
+		"cloaks",
+		};
 }

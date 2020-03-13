@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ArmorMain : MonoBehaviour
 {
-	[SerializeField]
-	private List<IconArmor> icon_armor_list;
+	public List<IconArmor> icon_armor_list;
+
+	public GameObject m_prefArmorIcon;
+	public GameObject m_goRootLeft;
+	public GameObject m_goRootRight;
+
+
 
 
 }
