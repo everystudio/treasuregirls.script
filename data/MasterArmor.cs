@@ -8,8 +8,9 @@ public class MasterArmorParam : CsvDataParam
 	public string position { get; set; }
 
 	public int level { get; set; }
-	public int def { get; set; }
 	public int hp { get; set; }
+	public int def { get; set; }
+	public int mind { get; set; }
 	public int luck { get; set; }
 	public int gold { get; set; }
 	public int next_id { get; set; }

@@ -64,6 +64,8 @@ public class DataManager : DataManagerBase<DataManager>
 				DataArmorParam add = new DataArmorParam();
 				add.position = MasterArmor.ArmorPositionArr[i];
 				add.level = 1;
+				MasterArmorParam mas = masterArmor.list.Find(p => p.position == add.position && p.level == add.level);
+				add.armor_id = mas.armor_id;
 				dataArmor.list.Add(add);
 			}
 		}
