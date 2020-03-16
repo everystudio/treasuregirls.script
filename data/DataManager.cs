@@ -16,10 +16,13 @@ public class DataManager : DataManagerBase<DataManager>
 
 	public MasterChara masterChara = new MasterChara();
 	public MasterArmor masterArmor = new MasterArmor();
-
+	public MasterSkill masterSkill = new MasterSkill();
+	public MasterPotion masterPotion = new MasterPotion();
 
 	public DataChara dataChara = new DataChara();
 	public DataArmor dataArmor = new DataArmor();
+	public DataSkill dataSkill = new DataSkill();
+	public DataPotion dataPotion = new DataPotion();
 
 	public bool UseGem( int _iGem)
 	{
@@ -41,9 +44,15 @@ public class DataManager : DataManagerBase<DataManager>
 		masterChara.SetSaveFilename(Defines.FILENAME_MASTERCHARA);
 
 		#region 通信初期化
+		Debug.Log("aa");
 		yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
+		Debug.Log("aa");
 		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
-		
+		Debug.Log("aa");
+		yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
+		Debug.Log("aa");
+		yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
+		Debug.Log("aa");
 		#endregion
 
 		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
@@ -68,6 +77,19 @@ public class DataManager : DataManagerBase<DataManager>
 				add.armor_id = mas.armor_id;
 				dataArmor.list.Add(add);
 			}
+		}
+		dataSkill.SetSaveFilename(Defines.FILENAME_DATASKILL);
+		if( dataSkill.LoadMulti() == false)
+		{
+			dataSkill.list.Add(new DataSkillParam(1, 1));
+		}
+		dataPotion.SetSaveFilename(Defines.FILENAME_DATAPOTION);
+		if (dataPotion.LoadMulti() == false)
+		{
+			DataPotionParam add = new DataPotionParam();
+			add.potion_id = 1;
+			add.is_use = true;
+			dataPotion.list.Add(add);
 		}
 
 
