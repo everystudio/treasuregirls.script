@@ -24,11 +24,22 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataSkill dataSkill = new DataSkill();
 	public DataPotion dataPotion = new DataPotion();
 
-	public bool UseGem( int _iGem)
+	public bool UseGem(int _iGem)
 	{
 		// Gemの消費処理
 
 		return true;
+	}
+	public bool UseGold(int _iGold)
+	{
+		// Gemの消費処理
+
+		return true;
+	}
+
+	public int GetGold()
+	{
+		return 500;
 	}
 
 	public override void Initialize()

@@ -29,6 +29,8 @@ public class ArmorMain : MonoBehaviour
 	public TextMeshProUGUI m_txtUpgradeGold;
 	public SpriteAtlas m_spriteAtlasArmor;
 
+	public PanelPotion m_panelPotion;
+
 	public void IconSelect( string _strPosition)
 	{
 		foreach( IconArmor icon in icon_armor_list)

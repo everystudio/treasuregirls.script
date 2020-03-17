@@ -81,13 +81,22 @@ namespace ArmorMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
 			foreach(IconArmor icon in armorMain.icon_armor_list)
 			{
 				icon.OnClickDataArmor.AddListener(OnClickArmor);
 			}
-
 			armorMain.m_btnUpGrade.onClick.AddListener(OnUpgrade);
+
+			// 所持金額
+			armorMain.m_panelPotion.Initialize(DataManager.Instance.GetGold());
+			armorMain.m_panelPotion.m_btnUpgrade.onClick.AddListener(() =>
+			{
+				Fsm.Event("potion_upgrade");
+			});
+			armorMain.m_panelPotion.m_btnAdd.onClick.AddListener(() =>
+			{
+				Fsm.Event("potion_add");
+			});
 		}
 
 		private void OnUpgrade()
@@ -113,6 +122,8 @@ namespace ArmorMainAction
 			}
 			armorMain.m_btnUpGrade.onClick.RemoveAllListeners();
 
+			armorMain.m_panelPotion.m_btnUpgrade.onClick.RemoveAllListeners();
+			armorMain.m_panelPotion.m_btnAdd.onClick.RemoveAllListeners();
 		}
 	}
 
@@ -144,5 +155,43 @@ namespace ArmorMainAction
 			Finish();
 		}
 	}
+	[ActionCategory("ArmorMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ArmorMainAction")]
+	public class PotionUpgrade : ArmorMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
+			MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
+
+			if(DataManager.Instance.UseGold(master_potion.upgrade_gold))
+			{
+				data_potion.potion_id = master_potion.next_potion_id;
+			}
+
+			Finish();
+		}
+	}
+	[ActionCategory("ArmorMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ArmorMainAction")]
+	public class PotionAdd : ArmorMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
+			MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
+
+			if (DataManager.Instance.UseGold(master_potion.add_gold))
+			{
+				data_potion.num += 1;
+			}
+
+			Finish();
+		}
+	}
+
+
 
 }

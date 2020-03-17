@@ -15,4 +15,6 @@ public class Defines
 	public const string FILENAME_DATASKILL = "data_skill";
 	public const string FILENAME_DATAPOTION = "data_potion";
 
+
+	public const int POTION_LIMIT = 20;
 }

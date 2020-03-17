@@ -28,6 +28,38 @@ public class CharaView : MonoBehaviour
 			icon.Initialize(data, master);
 			position += 1;
 		}
+
+		DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
+		MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
+
+		Debug.Log(data_potion.potion_id);
+		Debug.Log(master_potion.potion_id);
+		m_iconPotion.Initialize(data_potion, master_potion);
+
+
+	}
+
+	public int GetSkillId(int _iPosition)
+	{
+		foreach (IconSkill icon in m_iconSkillList)
+		{
+			if( icon.m_data.position == _iPosition)
+			{
+				return icon.m_data.skill_id;
+			}
+		}
+		return 0;
+	}
+	public int GetSkillPosition(int _iSkillId)
+	{
+		foreach (IconSkill icon in m_iconSkillList)
+		{
+			if (icon.m_data.skill_id == _iSkillId)
+			{
+				return icon.m_data.position;
+			}
+		}
+		return 0;
 	}
 
 	public void SkillSelect(int _iPosition)

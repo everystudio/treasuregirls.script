@@ -7,6 +7,7 @@ public class DataPotionParam : CsvDataParam
 {
     public int potion_id { get; set; }
     public bool is_use { get; set; }
+    public int num { get; set; }
 }
 
 public class DataPotion : CsvData<DataPotionParam>
