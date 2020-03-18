@@ -23,7 +23,6 @@ namespace DataManagerAction
 			base.OnUpdate();
 			if (DataManager.Instance.Initialized)
 			{
-				Debug.Log("aaa");
 				Finish();
 			}
 		}

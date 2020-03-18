@@ -18,11 +18,14 @@ public class DataManager : DataManagerBase<DataManager>
 	public MasterArmor masterArmor = new MasterArmor();
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterPotion masterPotion = new MasterPotion();
+	public MasterTreasure masterTreasure = new MasterTreasure();
 
 	public DataChara dataChara = new DataChara();
 	public DataArmor dataArmor = new DataArmor();
 	public DataSkill dataSkill = new DataSkill();
 	public DataPotion dataPotion = new DataPotion();
+	public DataTreasure dataTreasure = new DataTreasure();
+	public DataTreasure dataTreasureAlbum = new DataTreasure();
 
 	public bool UseGem(int _iGem)
 	{
@@ -55,15 +58,11 @@ public class DataManager : DataManagerBase<DataManager>
 		masterChara.SetSaveFilename(Defines.FILENAME_MASTERCHARA);
 
 		#region 通信初期化
-		Debug.Log("aa");
 		yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
-		Debug.Log("aa");
 		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
-		Debug.Log("aa");
 		yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
-		Debug.Log("aa");
 		yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
-		Debug.Log("aa");
+		yield return StartCoroutine(masterTreasure.SpreadSheet(Defines.SS_MASTER, "treasure", () => { }));
 		#endregion
 
 		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
@@ -103,6 +102,16 @@ public class DataManager : DataManagerBase<DataManager>
 			dataPotion.list.Add(add);
 		}
 
+		dataTreasure.SetSaveFilename(Defines.FILENAME_DATATREASURE);
+		if(dataTreasure.LoadMulti() == false)
+		{
+			dataTreasure.Add(1001);
+		}
+		dataTreasureAlbum.SetSaveFilename(Defines.FILENAME_DATATREASUREALBUM);
+		if (dataTreasureAlbum.LoadMulti() == false)
+		{
+			dataTreasureAlbum.Add(1001);
+		}
 
 
 
