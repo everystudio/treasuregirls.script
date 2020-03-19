@@ -1,6 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+public class DataTreasureEvent : UnityEvent<DataTreasureParam>
+{
+}
 
 public class DataTreasureParam : CsvDataParam
 {
@@ -32,7 +37,7 @@ public class DataTreasure : CsvData<DataTreasureParam>
                 add_serial = data.serial + 1;
             }
         }
-        list.Add(new DataTreasureParam(_iTreasureId, add_serial));
+        list.Add(new DataTreasureParam(add_serial,_iTreasureId));
     }
     
 }

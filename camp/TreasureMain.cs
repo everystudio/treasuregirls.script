@@ -10,7 +10,8 @@ public class TreasureMain : MonoBehaviour
 
 	public TreasureInfo m_treasureInfo;
 
-	public List<IconInventry> setting_treasure_list;
+	public List<IconInventry> equip_treasure_list;
+	public List<IconInventry> treasure_list;
 	public GameObject m_rootSettingTreasure;
 
 	public GameObject m_goRootList;
@@ -23,5 +24,36 @@ public class TreasureMain : MonoBehaviour
 	public Button m_btnAlbum;
 
 	public Button m_btnBack;
+
+	public void ButtonClose()
+	{
+		m_btnSet.onClick.RemoveAllListeners();
+		m_btnSyoji.onClick.RemoveAllListeners();
+		m_btnEdit.onClick.RemoveAllListeners();
+		m_btnAlbum.onClick.RemoveAllListeners();
+		m_btnBack.onClick.RemoveAllListeners();
+
+		m_btnSet.gameObject.SetActive(false);
+		m_btnSyoji.gameObject.SetActive(false);
+		m_btnEdit.gameObject.SetActive(false);
+		m_btnAlbum.gameObject.SetActive(false);
+		m_btnBack.gameObject.SetActive(false);
+	}
+
+	public void SelectEquip(int _iEquip)
+	{
+		foreach (IconInventry icon in equip_treasure_list)
+		{
+			icon.OnSelect(icon.m_dataTreasure.equip == _iEquip);
+		}
+	}
+
+	public void SelectListData(int _iSerial)
+	{
+		foreach( IconInventry icon in treasure_list)
+		{
+			icon.SelectTreasure(_iSerial);
+		}
+	}
 
 }

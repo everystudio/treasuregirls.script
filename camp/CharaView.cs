@@ -32,8 +32,8 @@ public class CharaView : MonoBehaviour
 		DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
 		MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
 
-		Debug.Log(data_potion.potion_id);
-		Debug.Log(master_potion.potion_id);
+		//Debug.Log(data_potion.potion_id);
+		//Debug.Log(master_potion.potion_id);
 		m_iconPotion.Initialize(data_potion, master_potion);
 
 

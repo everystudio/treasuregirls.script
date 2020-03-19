@@ -62,7 +62,14 @@ public class DataManager : DataManagerBase<DataManager>
 		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
 		yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
 		yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
-		yield return StartCoroutine(masterTreasure.SpreadSheet(Defines.SS_MASTER, "treasure", () => { }));
+		yield return StartCoroutine(masterTreasure.SpreadSheet(Defines.SS_MASTER, "treasure", () => {
+			/*
+			foreach( MasterTreasureParam master in masterTreasure.list)
+			{
+				Debug.Log(string.Format("id:{0} name:{1} sprite:{2}", master.treasure_id , master.name , master.sprite_name));
+			}
+			*/
+		}));
 		#endregion
 
 		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
@@ -110,7 +117,11 @@ public class DataManager : DataManagerBase<DataManager>
 		dataTreasureAlbum.SetSaveFilename(Defines.FILENAME_DATATREASUREALBUM);
 		if (dataTreasureAlbum.LoadMulti() == false)
 		{
-			dataTreasureAlbum.Add(1001);
+			dataTreasureAlbum.Add(1002);
+			dataTreasureAlbum.Add(1003);
+			dataTreasureAlbum.Add(1006);
+			dataTreasureAlbum.Add(1010);
+			dataTreasureAlbum.Add(1026);
 		}
 
 
