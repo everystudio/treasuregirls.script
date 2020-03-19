@@ -15,4 +15,14 @@ public class MasterTreasureParam : CsvDataParam
 
 public class MasterTreasure : CsvData<MasterTreasureParam>
 {
+    public static int GetGradeupPrice(DataTreasureParam _data , MasterTreasureParam _master)
+    {
+        return (_master.rarity * 2) * 100 * (_data.level + 1);
+    }
+
+    public static int GetSellPrice(DataTreasureParam _data, MasterTreasureParam _master)
+    {
+        return 100 * _master.rarity;
+    }
+
 }

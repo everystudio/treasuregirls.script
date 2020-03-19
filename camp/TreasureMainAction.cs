@@ -64,11 +64,52 @@ namespace TreasureMainAction
 	[HutongGames.PlayMaker.Tooltip("TreasureMainAction")]
 	public class idle : TreasureMainActionBase
 	{
+		public FsmInt treasure_serial;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
+			treasure_serial.Value = 0;
 			treasureMain.m_txtListTitle.text = "所持おたから一覧";
+
+			treasureMain.m_goBuyWindow.SetActive(false);
+
+			treasureMain.m_treasureInfo.Setup(new DataTreasureParam(0, 0), null);
+			treasureMain.m_btnBuy.gameObject.SetActive(true);
+			treasureMain.m_btnGradeup.gameObject.SetActive(true);
+
+			treasureMain.m_btnGradeup.onClick.AddListener(() =>
+			{
+				DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial.Value);
+				MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
+
+				DataManager.Instance.UseGold(MasterTreasure.GetGradeupPrice(data, master));
+				data.level += 1;
+				treasureMain.m_treasureInfo.Setup(data, master);
+
+				foreach(IconInventry icon in treasureMain.treasure_list)
+				{
+					if( icon.m_dataTreasure.serial == data.serial)
+					{
+						icon.Initialize(data, master);
+						icon.SelectTreasure(data.serial);
+					}
+				}
+				foreach( IconInventry icon in treasureMain.equip_treasure_list)
+				{
+					if (icon.m_dataTreasure.serial == data.serial)
+					{
+						icon.Initialize(data, master);
+						icon.SelectTreasure(data.serial);
+					}
+				}
+			});
+			treasureMain.m_btnBuy.onClick.AddListener(() =>
+			{
+				Fsm.Event("buy");
+			});
+
+
 
 			treasureMain.m_btnEdit.gameObject.SetActive(true);
 			treasureMain.m_btnAlbum.gameObject.SetActive(true);
@@ -97,12 +138,30 @@ namespace TreasureMainAction
 
 				icon.OnClickTreasure.AddListener(OnSelectListTreasure);
 			}
-
 		}
+
+		public override void OnSelectEquip(DataTreasureParam arg0)
+		{
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == arg0.treasure_id);
+
+			treasureMain.m_treasureInfo.Setup(arg0, master);
+
+			treasureMain.SelectEquip(arg0.equip);
+			treasureMain.SelectListData(0);
+
+			treasure_serial.Value = arg0.serial;
+		}
+
 
 		private void OnSelectListTreasure(DataTreasureParam arg0)
 		{
+			treasureMain.SelectEquip(0);
 			treasureMain.SelectListData(arg0.serial);
+
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == arg0.treasure_id);
+			treasureMain.m_treasureInfo.Setup(arg0, master);
+
+			treasure_serial.Value = arg0.serial;
 		}
 	}
 
@@ -121,6 +180,39 @@ namespace TreasureMainAction
 			treasure_serial = -1;
 
 			SetupEquip();
+
+			treasureMain.m_btnBuy.gameObject.SetActive(false);
+			treasureMain.m_btnGradeup.gameObject.SetActive(false);
+			treasureMain.m_btnGradeup.onClick.AddListener(() =>
+			{
+				DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial);
+				MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
+
+				DataManager.Instance.UseGold(MasterTreasure.GetGradeupPrice(data, master));
+				data.level += 1;
+				treasureMain.m_treasureInfo.Setup(data, master);
+
+				foreach (IconInventry icon in treasureMain.treasure_list)
+				{
+					if (icon.m_dataTreasure.serial == data.serial)
+					{
+						icon.Initialize(data, master);
+						icon.SelectTreasure(data.serial);
+					}
+				}
+				foreach (IconInventry icon in treasureMain.equip_treasure_list)
+				{
+					if (icon.m_dataTreasure.serial == data.serial)
+					{
+						icon.Initialize(data, master);
+						icon.SelectTreasure(data.serial);
+					}
+				}
+
+			});
+
+
+
 
 			treasureMain.m_btnSet.gameObject.SetActive(true);
 			treasureMain.m_btnBack.gameObject.SetActive(true);
@@ -213,6 +305,10 @@ namespace TreasureMainAction
 			equip_position = arg0.equip;
 			treasureMain.SelectEquip(arg0.equip);
 
+
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == arg0.treasure_id);
+			treasureMain.m_treasureInfo.Setup(arg0, master);
+
 			treasureMain.m_btnSet.interactable = CheckExchangeButton();
 		}
 
@@ -221,6 +317,10 @@ namespace TreasureMainAction
 			treasure_serial = arg0.serial;
 			treasureMain.SelectListData(arg0.serial);
 			treasureMain.m_btnSet.interactable = CheckExchangeButton();
+
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == arg0.treasure_id);
+			treasureMain.m_treasureInfo.Setup(arg0, master);
+
 		}
 	}
 
@@ -234,6 +334,10 @@ namespace TreasureMainAction
 			treasureMain.m_txtListTitle.text = "おたから図鑑";
 
 			treasureMain.m_btnBack.gameObject.SetActive(true);
+			treasureMain.m_btnBuy.gameObject.SetActive(false);
+			treasureMain.m_btnGradeup.gameObject.SetActive(false);
+
+			SetupEquip();
 
 			treasureMain.m_btnBack.onClick.AddListener(() =>
 			{
@@ -258,7 +362,59 @@ namespace TreasureMainAction
 		private void OnSelectListTreasure(DataTreasureParam arg0)
 		{
 			treasureMain.SelectListData(arg0.serial);
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == arg0.treasure_id);
+			treasureMain.m_treasureInfo.Setup(arg0, master);
 		}
 	}
+
+
+	[ActionCategory("TreasureMainAction")]
+	[HutongGames.PlayMaker.Tooltip("TreasureMainAction")]
+	public class buy_check : TreasureMainActionBase
+	{
+		// 今更だけど買うと売るを逆にしてない？
+		public FsmInt treasure_serial;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			treasureMain.m_goBuyWindow.SetActive(true);
+
+			DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial.Value);
+			MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
+
+			treasureMain.icon_buy.Initialize(data, master);
+			treasureMain.m_txtPrice.text = MasterTreasure.GetSellPrice(data, master).ToString();
+
+			treasureMain.m_btnBuyYes.onClick.AddListener(() =>
+			{
+				DataTreasureParam remove_data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial.Value);
+				MasterTreasureParam remove_master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == remove_data.treasure_id);
+
+				int add_gold = MasterTreasure.GetSellPrice(remove_data, remove_master);
+				DataManager.Instance.AddGold(add_gold);
+				DataManager.Instance.dataTreasure.list.Remove(remove_data);
+
+				Fsm.Event("buy");
+			});
+			treasureMain.m_btnBuyCancel.onClick.AddListener(() =>
+			{
+				Fsm.Event("cancel");
+			});
+
+
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			treasureMain.m_btnBuyYes.onClick.RemoveAllListeners();
+			treasureMain.m_btnBuyCancel.onClick.RemoveAllListeners();
+		}
+
+	}
+
+
 
 }

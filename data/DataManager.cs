@@ -39,6 +39,10 @@ public class DataManager : DataManagerBase<DataManager>
 
 		return true;
 	}
+	public void AddGold(int _iAdd)
+	{
+		return;
+	}
 
 	public int GetGold()
 	{

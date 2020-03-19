@@ -50,7 +50,7 @@ public class IconInventry : MonoBehaviour
 			m_imgIcon.sprite = m_spriteAtlas.GetSprite(_master.sprite_name);
 			m_goEquip.SetActive(0 < _data.equip);
 
-			if (1 < _data.level)
+			if (0 < _data.level)
 			{
 				m_txtLevel.text = string.Format("+{0}", _data.level);
 			}
