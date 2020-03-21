@@ -15,13 +15,27 @@ public class ShopMain : MonoBehaviour
 	public Button m_btnMainCode;
 
 	public GameObject m_goBannerGemFree;
+	public GameObject m_goGemFreeButtonRoot;
+	public GameObject m_goGemFreeTimeRoot;
+	public TextMeshProUGUI m_txtGemFreeTime;
+
 	public GameObject m_goBannerGoldPack1;
 	public GameObject m_goBannerGoldPack2;
 	public GameObject m_goBannerGoldPack3;
+
 	public GameObject m_goBannerWeaponFree;
+	public GameObject m_goWeaponFreeButtonRoot;
+	public GameObject m_goWeaponFreeTimeRoot;
+	public TextMeshProUGUI m_txtWeaponFreeTime;
+
 	public GameObject m_goBannerWeapon1;
 	public GameObject m_goBannerWeapon2;
+
 	public GameObject m_goBannerTreasureFree;
+	public GameObject m_goTreasureFreeButtonRoot;
+	public GameObject m_goTreasureFreeTimeRoot;
+	public TextMeshProUGUI m_txtTreasureFreeTime;
+
 	public GameObject m_goBannerTreasure1;
 	public GameObject m_goBannerTreasure2;
 

@@ -27,15 +27,35 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataTreasure dataTreasure = new DataTreasure();
 	public DataTreasure dataTreasureAlbum = new DataTreasure();
 
+	public int debug_gem;
+	public int debug_gold;
+	public int debug_key;
+	public int debug_gold_key;
 	public bool UseGem(int _iGem)
 	{
 		// Gemの消費処理
-
+		if( debug_gem < _iGem)
+		{
+			return false;
+		}
+		debug_gem -= _iGem;
 		return true;
 	}
+	public int GetGem()
+	{
+		return debug_gem;
+	}
+
 	public bool UseGold(int _iGold)
 	{
 		// Gemの消費処理
+
+		if(debug_gold < _iGold )
+		{
+			return false;
+		}
+
+		debug_gold -= _iGold;
 
 		return true;
 	}
@@ -46,7 +66,35 @@ public class DataManager : DataManagerBase<DataManager>
 
 	public int GetGold()
 	{
-		return 500;
+		return debug_gold;
+	}
+
+	public bool UseKey(int _iUse)
+	{
+		if( debug_key < _iUse)
+		{
+			return false;
+		}
+		debug_key -= _iUse;
+		return true;
+	}
+	public int GetKey()
+	{
+		return debug_key;
+	}
+
+	public bool UseGoldKey(int _iUse)
+	{
+		if( debug_gold_key < _iUse)
+		{
+			return false;
+		}
+		debug_gold_key -= _iUse;
+		return true;
+	}
+	public int GetGoldKey()
+	{
+		return debug_gold_key;
 	}
 
 	public override void Initialize()
