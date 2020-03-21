@@ -16,6 +16,7 @@ public class Defines
 	public const string FILENAME_DATAPOTION = "data_potion";
 	public const string FILENAME_DATATREASURE = "data_treasure";
 	public const string FILENAME_DATATREASUREALBUM = "data_treasurealbum";
+	public const string FILENAME_DATASCROLL = "data_scroll";
 
 	public const string KEY_LAST_REWARD_TIME_GEM_FREE = "KEY_LAST_REWARD_TIME_GEM_FREE";
 	public const string KEY_LAST_REWARD_TIME_FREE_WEAPON = "KEY_LAST_REWARD_TIME_FREE_WEAPON";

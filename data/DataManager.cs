@@ -26,6 +26,7 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataPotion dataPotion = new DataPotion();
 	public DataTreasure dataTreasure = new DataTreasure();
 	public DataTreasure dataTreasureAlbum = new DataTreasure();
+	public DataScroll dataScroll = new DataScroll();
 
 	public int debug_gem;
 	public int debug_gold;
@@ -174,6 +175,15 @@ public class DataManager : DataManagerBase<DataManager>
 			dataTreasureAlbum.Add(1006);
 			dataTreasureAlbum.Add(1010);
 			dataTreasureAlbum.Add(1026);
+		}
+		dataScroll.SetSaveFilename(Defines.FILENAME_DATASCROLL);
+		if( dataScroll.LoadMulti()== false)
+		{
+			dataScroll.list.Add(new DataScrollParam(1, 20));
+			dataScroll.list.Add(new DataScrollParam(2, 20));
+			dataScroll.list.Add(new DataScrollParam(3, 20));
+			dataScroll.list.Add(new DataScrollParam(4, 20));
+			dataScroll.list.Add(new DataScrollParam(5, 20));
 		}
 
 

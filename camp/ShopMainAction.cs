@@ -47,6 +47,14 @@ namespace ShopMainAction
 
 		}
 
+		public void ScrollInfoUpdate()
+		{
+			shop.m_txtScrollNumBlue.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num.ToString();
+			shop.m_txtScrollNumYellow.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num.ToString();
+			shop.m_txtScrollNumGreen.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num.ToString();
+			shop.m_txtScrollNumPurple.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num.ToString();
+			shop.m_txtScrollNumRed.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num.ToString();
+		}
 
 	}
 
@@ -330,12 +338,146 @@ namespace ShopMainAction
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class scroll_use : ShopMainActionBase
 	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			shop.m_goScrollUseRoot.SetActive(true);
+			shop.m_goScrollInfoRoot.SetActive(true);
+
+			ScrollInfoUpdate();
+
+			shop.m_btnScroolUseBlueOne.onClick.AddListener(() => { Use(1, 1); });
+			shop.m_btnScroolUseBlueTen.onClick.AddListener(() => { Use(1, 10); });
+			shop.m_btnScroolUseYellowOne.onClick.AddListener(() => { Use(2, 1); });
+			shop.m_btnScroolUseYellowTen.onClick.AddListener(() => { Use(2, 10); });
+			shop.m_btnScroolUseGreenOne.onClick.AddListener(() => { Use(3, 1); });
+			shop.m_btnScroolUseGreanTen.onClick.AddListener(() => { Use(3, 10); });
+			shop.m_btnScroolUsePurpleOne.onClick.AddListener(() => { Use(4, 1); });
+			shop.m_btnScroolUsePurpleTen.onClick.AddListener(() => { Use(4, 10); });
+			shop.m_btnScroolUseRedOne.onClick.AddListener(() => { Use(5, 1); });
+			shop.m_btnScroolUseRedTen.onClick.AddListener(() => { Use(5, 10); });
+
+			ButtonInteractable();
+
+			shop.m_btnScrollCreate.onClick.AddListener(() =>
+			{
+				Fsm.Event("change");
+			});
+		}
+
+		public void Use( int _iScrollId , int _iCreateNum)
+		{
+			DataScrollParam data = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId);
+			data.num -= _iCreateNum * 10;
+
+
+			ScrollInfoUpdate();
+			ButtonInteractable();
+		}
+
+		public void ButtonInteractable()
+		{
+			shop.m_btnScroolUseBlueOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
+			shop.m_btnScroolUseBlueTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
+			shop.m_btnScroolUseYellowOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
+			shop.m_btnScroolUseYellowTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
+			shop.m_btnScroolUseGreenOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
+			shop.m_btnScroolUseGreanTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
+			shop.m_btnScroolUsePurpleOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
+			shop.m_btnScroolUsePurpleTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
+			shop.m_btnScroolUseRedOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num;
+			shop.m_btnScroolUseRedTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num;
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			shop.m_btnScrollCreate.onClick.RemoveAllListeners();
+
+			shop.m_btnScroolUseBlueOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseBlueTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseYellowOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseYellowTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseGreenOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseGreanTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolUsePurpleOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolUsePurpleTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseRedOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolUseRedTen.onClick.RemoveAllListeners();
+			shop.m_btnScrollCreate.onClick.RemoveAllListeners();
+
+		}
 
 	}
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class scroll_create : ShopMainActionBase
 	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			shop.m_goScrollCreateRoot.SetActive(true);
+			shop.m_goScrollInfoRoot.SetActive(true);
+
+			ScrollInfoUpdate();
+			ButtonInteractable();
+
+			shop.m_btnScrollUse.onClick.AddListener(() =>
+			{
+				Fsm.Event("change");
+			});
+
+			shop.m_btnScroolCreateYellowOne.onClick.AddListener(() => { Create(1, 1); });
+			shop.m_btnScroolCreateYellowTen.onClick.AddListener(() => { Create(1, 10); });
+			shop.m_btnScroolCreateGreenOne.onClick.AddListener(() => { Create(2, 1); });
+			shop.m_btnScroolCreateGreanTen.onClick.AddListener(() => { Create(2, 10); });
+			shop.m_btnScroolCreatePurpleOne.onClick.AddListener(() => { Create(3, 1); });
+			shop.m_btnScroolCreatePurpleTen.onClick.AddListener(() => { Create(3, 10); });
+			shop.m_btnScroolCreateRedOne.onClick.AddListener(() => { Create(4, 1); });
+			shop.m_btnScroolCreateRedTen.onClick.AddListener(() => { Create(4, 10); });
+
+
+		}
+		public void Create( int _iScrollId , int _iNum)
+		{
+			// idは消費する方のid
+			DataScrollParam data = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId);
+			DataScrollParam next = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId+1);
+
+			data.num -= _iNum * 10;
+			next.num += _iNum;
+
+			ScrollInfoUpdate();
+			ButtonInteractable();
+		}
+
+
+		public void ButtonInteractable()
+		{
+			shop.m_btnScroolCreateYellowOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
+			shop.m_btnScroolCreateYellowTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
+			shop.m_btnScroolCreateGreenOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
+			shop.m_btnScroolCreateGreanTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
+			shop.m_btnScroolCreatePurpleOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
+			shop.m_btnScroolCreatePurpleTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
+			shop.m_btnScroolCreateRedOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
+			shop.m_btnScroolCreateRedTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			shop.m_btnScrollUse.onClick.RemoveAllListeners();
+
+			shop.m_btnScroolCreateYellowOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreateYellowTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreateGreenOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreateGreanTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreatePurpleOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreatePurpleTen.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreateRedOne.onClick.RemoveAllListeners();
+			shop.m_btnScroolCreateRedTen.onClick.RemoveAllListeners();
+
+		}
 
 	}
 
