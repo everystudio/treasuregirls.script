@@ -23,4 +23,11 @@ public class Defines
 	public const string KEY_LAST_REWARD_TIME_FREE_TREASURE = "KEY_LAST_REWARD_TIME_FREE_TREASURE";
 
 	public const int POTION_LIMIT = 20;
+
+
+	public const string TAG_PLAYER = "player";
+	public const string TAG_ENEMY = "enemy";
+
+
+
 }
