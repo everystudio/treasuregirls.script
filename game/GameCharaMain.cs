@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameCharaMain : Singleton<GameCharaMain>
 {
@@ -19,6 +20,14 @@ public class GameCharaMain : Singleton<GameCharaMain>
 
     public bool is_move;
 
+    public Animator m_animator;
     public DataUnitParam m_dataUnitParam = new DataUnitParam();
+
+    public UnityEvent OnAttackEnd = new UnityEvent();
+
+    public GameObject m_goAttackRoot;
+    public GameObject m_prefAttack;
+
+ 
 
 }

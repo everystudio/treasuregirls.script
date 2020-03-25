@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyBody : MonoBehaviour
 {
+	public Enemy enemy;
+
 	public bool IsHitPlayer = true;
 	void OnCollisionEnter2D(Collision2D _collision)
 	{

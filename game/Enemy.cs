@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
 			Destroy(m_sprEnemy.gameObject.GetComponent<BoxCollider2D>());
 		}
 		m_sprEnemy.gameObject.AddComponent<BoxCollider2D>();
+	}
 
+	public void Damage(DataUnitParam _attack)
+	{
+		int damage = _attack.CalcDamage(dataUnitParam, null);
+		dataUnitParam.hp -= damage;
 	}
 }

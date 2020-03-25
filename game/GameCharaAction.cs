@@ -82,6 +82,8 @@ namespace GameCharaAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+			//Debug.Log("OnFixedUpdate");
+
 			bool is_move = false;
 			float move_speed = 0.0f;
 			if (Input.GetKey(KeyCode.RightArrow) || chara.m_arrowRight.is_press)
@@ -101,7 +103,11 @@ namespace GameCharaAction
 			}
 			else if (is_move)
 			{
-				chara.rb2d.velocity = new Vector2(move_speed, chara.rb2d.velocity.y);
+				//chara.rb2d.velocity = new Vector2(move_speed, chara.rb2d.velocity.y);
+				//Debug.Log("kasu");
+				chara.rb2d.transform.localPosition += new Vector3(move_speed*Time.deltaTime, 0.0f, 0.0f);
+				//chara.rb2d.MovePosition(chara.rb2d.position + new Vector2(1.0f,0.0f));
+
 			}
 			else
 			{
@@ -111,6 +117,7 @@ namespace GameCharaAction
 
 
 		}
+
 	}
 
 
@@ -153,6 +160,10 @@ namespace GameCharaAction
 			if (is_move)
 			{
 				Fsm.Event("escape");
+			}
+			else if( chara.m_charaBody.IsEnemy == false)
+			{
+				Finish();
 			}
 
 
@@ -198,6 +209,24 @@ namespace GameCharaAction
 			}
 		}
 	}
-
+	[ActionCategory("GameCharaAction")]
+	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
+	public class attack : GameCharaActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			chara.OnAttackEnd.AddListener(() =>
+			{
+				Finish();
+			});
+			chara.m_animator.SetTrigger("attack");
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			chara.OnAttackEnd.RemoveAllListeners();
+		}
+	}
 
 }

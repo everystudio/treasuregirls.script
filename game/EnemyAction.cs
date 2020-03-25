@@ -40,14 +40,16 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 
-			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 			enemy.enemy_search.IsFindPlayer = false;
 			enemy.enemy_search.gameObject.SetActive(true);
 		}
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+
+
 			if (enemy.enemy_search.IsFindPlayer)
 			{
 				enemy.enemy_search.gameObject.SetActive(false);
@@ -67,6 +69,8 @@ namespace EnemyAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			Vector3 dir = GameCharaMain.Instance.m_sprChara.gameObject.transform.position -
 				enemy.m_sprEnemy.gameObject.transform.position;
@@ -104,6 +108,7 @@ namespace EnemyAction
 		}
 		public override void OnUpdate()
 		{
+			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
 			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			base.OnUpdate();
@@ -138,7 +143,6 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 			// 絶対消す
-			enemy.dataUnitParam.hp -= 35;
 
 			Finish();
 		}
