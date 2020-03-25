@@ -15,18 +15,23 @@ public class DataManager : DataManagerBase<DataManager>
 	public TextAssetHolder m_textAssetHolder;
 
 	public MasterChara masterChara = new MasterChara();
+	public MasterWeapon masterWeapon = new MasterWeapon();
 	public MasterArmor masterArmor = new MasterArmor();
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterPotion masterPotion = new MasterPotion();
 	public MasterTreasure masterTreasure = new MasterTreasure();
+	public MasterEnemy masterEnemy = new MasterEnemy();
 
 	public DataChara dataChara = new DataChara();
+	public DataWeapon dataWeapon = new DataWeapon();
 	public DataArmor dataArmor = new DataArmor();
 	public DataSkill dataSkill = new DataSkill();
 	public DataPotion dataPotion = new DataPotion();
 	public DataTreasure dataTreasure = new DataTreasure();
 	public DataTreasure dataTreasureAlbum = new DataTreasure();
 	public DataScroll dataScroll = new DataScroll();
+
+	public DataUnit dataUnit = new DataUnit();
 
 	public int debug_gem;
 	public int debug_gold;
@@ -112,6 +117,7 @@ public class DataManager : DataManagerBase<DataManager>
 
 		#region 通信初期化
 		yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
+		yield return StartCoroutine(masterWeapon.SpreadSheet(Defines.SS_MASTER, "weapon", () => { }));
 		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
 		yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
 		yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
@@ -123,6 +129,8 @@ public class DataManager : DataManagerBase<DataManager>
 			}
 			*/
 		}));
+		yield return StartCoroutine(masterEnemy.SpreadSheet(Defines.SS_MASTER, "enemy", () => { }));
+		
 		#endregion
 
 		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
@@ -134,7 +142,15 @@ public class DataManager : DataManagerBase<DataManager>
 			slime.status = DataChara.STATUS.USING.ToString();
 			dataChara.list.Add(slime);
 		}
-
+		dataWeapon.SetSaveFilename(Defines.FILENAME_DATAWEAPON);
+		if( dataWeapon.LoadMulti()== false)
+		{
+			DataWeaponParam add_weapon = new DataWeaponParam();
+			add_weapon.weapon_id = 1;
+			add_weapon.level = 3;
+			add_weapon.equip = 1;	// 武器はtfで良いのでは？
+			dataWeapon.Add(add_weapon);
+		}
 		dataArmor.SetSaveFilename(Defines.FILENAME_DATAARMOR);
 		if( dataArmor.LoadMulti() == false)
 		{
@@ -185,7 +201,11 @@ public class DataManager : DataManagerBase<DataManager>
 			dataScroll.list.Add(new DataScrollParam(4, 20));
 			dataScroll.list.Add(new DataScrollParam(5, 20));
 		}
+		dataUnit.SetSaveFilename(Defines.FILENAME_DATAUNIT);
+		if( dataUnit.LoadMulti()== false)
+		{
 
+		}
 
 
 		Initialized = true;

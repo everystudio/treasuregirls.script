@@ -17,6 +17,20 @@ namespace EnemyAction
 		}
 	}
 
+	[ActionCategory("EnemyAction")]
+	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
+	public class Setup : EnemyActionlBase
+	{
+		public FsmInt enemy_id;
+		public FsmInt level;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			MasterEnemyParam master_enemy = DataManager.Instance.masterEnemy.list.Find(p => p.enemy_id == enemy_id.Value);
+			enemy.dataUnitParam.BuildEnemy(master_enemy,level.Value);
+			Finish();
+		}
+	}
 
 	[ActionCategory("EnemyAction")]
 	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
@@ -26,12 +40,8 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 
-			// 絶対消す
-			enemy.hp_max = 100;
-			enemy.hp = 100;
-
-			enemy.hp_bar.SetValueMax(enemy.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.hp);
+			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 			enemy.enemy_search.IsFindPlayer = false;
 			enemy.enemy_search.gameObject.SetActive(true);
 		}
@@ -69,7 +79,7 @@ namespace EnemyAction
 				move_speed *= -1;
 			}
 			enemy.m_rbEnemy.velocity = new Vector2(move_speed, enemy.m_rbEnemy.velocity.y);
-			if (enemy.hp <= 0)
+			if (enemy.dataUnitParam.hp <= 0)
 			{
 				Fsm.Event("dead");
 			}
@@ -94,12 +104,12 @@ namespace EnemyAction
 		}
 		public override void OnUpdate()
 		{
-			enemy.hp_bar.SetValueCurrent(enemy.hp);
+			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			base.OnUpdate();
 			interval += Time.deltaTime;
 
-			if( enemy.hp <= 0)
+			if(enemy.dataUnitParam.hp <= 0)
 			{
 				Fsm.Event("dead");
 			}
@@ -128,7 +138,7 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 			// 絶対消す
-			enemy.hp -= 35;
+			enemy.dataUnitParam.hp -= 35;
 
 			Finish();
 		}

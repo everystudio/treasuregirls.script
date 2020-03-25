@@ -19,6 +19,19 @@ namespace GameCharaAction
 
 	[ActionCategory("GameCharaAction")]
 	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
+	public class setup : GameCharaActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			chara.m_dataUnitParam.BuildPlayer();
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("GameCharaAction")]
+	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
 	public class idle : GameCharaActionBase
 	{
 		public override void OnEnter()
@@ -106,13 +119,22 @@ namespace GameCharaAction
 	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
 	public class battle : GameCharaActionBase
 	{
+		public float time;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			time = 0.0f;
 		}
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+
+			time += Time.deltaTime * chara.m_dataUnitParam.speed;
+
+			if( 300 < time)
+			{
+				Fsm.Event("attack");
+			}
 
 			bool is_move = false;
 			if (Input.GetKey(KeyCode.RightArrow) || chara.m_arrowRight.is_press)

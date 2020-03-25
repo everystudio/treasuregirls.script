@@ -14,10 +14,8 @@ public class Enemy : MonoBehaviour
 	public float attack_inverval;
 
 	public EnergyBar hp_bar;
-	public int hp;
-	public int hp_max;
 
-	public DataUnitParam dataUnitParam;
+	public DataUnitParam dataUnitParam = new DataUnitParam();
 
 	private void Start()
 	{
