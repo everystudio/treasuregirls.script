@@ -19,4 +19,6 @@ public class GameCharaMain : Singleton<GameCharaMain>
 
     public bool is_move;
 
+    public DataUnitParam m_dataUnitParam;
+
 }

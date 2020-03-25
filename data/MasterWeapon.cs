@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MasterWeapon : MonoBehaviour
+public class MasterWeaponParam : CsvDataParam
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int weapon_id { get; set; }
+    public string name { get; set; }
+    public int rarity { get; set; }
+    public int attack { get; set; }
+    public int speed { get; set; }
+    public int ability_id { get; set; }
+    public int ability_rate { get; set; }
+    public string sprite_name { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+}
+
+public class MasterWeapon : CsvData<MasterWeaponParam>
+{
 }

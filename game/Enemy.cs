@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
 	public int hp;
 	public int hp_max;
 
+	public DataUnitParam dataUnitParam;
+
 	private void Start()
 	{
 		if (m_sprEnemy.gameObject.GetComponent<BoxCollider2D>() != null)
