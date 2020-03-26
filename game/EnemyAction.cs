@@ -42,6 +42,8 @@ namespace EnemyAction
 
 			enemy.enemy_search.IsFindPlayer = false;
 			enemy.enemy_search.gameObject.SetActive(true);
+
+			enemy.attack_timer = enemy.attack_interval;
 		}
 		public override void OnUpdate()
 		{
@@ -82,7 +84,10 @@ namespace EnemyAction
 			{
 				move_speed *= -1;
 			}
-			enemy.m_rbEnemy.velocity = new Vector2(move_speed, enemy.m_rbEnemy.velocity.y);
+			//enemy.m_rbEnemy.velocity = new Vector2(move_speed, enemy.m_rbEnemy.velocity.y);
+			enemy.m_rbEnemy.transform.localPosition += new Vector3(move_speed * Time.deltaTime, 0.0f, 0.0f);
+
+
 			if (enemy.dataUnitParam.hp <= 0)
 			{
 				Fsm.Event("dead");
@@ -100,11 +105,9 @@ namespace EnemyAction
 	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
 	public class Battle : EnemyActionlBase
 	{
-		private float interval;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			interval = 0;
 		}
 		public override void OnUpdate()
 		{
@@ -112,7 +115,7 @@ namespace EnemyAction
 			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			base.OnUpdate();
-			interval += Time.deltaTime;
+			enemy.attack_timer -= Time.deltaTime;
 
 			if(enemy.dataUnitParam.hp <= 0)
 			{
@@ -122,7 +125,7 @@ namespace EnemyAction
 			{
 				Fsm.Event("not_found");
 			}
-			else if (interval < enemy.attack_inverval)
+			else if (0.0f < enemy.attack_timer )
 			{
 				// まだ
 			}
@@ -143,8 +146,22 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 			// 絶対消す
+			enemy.OnAttackEnd.AddListener(() =>
+			{
+				Finish();
+			});
+			enemy.m_animatorBody.SetTrigger("attack");
+		}
 
-			Finish();
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			if (enemy.dataUnitParam.hp <= 0)
+			{
+				Fsm.Event("dead");
+			}
+
 		}
 	}
 
@@ -159,6 +176,10 @@ namespace EnemyAction
 
 			enemy.m_enemyBody.gameObject.layer = LayerMask.NameToLayer("dead");
 
+			GameObject.Destroy(enemy.m_rbEnemy);
+			GameObject.Destroy(enemy.m_bcEnemy);
+
+			enemy.m_animatorBody.SetBool("dead", true);
 			Finish();
 		}
 	}

@@ -19,7 +19,7 @@ public class AttackEffect : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D _collider)
 	{
-		Debug.Log(_collider.gameObject.tag);
+		//Debug.Log(_collider.gameObject.tag);
 
 		if (_collider.gameObject.tag == m_strTargetTag)
 		{
