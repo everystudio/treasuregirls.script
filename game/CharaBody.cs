@@ -14,6 +14,22 @@ public class CharaBody : MonoBehaviour
 			//Debug.Log("start enemy");
 			IsEnemy = true;
 		}
+		else if (_collision.gameObject.tag == Defines.TAG_DROP_ITEM)
+		{
+			//Debug.Log("hit drop item");
+			DropObject drop_obj = _collision.gameObject.transform.parent.gameObject.GetComponent<DropObject>();
+			//Debug.Log(drop_obj);
+			if( drop_obj != null)
+			{
+				DataManager.Instance.dataGetItem.Add(drop_obj.m_master.item_id, 1);
+				foreach( DataItemParam getitem in DataManager.Instance.dataGetItem.list)
+				{
+					MasterItemParam master = DataManager.Instance.masterItem.list.Find(p => p.item_id == getitem.item_id);
+					//Debug.Log(string.Format("{0}:{1}", master.name, getitem.num));
+				}
+				drop_obj.OnGet.Invoke();
+			}
+		}
 	}
 
 	void OnCollisionExit2D(Collision2D _collision)

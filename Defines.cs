@@ -19,6 +19,8 @@ public class Defines
 	public const string FILENAME_DATATREASUREALBUM = "data_treasurealbum";
 	public const string FILENAME_DATASCROLL = "data_scroll";
 	public const string FILENAME_DATAUNIT = "data_unit";
+	public const string FILENAME_DATAITEM = "data_item";
+	public const string FILENAME_DATAITEM_GET = "data_get_item";
 
 	public const string KEY_LAST_REWARD_TIME_GEM_FREE = "KEY_LAST_REWARD_TIME_GEM_FREE";
 	public const string KEY_LAST_REWARD_TIME_FREE_WEAPON = "KEY_LAST_REWARD_TIME_FREE_WEAPON";
@@ -29,6 +31,7 @@ public class Defines
 
 	public const string TAG_PLAYER = "player";
 	public const string TAG_ENEMY = "enemy";
+	public const string TAG_DROP_ITEM = "drop_item";
 
 
 

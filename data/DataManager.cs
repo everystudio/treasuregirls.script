@@ -21,6 +21,7 @@ public class DataManager : DataManagerBase<DataManager>
 	public MasterPotion masterPotion = new MasterPotion();
 	public MasterTreasure masterTreasure = new MasterTreasure();
 	public MasterEnemy masterEnemy = new MasterEnemy();
+	public MasterItem masterItem = new MasterItem();
 
 	public DataChara dataChara = new DataChara();
 	public DataWeapon dataWeapon = new DataWeapon();
@@ -32,6 +33,8 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataScroll dataScroll = new DataScroll();
 
 	public DataUnit dataUnit = new DataUnit();
+	public DataItem dataItem = new DataItem();
+	public DataItem dataGetItem = new DataItem();
 
 	public int debug_gem;
 	public int debug_gold;
@@ -130,10 +133,11 @@ public class DataManager : DataManagerBase<DataManager>
 			*/
 		}));
 		yield return StartCoroutine(masterEnemy.SpreadSheet(Defines.SS_MASTER, "enemy", () => { }));
-		
-		#endregion
+		yield return StartCoroutine(masterItem.SpreadSheet(Defines.SS_MASTER, "item", () =>{ }));
 
-		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
+			#endregion
+
+			dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
 		if( dataChara.LoadMulti() == false)
 		{
 			// 初期データ的ななにか保存はしない
@@ -206,7 +210,16 @@ public class DataManager : DataManagerBase<DataManager>
 		{
 
 		}
+		dataItem.SetSaveFilename(Defines.FILENAME_DATAITEM);
+		if (dataItem.LoadMulti() == false)
+		{
 
+		}
+		dataGetItem.SetSaveFilename(Defines.FILENAME_DATAITEM_GET);
+		if (dataGetItem.LoadMulti() == false)
+		{
+
+		}
 
 		Initialized = true;
 		Debug.Log("init_network end");

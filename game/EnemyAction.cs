@@ -174,12 +174,21 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 
+			DropObject drop = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
+
+			drop.transform.position = enemy.m_enemyBody.gameObject.transform.position;
+
+			MasterItemParam master_item = DataManager.Instance.masterItem.list.Find(p => p.item_id == 1);
+			drop.Initialize(master_item);
+
 			enemy.m_enemyBody.gameObject.layer = LayerMask.NameToLayer("dead");
 
 			GameObject.Destroy(enemy.m_rbEnemy);
 			GameObject.Destroy(enemy.m_bcEnemy);
 
 			enemy.m_animatorBody.SetBool("dead", true);
+
+			GameObject.Destroy(enemy.gameObject, 3);
 			Finish();
 		}
 	}
