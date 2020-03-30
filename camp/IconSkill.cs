@@ -54,5 +54,20 @@ public class IconSkill : MonoBehaviour
 			OnClickIcon.Invoke(m_data);
 		});
 	}
+	public void InitializeGame(DataSkillParam _data, MasterSkillParam _master)
+	{
+		Initialize(_data, _master);
 
+		if(_data.skill_id != 0)
+		{
+			m_animator.speed = 1 / _master.cool_time;
+			m_animator.SetBool("enable", true);
+		}
+	}
+
+	public void CooltimeEnd()
+	{
+		// クールタイム終わりました
+		m_btn.interactable = true;
+	}
 }

@@ -24,7 +24,11 @@ namespace GameCharaAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			chara.is_goal = false;
 			chara.m_dataUnitParam.BuildPlayer();
+
+			chara.m_hpBar.SetValueMax(chara.m_dataUnitParam.hp_max);
+			chara.m_hpBar.SetValueCurrent(chara.m_dataUnitParam.hp);
 			Finish();
 		}
 	}
@@ -64,7 +68,10 @@ namespace GameCharaAction
 			{
 				Fsm.Event("move");
 			}
-
+			else if( chara.is_goal)
+			{
+				Fsm.Event("goal");
+			}
 
 		}
 	}
@@ -109,6 +116,10 @@ namespace GameCharaAction
 				//chara.rb2d.MovePosition(chara.rb2d.position + new Vector2(1.0f,0.0f));
 
 			}
+			else if (chara.is_goal)
+			{
+				Fsm.Event("goal");
+			}
 			else
 			{
 				Finish();
@@ -119,8 +130,6 @@ namespace GameCharaAction
 		}
 
 	}
-
-
 
 	[ActionCategory("GameCharaAction")]
 	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
@@ -228,5 +237,16 @@ namespace GameCharaAction
 			chara.OnAttackEnd.RemoveAllListeners();
 		}
 	}
+	[ActionCategory("GameCharaAction")]
+	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
+	public class goal : GameCharaActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			chara.m_animator.SetBool("win", true);
 
+			GameMain.Instance.IsGoal = true;
+		}
+	}
 }

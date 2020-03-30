@@ -32,6 +32,7 @@ public class Defines
 	public const string TAG_PLAYER = "player";
 	public const string TAG_ENEMY = "enemy";
 	public const string TAG_DROP_ITEM = "drop_item";
+	public const string TAG_GOAL = "goal";
 
 
 

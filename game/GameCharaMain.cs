@@ -14,6 +14,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public BoxCollider2D collidor2d;
 
     public CharaBody m_charaBody;
+    public EnergyBar m_hpBar;
 
     public float move_power = 1.0f;
     public float gravity = 20.0f;
@@ -27,7 +28,17 @@ public class GameCharaMain : Singleton<GameCharaMain>
 
     public GameObject m_goAttackRoot;
     public GameObject m_prefAttack;
+	public bool is_goal;
 
- 
+    public void Heal( int _iHeal )
+    {
+        m_dataUnitParam.Heal(_iHeal);
+        m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
+    }
 
+    public void Damage( int _iDamage)
+    {
+        m_dataUnitParam.Damage(_iDamage);
+        m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
+    }
 }

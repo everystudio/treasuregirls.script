@@ -97,6 +97,15 @@ public class DataUnitParam :CsvDataParam
 		return (int)fRet;
 	}
 
+	public void Damage( int _iDamage)
+	{
+		hp = Mathf.Max(0, hp - _iDamage);
+	}
+
+	public void Heal( int _iHeal)
+	{
+		hp = Mathf.Min(hp + _iHeal, hp_max);
+	}
 
 }
 

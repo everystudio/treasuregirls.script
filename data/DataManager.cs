@@ -178,6 +178,7 @@ public class DataManager : DataManagerBase<DataManager>
 		{
 			DataPotionParam add = new DataPotionParam();
 			add.potion_id = 1;
+			add.num = 9;
 			add.is_use = true;
 			dataPotion.list.Add(add);
 		}

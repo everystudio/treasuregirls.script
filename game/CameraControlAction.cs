@@ -21,6 +21,8 @@ namespace CameraControlAction
 	[HutongGames.PlayMaker.Tooltip("CameraControlAction")]
 	public class Follow : CameraControlBase
 	{
+		public float offset_x;
+		public float offset_y;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -29,8 +31,8 @@ namespace CameraControlAction
 		{
 			base.OnUpdate();
 			cameraControl.transform.position = new Vector3(
-				cameraControl.m_gameChara.m_sprChara.gameObject.transform.position.x,
-				cameraControl.m_gameChara.m_sprChara.gameObject.transform.position.y,
+				cameraControl.m_gameChara.m_sprChara.gameObject.transform.position.x + offset_x,
+				cameraControl.m_gameChara.m_sprChara.gameObject.transform.position.y + offset_y,
 				cameraControl.transform.position.z
 				);
 		}

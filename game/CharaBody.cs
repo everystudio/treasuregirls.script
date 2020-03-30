@@ -9,6 +9,7 @@ public class CharaBody : MonoBehaviour
 	public Enemy enemy;
 	void OnCollisionEnter2D(Collision2D _collision)
 	{
+		Debug.Log(_collision.gameObject.name);
 		if (_collision.gameObject.tag == Defines.TAG_ENEMY)
 		{
 			//Debug.Log("start enemy");
@@ -29,6 +30,10 @@ public class CharaBody : MonoBehaviour
 				}
 				drop_obj.OnGet.Invoke();
 			}
+		}
+		else if( _collision.gameObject.tag == Defines.TAG_GOAL)
+		{
+			game_chara_main.is_goal = true;
 		}
 	}
 

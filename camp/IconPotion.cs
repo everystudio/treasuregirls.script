@@ -17,6 +17,8 @@ public class IconPotion : MonoBehaviour
 	public TextMeshProUGUI m_txtName;
 
 	public SpriteAtlas m_spriteAtlas;
+	public Animator m_animator;
+	public bool is_gamemode;
 
 	public void Initialize(DataPotionParam _data , MasterPotionParam _master)
 	{
@@ -34,8 +36,37 @@ public class IconPotion : MonoBehaviour
 
 		m_txtNum.text = string.Format("x{0}", _data.num);
 		m_txtCoolTime.text = string.Format("{0:0.00}秒", m_masterPotion.cool_time);
+	}
+
+	public void UseUpdate()
+	{
+		m_txtNum.text = string.Format("x{0}", m_dataPotion.num);
+
+		if (0 < m_dataPotion.num)
+		{
+			m_btn.interactable = false;
+
+			m_animator.SetTrigger("charge");
+		}
+		else
+		{
+			m_animator.SetBool("enable", false);
+		}
 
 	}
 
+
+	public void InitializeGame(DataPotionParam _data, MasterPotionParam _master)
+	{
+		Initialize(_data, _master);
+		m_animator.speed = 1/_master.cool_time;
+		m_animator.SetBool("enable", 0 < _data.num);
+	}
+
+	public void CooltimeEnd()
+	{
+		// クールタイム終わりました
+		m_btn.interactable = true;
+	}
 
 }
