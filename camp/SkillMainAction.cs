@@ -155,9 +155,9 @@ namespace SkillMainAction
 			skillMain.m_btnSet.interactable = (banner_skill_id != 0 && icon_position != 0);
 		}
 
-		private void OnSkillIcon(DataSkillParam arg0)
+		private void OnSkillIcon(IconSkill _icon)
 		{
-			icon_position = arg0.position;
+			icon_position = _icon.m_data.position;
 			skillMain.m_charaView.SkillSelect(icon_position);
 			skillMain.m_btnSet.interactable = (banner_skill_id != 0 && icon_position != 0);
 		}

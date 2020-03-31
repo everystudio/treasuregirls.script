@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
 		drop_object.Initialize(master_item);
 	}
 
-	public void Damage(DataUnitParam _attack)
+	public void Damage(DataUnitParam _attack , MasterSkillParam _skill)
 	{
 		int damage = _attack.CalcDamage(dataUnitParam, null);
 		dataUnitParam.hp -= damage;

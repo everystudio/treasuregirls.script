@@ -155,7 +155,8 @@ namespace GameCharaAction
 			bool is_move = false;
 			if (Input.GetKey(KeyCode.RightArrow) || chara.m_arrowRight.is_press)
 			{
-				is_move = true;
+				// 右にしか敵がいない前提
+				//is_move = true;
 			}
 			else if (Input.GetKey(KeyCode.LeftArrow) || chara.m_arrowLeft.is_press)
 			{

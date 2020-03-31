@@ -30,6 +30,18 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public GameObject m_prefAttack;
 	public bool is_goal;
 
+    public void Skill( DataSkillParam _data , MasterSkillParam _master)
+    {
+        Debug.Log(_master.prefab_name);
+        AttackEffect script = PrefabManager.Instance.MakeScript<AttackEffect>(_master.prefab_name, m_goAttackRoot);
+        Debug.Log(script);
+        script.transform.localPosition = new Vector3(0.0f, 0.0f, -1.0f);
+        script.transform.localScale = Vector3.one * 2.0f;
+
+        script.Initialize(m_dataUnitParam,_master, "enemy");
+
+    }
+
     public void Heal( int _iHeal )
     {
         m_dataUnitParam.Heal(_iHeal);

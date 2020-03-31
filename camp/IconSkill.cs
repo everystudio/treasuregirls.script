@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
 using TMPro;
+using UnityEngine.Events;
 
 public class IconSkill : MonoBehaviour
 {
@@ -20,7 +21,11 @@ public class IconSkill : MonoBehaviour
 
 	public SpriteAtlas m_spriteAtlas;
 
-	public DataSkillEvent OnClickIcon = new DataSkillEvent(); 
+	public class IconSkillEvent : UnityEvent<IconSkill>
+	{
+	}
+
+	public IconSkillEvent OnClickIcon = new IconSkillEvent(); 
 
 	public void Select(int _iPosition)
 	{
@@ -51,7 +56,7 @@ public class IconSkill : MonoBehaviour
 		m_btn.onClick.RemoveAllListeners();
 		m_btn.onClick.AddListener(() =>
 		{
-			OnClickIcon.Invoke(m_data);
+			OnClickIcon.Invoke(this);
 		});
 	}
 	public void InitializeGame(DataSkillParam _data, MasterSkillParam _master)
@@ -63,7 +68,16 @@ public class IconSkill : MonoBehaviour
 			m_animator.speed = 1 / _master.cool_time;
 			m_animator.SetBool("enable", true);
 		}
+		m_btn.interactable = false;
 	}
+
+
+	public void UseSkill()
+	{
+		m_btn.interactable = false;
+		m_animator.SetTrigger("charge");
+	}
+
 
 	public void CooltimeEnd()
 	{

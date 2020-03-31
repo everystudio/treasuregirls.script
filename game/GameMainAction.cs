@@ -58,6 +58,16 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gamemain.icon_potion.m_btn.onClick.AddListener(use_potion);
+			foreach (IconSkill icon in gamemain.icon_skill_arr)
+			{
+				icon.OnClickIcon.RemoveAllListeners();
+				icon.OnClickIcon.AddListener((_icon) =>
+				{
+					MasterSkillParam skill = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == _icon.m_data.skill_id);
+					gamemain.player_chara.Skill(_icon.m_data, skill);
+					_icon.UseSkill();
+				});
+			}
 		}
 
 		private void use_potion()
@@ -65,7 +75,7 @@ namespace GameMainAction
 			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
 			MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
 
-			if ( 0 < data_potion.num)
+			if (0 < data_potion.num)
 			{
 				data_potion.num -= 1;
 				gamemain.player_chara.Heal(master_potion.heal);
@@ -77,9 +87,19 @@ namespace GameMainAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
-			if(gamemain.IsGoal)
+			if (gamemain.IsGoal)
 			{
 				Fsm.Event("goal");
+			}
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			gamemain.icon_potion.m_btn.onClick.RemoveAllListeners();
+			foreach (IconSkill icon in gamemain.icon_skill_arr)
+			{
+				icon.OnClickIcon.RemoveAllListeners();
 			}
 		}
 	}
