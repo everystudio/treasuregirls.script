@@ -26,6 +26,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			gamemain.m_btnAuto.Initialize(true);
+
 			gamemain.player_chara.Damage(10);
 
 

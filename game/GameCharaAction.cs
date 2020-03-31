@@ -108,6 +108,10 @@ namespace GameCharaAction
 			{
 				Fsm.Event("battle");
 			}
+			else if (chara.is_goal)
+			{
+				Fsm.Event("goal");
+			}
 			else if (is_move)
 			{
 				//chara.rb2d.velocity = new Vector2(move_speed, chara.rb2d.velocity.y);
@@ -115,10 +119,6 @@ namespace GameCharaAction
 				chara.rb2d.transform.localPosition += new Vector3(move_speed*Time.deltaTime, 0.0f, 0.0f);
 				//chara.rb2d.MovePosition(chara.rb2d.position + new Vector2(1.0f,0.0f));
 
-			}
-			else if (chara.is_goal)
-			{
-				Fsm.Event("goal");
 			}
 			else
 			{
