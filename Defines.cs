@@ -12,6 +12,7 @@ public class Defines
 
 	public const string FILENAME_DATACHARA = "data_chara";
 	public const string FILENAME_DATAWEAPON = "data_weapon";
+	public const string FILENAME_DATAWEAPONALBUM = "data_weaponalbum";
 	public const string FILENAME_DATAARMOR = "data_armor";
 	public const string FILENAME_DATASKILL = "data_skill";
 	public const string FILENAME_DATAPOTION = "data_potion";

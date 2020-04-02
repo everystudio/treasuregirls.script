@@ -33,4 +33,13 @@ public class MasterWeaponParam : CsvDataParam
 
 public class MasterWeapon : CsvData<MasterWeaponParam>
 {
+    public static int GetGradeupPrice(DataWeaponParam _data, MasterWeaponParam _master)
+    {
+        return (_master.rarity * 2) * 100 * (_data.level + 1);
+    }
+
+    public static int GetSellPrice(DataWeaponParam _data, MasterWeaponParam _master)
+    {
+        return 100 * _master.rarity;
+    }
 }

@@ -25,6 +25,7 @@ public class DataManager : DataManagerBase<DataManager>
 
 	public DataChara dataChara = new DataChara();
 	public DataWeapon dataWeapon = new DataWeapon();
+	public DataWeapon dataWeaponAlbum = new DataWeapon();
 	public DataArmor dataArmor = new DataArmor();
 	public DataSkill dataSkill = new DataSkill();
 	public DataPotion dataPotion = new DataPotion();
@@ -152,9 +153,26 @@ public class DataManager : DataManagerBase<DataManager>
 			DataWeaponParam add_weapon = new DataWeaponParam();
 			add_weapon.weapon_id = 1;
 			add_weapon.level = 3;
-			add_weapon.equip = 1;	// 武器はtfで良いのでは？
+			add_weapon.equip = 1;   // 武器はtfで良いのでは？
+
+			DataWeaponParam add_weapon2 = new DataWeaponParam();
+			add_weapon2.weapon_id = 2;
+			add_weapon2.level = 1;
+			add_weapon2.equip = 0;   // 武器はtfで良いのでは？
+
 			dataWeapon.Add(add_weapon);
+			dataWeapon.Add(add_weapon2);
 		}
+		dataWeaponAlbum.SetSaveFilename(Defines.FILENAME_DATAWEAPONALBUM);
+		if (dataWeaponAlbum.LoadMulti() == false)
+		{
+			dataWeaponAlbum.AddAlbum(1);
+			dataWeaponAlbum.AddAlbum(2);
+			dataWeaponAlbum.AddAlbum(3);
+			dataWeaponAlbum.AddAlbum(4);
+		}
+
+
 		dataArmor.SetSaveFilename(Defines.FILENAME_DATAARMOR);
 		if( dataArmor.LoadMulti() == false)
 		{

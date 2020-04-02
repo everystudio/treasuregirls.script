@@ -29,6 +29,9 @@ public class IconInventry : MonoBehaviour
 	public DataTreasureParam m_dataTreasure;
 	public DataTreasureEvent OnClickTreasure = new DataTreasureEvent();
 
+	public DataWeaponParam m_dataWeapon;
+	public DataWeaponEvent OnClickWeapon = new DataWeaponEvent();
+
 	public void OnSelect(bool _bFlag)
 	{
 		m_animator.SetBool("select", _bFlag);
@@ -36,7 +39,16 @@ public class IconInventry : MonoBehaviour
 
 	public void SelectTreasure(int _iSerial)
 	{
-		OnSelect(m_dataTreasure.serial == _iSerial);
+		bool bFlag = false;
+		if(m_dataTreasure != null)
+		{
+			bFlag = m_dataTreasure.serial == _iSerial;
+		}
+		else if( m_dataWeapon != null)
+		{
+			bFlag = m_dataWeapon.serial == _iSerial;
+		}
+		OnSelect(bFlag);
 	}
 
 	public void Initialize(DataTreasureParam _data , MasterTreasureParam _master)
@@ -77,6 +89,44 @@ public class IconInventry : MonoBehaviour
 
 	}
 
+
+	public void Initialize(DataWeaponParam _data, MasterWeaponParam _master)
+	{
+		m_dataWeapon = _data;
+
+		if (_master != null)
+		{
+			m_goShowRoot.SetActive(true);
+			m_goNotInventry.SetActive(false);
+			m_imgIcon.sprite = m_spriteAtlas.GetSprite(_master.sprite_name);
+			m_goEquip.SetActive(0 < _data.equip);
+
+			if (0 < _data.level)
+			{
+				m_txtLevel.text = string.Format("+{0}", _data.level);
+			}
+			else
+			{
+				m_txtLevel.text = "";
+			}
+			for (int i = 0; i < star_list.Count; i++)
+			{
+				star_list[i].sprite = i < _master.rarity ? m_sprStarOn : m_sprStarOff;
+			}
+		}
+		else
+		{
+			m_goShowRoot.SetActive(false);
+			m_goNotInventry.SetActive(true);
+		}
+
+		m_btn.onClick.RemoveAllListeners();
+		m_btn.onClick.AddListener(() =>
+		{
+			OnClickWeapon.Invoke(m_dataWeapon);
+		});
+
+	}
 
 
 }
