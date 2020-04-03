@@ -14,6 +14,8 @@ public class DataManager : DataManagerBase<DataManager>
 
 	public TextAssetHolder m_textAssetHolder;
 
+	public CsvKvs game_data = new CsvKvs();
+
 	public MasterChara masterChara = new MasterChara();
 	public MasterWeapon masterWeapon = new MasterWeapon();
 	public MasterArmor masterArmor = new MasterArmor();
@@ -22,6 +24,8 @@ public class DataManager : DataManagerBase<DataManager>
 	public MasterTreasure masterTreasure = new MasterTreasure();
 	public MasterEnemy masterEnemy = new MasterEnemy();
 	public MasterItem masterItem = new MasterItem();
+	public MasterStage masterStage = new MasterStage();
+	public MasterFloor masterFloor = new MasterFloor();
 
 	public DataChara dataChara = new DataChara();
 	public DataWeapon dataWeapon = new DataWeapon();
@@ -32,6 +36,8 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataTreasure dataTreasure = new DataTreasure();
 	public DataTreasure dataTreasureAlbum = new DataTreasure();
 	public DataScroll dataScroll = new DataScroll();
+	public DataStage dataStage = new DataStage();
+	public DataFloor dataFloor = new DataFloor();
 
 	public DataUnit dataUnit = new DataUnit();
 	public DataItem dataItem = new DataItem();
@@ -135,10 +141,18 @@ public class DataManager : DataManagerBase<DataManager>
 		}));
 		yield return StartCoroutine(masterEnemy.SpreadSheet(Defines.SS_MASTER, "enemy", () => { }));
 		yield return StartCoroutine(masterItem.SpreadSheet(Defines.SS_MASTER, "item", () =>{ }));
+		yield return StartCoroutine(masterStage.SpreadSheet(Defines.SS_MASTER, "stage", () =>{ }));
+		yield return StartCoroutine(masterFloor.SpreadSheet(Defines.SS_MASTER, "floor", () =>{ }));
 
-			#endregion
+		#endregion
 
-			dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
+		game_data.SetSaveFilename(Defines.FILENAME_GAMEDATA);
+		if (game_data.LoadMulti() == false)
+		{
+			// なんかする
+			// なにもしなくてok
+		}
+		dataChara.SetSaveFilename(Defines.FILENAME_DATACHARA);
 		if( dataChara.LoadMulti() == false)
 		{
 			// 初期データ的ななにか保存はしない
@@ -238,6 +252,30 @@ public class DataManager : DataManagerBase<DataManager>
 		if (dataGetItem.LoadMulti() == false)
 		{
 
+		}
+		dataStage.SetSaveFilename(Defines.FILENAME_DATASTAGE);
+		if (dataStage.LoadMulti() == false)
+		{
+			DataStageParam data = new DataStageParam();
+			data.stage_id = 1;
+			data.status = 1;
+			dataStage.list.Add(data);
+			DataStageParam data2 = new DataStageParam();
+			data2.stage_id = 2;
+			data2.status = 1;
+			dataStage.list.Add(data2);
+		}
+		dataFloor.SetSaveFilename(Defines.FILENAME_DATAFLOOR);
+		if (dataFloor.LoadMulti() == false)
+		{
+			DataFloorParam data = new DataFloorParam();
+			data.floor_id = 1;
+			data.status = 2;
+			dataFloor.list.Add(data);
+			DataFloorParam data2 = new DataFloorParam();
+			data2.floor_id = 2;
+			data2.status = 1;
+			dataFloor.list.Add(data2);
 		}
 
 		Initialized = true;

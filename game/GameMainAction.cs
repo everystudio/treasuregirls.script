@@ -28,6 +28,8 @@ namespace GameMainAction
 
 			gamemain.m_btnAuto.Initialize(true);
 
+			Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
+
 			gamemain.player_chara.Damage(10);
 
 

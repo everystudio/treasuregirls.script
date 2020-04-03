@@ -10,6 +10,7 @@ public class Defines
 
 	public const string FILENAME_MASTERCHARA = "master_chara";
 
+	public const string FILENAME_GAMEDATA = "game_data";
 	public const string FILENAME_DATACHARA = "data_chara";
 	public const string FILENAME_DATAWEAPON = "data_weapon";
 	public const string FILENAME_DATAWEAPONALBUM = "data_weaponalbum";
@@ -22,6 +23,8 @@ public class Defines
 	public const string FILENAME_DATAUNIT = "data_unit";
 	public const string FILENAME_DATAITEM = "data_item";
 	public const string FILENAME_DATAITEM_GET = "data_get_item";
+	public const string FILENAME_DATASTAGE = "data_stage";
+	public const string FILENAME_DATAFLOOR = "data_floor";
 
 	public const string KEY_LAST_REWARD_TIME_GEM_FREE = "KEY_LAST_REWARD_TIME_GEM_FREE";
 	public const string KEY_LAST_REWARD_TIME_FREE_WEAPON = "KEY_LAST_REWARD_TIME_FREE_WEAPON";
