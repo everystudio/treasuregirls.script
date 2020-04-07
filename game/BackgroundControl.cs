@@ -9,7 +9,7 @@ public class BackgroundControl : MonoBehaviour {
 	public GameObject m_goCamera;
 	public Vector3 offset;
 
-	[SerializeField] private SpriteRenderer spr_renderer;
+	public SpriteRenderer spr_renderer;
 	private Material mat;
 	private void Start()
 	{

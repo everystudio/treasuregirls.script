@@ -30,6 +30,13 @@ namespace GameMainAction
 
 			Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
+			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
+
+			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
+			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
+
+			gamemain.background.spr_renderer.sprite = gamemain.m_spriteAtlasBackground.GetSprite(current_stage.bg_name);
+
 			gamemain.player_chara.Damage(10);
 
 

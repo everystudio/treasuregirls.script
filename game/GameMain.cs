@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class GameMain : Singleton<GameMain>
 {
@@ -16,6 +17,11 @@ public class GameMain : Singleton<GameMain>
 	public GameCharaMain player_chara;
 
 	public AutoButton m_btnAuto;
+
+	public BackgroundControl background;
+
+
+	public SpriteAtlas m_spriteAtlasBackground;
 
 }
 
