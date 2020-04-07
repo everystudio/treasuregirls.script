@@ -19,8 +19,10 @@ public class PanelResult : MonoBehaviour
 
 	public SpriteAtlas m_spriteAtlas;
 
-	public void Initialize()
+	public void Initialize( int _iFloorId )
 	{
+		m_txtClearMessage.text = string.Format("{0}F Clear!!", _iFloorId);
+
 		m_prefPrizeIcon.SetActive(false);
 
 		MonoBehaviourEx.DeleteObjects<IconResultPrize>(m_goPrizeRoot);

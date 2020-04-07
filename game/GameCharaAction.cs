@@ -24,6 +24,10 @@ namespace GameCharaAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			// いったん自動リセット
+			chara.m_charaBody.transform.localPosition = Vector3.zero;
+
 			chara.is_goal = false;
 			chara.m_dataUnitParam.BuildPlayer();
 

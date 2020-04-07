@@ -20,6 +20,22 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class ready : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gamemain.IsGoal = false;
+			gamemain.player_chara.gameObject.SetActive(false);
+
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class gamestart : GameMainActionBase
 	{
 		public override void OnEnter()
@@ -27,6 +43,9 @@ namespace GameMainAction
 			base.OnEnter();
 
 			gamemain.m_btnAuto.Initialize(true);
+
+			gamemain.player_chara.gameObject.SetActive(true);
+
 
 			Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
@@ -56,7 +75,19 @@ namespace GameMainAction
 				MasterSkillParam master = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == data.skill_id);
 				gamemain.icon_skill_arr[i].InitializeGame(data, master);
 			}
-			Finish();
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if(gamemain.player_chara.is_goal == false)
+			{
+				Finish();
+			}
+			else
+			{
+				Debug.Log("aaaaaaaa");
+			}
 		}
 	}
 
@@ -123,9 +154,121 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
+			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
+			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
+
+			DataFloorParam data_floor = DataManager.Instance.dataFloor.list.Find(p => p.floor_id == current_floor.floor_id);
+			data_floor.count += 1;
+			data_floor.status = 2;
+
+			// 次のフロアが必要な場合
+			if ( 0 < current_floor.next_floor_id)
+			{
+				DataFloorParam data_next_floor = DataManager.Instance.dataFloor.list.Find(p => p.floor_id == current_floor.next_floor_id);
+				if(data_next_floor == null)
+				{
+					MasterFloorParam master_next_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == current_floor.next_floor_id);
+
+					data_next_floor = new DataFloorParam();
+					data_next_floor.floor_id = master_next_floor.floor_id;
+					data_next_floor.stage_id = master_next_floor.stage_id;
+					data_next_floor.status = 1;
+					data_next_floor.count = 0;
+					DataManager.Instance.dataFloor.list.Add(data_next_floor);
+
+					// ステージが異なる場合はここで追加
+					if( current_floor.stage_id != master_next_floor.stage_id)
+					{
+
+						DataStageParam data_new_stage = DataManager.Instance.dataStage.list.Find(p => p.stage_id == master_next_floor.stage_id);
+						if (data_new_stage == null)
+						{
+							data_new_stage = new DataStageParam();
+							data_new_stage.stage_id = master_next_floor.stage_id;
+							data_new_stage.status = 1;
+							DataManager.Instance.dataStage.list.Add(data_new_stage);
+						}
+					}
+				}
+			}
+
+			// 現在のフロア攻略チェック
+			DataFloorParam check_stage_complete = DataManager.Instance.dataFloor.list.Find(p => p.stage_id == current_floor.stage_id && p.status != 2);
+			if (check_stage_complete == null)
+			{
+				DataStageParam data_current_stage = DataManager.Instance.dataStage.list.Find(p => p.stage_id == current_floor.stage_id);
+				data_current_stage.status = 2;
+			}
+
+
+			DataManager.Instance.dataStage.Save();
+			DataManager.Instance.dataFloor.Save();
+
+
 			gamemain.m_goFadePanel.SetActive(true);
-			gamemain.m_panelResult.Initialize();
+			gamemain.m_panelResult.Initialize(floor_id);
 			gamemain.m_panelResult.gameObject.SetActive(true);
+
+
+
+			gamemain.m_panelResult.m_btnCamp.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnCamp.onClick.AddListener(() =>
+			{
+				Fsm.Event("camp");
+			});
+			gamemain.m_panelResult.m_btnRetry.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnRetry.onClick.AddListener(() =>
+			{
+				Fsm.Event("retry");
+			});
+
+			gamemain.m_panelResult.m_btnNext.interactable = 0 < current_floor.next_floor_id;
+			gamemain.m_panelResult.m_btnNext.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnNext.onClick.AddListener(() =>
+			{
+				Fsm.Event("next");
+			});
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			gamemain.m_goFadePanel.SetActive(false);
+			gamemain.m_panelResult.gameObject.SetActive(false);
+
+		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class next_floor : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
+			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
+
+			if( 0 < current_floor.next_floor_id)
+			{
+				DataManager.Instance.game_data.WriteInt("floor_id", current_floor.next_floor_id);
+				DataManager.Instance.game_data.Save();
+			}
+
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class to_camp : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			Finish();
 		}
 	}
 

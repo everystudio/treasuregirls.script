@@ -16,6 +16,8 @@ public class MasterFloorParam : CsvDataParam
 	public int drop_item_id { get; set; }
 	public int rare_item_id { get; set; }
 
+	public int next_floor_id { get; set; }
+
 }
 
 public class MasterFloor : CsvData<MasterFloorParam>
