@@ -359,6 +359,10 @@ namespace ShopMainAction
 
 			ButtonInteractable();
 
+
+			shop.m_btnScrollCreate.gameObject.GetComponent<Animator>().SetBool("select", false);
+			shop.m_btnScrollUse.gameObject.GetComponent<Animator>().SetBool("select", true);
+
 			shop.m_btnScrollCreate.onClick.AddListener(() =>
 			{
 				Fsm.Event("change");
@@ -421,6 +425,8 @@ namespace ShopMainAction
 
 			ScrollInfoUpdate();
 			ButtonInteractable();
+			shop.m_btnScrollCreate.gameObject.GetComponent<Animator>().SetBool("select", true);
+			shop.m_btnScrollUse.gameObject.GetComponent<Animator>().SetBool("select", false);
 
 			shop.m_btnScrollUse.onClick.AddListener(() =>
 			{
