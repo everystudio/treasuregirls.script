@@ -11,6 +11,26 @@ public class MasterTreasureParam : CsvDataParam
     public string type { get; set; }
     public int param { get; set; }
     public string sprite_name { get; set; }
+
+
+    public int GetGachaProb()
+    {
+        switch (rarity)
+        {
+            case 1:
+                return 1000;
+            case 2:
+                return 500;
+            case 3:
+                return 100;
+            case 4:
+                return 25;
+            case 5:
+                return 5;
+        }
+        return 0;
+    }
+
 }
 
 public class MasterTreasure : CsvData<MasterTreasureParam>

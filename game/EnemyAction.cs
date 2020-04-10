@@ -21,14 +21,29 @@ namespace EnemyAction
 	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
 	public class Setup : EnemyActionlBase
 	{
-		public FsmInt enemy_id;
-		public FsmInt level;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			MasterEnemyParam master_enemy = DataManager.Instance.masterEnemy.list.Find(p => p.enemy_id == enemy_id.Value);
-			enemy.dataUnitParam.BuildEnemy(master_enemy,level.Value);
-			Finish();
+
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			if (enemy.is_setenemy)
+			{
+				MasterEnemyParam master_enemy = DataManager.Instance.masterEnemy.list.Find(p => p.enemy_id == enemy.enemy_id);
+				enemy.dataUnitParam.BuildEnemy(master_enemy, enemy.enemy_level);
+				enemy.m_sprEnemy.sprite = enemy.m_sprAtlas.GetSprite(master_enemy.sprite_name);
+				if (enemy.m_sprEnemy.gameObject.GetComponent<BoxCollider2D>() != null)
+				{
+					GameObject.Destroy(enemy.m_sprEnemy.gameObject.GetComponent<BoxCollider2D>());
+				}
+				enemy.m_bcEnemy = enemy.m_sprEnemy.gameObject.AddComponent<BoxCollider2D>();
+
+				Finish();
+			}
 		}
 	}
 
@@ -188,6 +203,7 @@ namespace EnemyAction
 
 			enemy.m_animatorBody.SetBool("dead", true);
 
+			GameObject.Destroy(enemy.hp_bar.gameObject, 3);
 			GameObject.Destroy(enemy.gameObject, 3);
 			Finish();
 		}

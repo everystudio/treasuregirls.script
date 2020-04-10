@@ -7,6 +7,10 @@ using TMPro;
 
 public class ShopMain : MonoBehaviour
 {
+	public SpriteAtlas m_sprAtlasIcons;
+	public SpriteAtlas m_sprAtlasWeapon;
+	public SpriteAtlas m_sprAtlasTreasure;
+
 	public Button m_btnMainGem;
 	public Button m_btnMainGold;
 	public Button m_btnMainWeapon;

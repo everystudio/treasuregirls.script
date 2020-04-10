@@ -23,6 +23,16 @@ public class GameMain : Singleton<GameMain>
 
 	public SpriteAtlas m_spriteAtlasBackground;
 
+	// 敵用
+	public List<GameObject> zako_position;
+	public GameObject boss_position;
+	public GameObject panel_energy_bar;
+	public Enemy m_prefEnemy;
+	public EnergyBar m_prefEnemyHpBar;
+
+
+
+
 }
 
 

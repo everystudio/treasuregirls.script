@@ -12,6 +12,17 @@ public class MasterEnemyParam :CsvDataParam
 	public int speed { get; set; }
 	public int mind { get; set; }
 	public int luck { get; set; }
+
+	public string sprite_name { get; set; }
+
+	public MasterEnemyParam GetLevel(int _iLevel)
+	{
+		MasterEnemyParam ret = new MasterEnemyParam();
+
+		return ret;
+	}
+
+
 }
 
 public class MasterEnemy : CsvData<MasterEnemyParam>

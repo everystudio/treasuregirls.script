@@ -75,6 +75,33 @@ namespace GameMainAction
 				MasterSkillParam master = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == data.skill_id);
 				gamemain.icon_skill_arr[i].InitializeGame(data, master);
 			}
+
+			#region 敵
+			gamemain.m_prefEnemy.gameObject.SetActive(false);
+			gamemain.m_prefEnemyHpBar.gameObject.SetActive(false);
+
+			foreach( GameObject zako_pos in gamemain.zako_position)
+			{
+				MonoBehaviourEx.DeleteObjects<Transform>(zako_pos);
+				create_enemy(current_floor.enemy_id, current_floor.enemy_level, zako_pos);
+			}
+			MonoBehaviourEx.DeleteObjects<Transform>(gamemain.boss_position);
+			create_enemy(current_floor.boss_enemy_id, current_floor.boss_level, gamemain.boss_position);
+
+
+			#endregion
+		}
+
+		private void create_enemy( int _iEnemyId , int _iEnemyLevel , GameObject _goRoot)
+		{
+			Enemy script = PrefabManager.Instance.MakeScript<Enemy>(gamemain.m_prefEnemy.gameObject, _goRoot);
+			script.transform.localPosition = Vector3.zero;
+			EnergyBarToolkit.EnergyBarFollowObject boss_hp_bar = PrefabManager.Instance.MakeScript<EnergyBarToolkit.EnergyBarFollowObject>(
+				gamemain.m_prefEnemyHpBar.gameObject, gamemain.panel_energy_bar);
+			boss_hp_bar.followObject = script.m_enemyBody.gameObject;
+			script.hp_bar = boss_hp_bar.gameObject.GetComponent<EnergyBar>();
+
+			script.SetEnemyData(_iEnemyId , _iEnemyLevel);
 		}
 
 		public override void OnUpdate()

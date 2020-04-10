@@ -209,16 +209,87 @@ namespace ShopMainAction
 					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
 				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON));
 
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+				List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
+				int[] prob_arr = new int[hit_weapon_list.Count];
+				for (int i = 0; i < hit_weapon_list.Count; i++)
+				{
+					prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+				}
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterWeaponParam get_weapon = hit_weapon_list[index];
+				DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_weapon.rarity;
+				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
 			});
 			shop.m_btnWeapon1.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(50);
 				button_interactable();
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+
+				List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 2 <= p.rarity && p.rarity <= 5);
+				int[] prob_arr = new int[hit_weapon_list.Count];
+				for( int i = 0; i < hit_weapon_list.Count; i++)
+				{
+					prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+				}
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterWeaponParam get_weapon = hit_weapon_list[index];
+				DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_weapon.rarity;
+				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
 			});
 			shop.m_btnWeapon2.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(450);
 				button_interactable();
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+
+
+				List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 2 <= p.rarity && p.rarity <= 5);
+				int[] prob_arr = new int[hit_weapon_list.Count];
+				for (int i = 0; i < hit_weapon_list.Count; i++)
+				{
+					prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+				}
+
+				List<GachaMain.ChestData> chest_list = new List<GachaMain.ChestData>();
+
+				for (int i = 0; i < 10; i++) {
+					int index = UtilRand.GetIndex(prob_arr);
+					MasterWeaponParam get_weapon = hit_weapon_list[index];
+					DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+					GachaMain.ChestData chest_data = new GachaMain.ChestData();
+
+					chest_data.rarity = get_weapon.rarity;
+					chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+					chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+					chest_list.Add(chest_data);
+				}
+				GachaMain.Instance.GachaMulti(chest_list);
 			});
 		}
 
@@ -287,16 +358,93 @@ namespace ShopMainAction
 					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
 				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_TREASURE));
 
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
+				int[] prob_arr = new int[hit_list.Count];
+				for (int i = 0; i < hit_list.Count; i++)
+				{
+					prob_arr[i] = hit_list[i].GetGachaProb();
+				}
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterTreasureParam get_item = hit_list[index];
+				DataManager.Instance.dataTreasure.Add(get_item.treasure_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_item.rarity;
+				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
+
+
 			});
 			shop.m_btnTreasure1.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseKey(50);
 				button_interactable();
+
+
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 2 <= p.rarity && p.rarity <= 3);
+				int[] prob_arr = new int[hit_list.Count];
+				for (int i = 0; i < hit_list.Count; i++)
+				{
+					prob_arr[i] = hit_list[i].GetGachaProb();
+				}
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterTreasureParam get_item = hit_list[index];
+				DataManager.Instance.dataTreasure.Add(get_item.treasure_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_item.rarity;
+				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
+
+
 			});
 			shop.m_btnTreasure2.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGoldKey(50);
 				button_interactable();
+
+
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 3 <= p.rarity && p.rarity <= 5);
+				int[] prob_arr = new int[hit_list.Count];
+				for (int i = 0; i < hit_list.Count; i++)
+				{
+					prob_arr[i] = hit_list[i].GetGachaProb();
+				}
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterTreasureParam get_item = hit_list[index];
+				if(shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name) == null)
+				{
+					Debug.Log(get_item.sprite_name);
+				}
+				DataManager.Instance.dataTreasure.Add(get_item.treasure_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_item.rarity;
+				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
+
+
 			});
 
 		}
@@ -373,6 +521,63 @@ namespace ShopMainAction
 		{
 			DataScrollParam data = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId);
 			data.num -= _iCreateNum * 10;
+
+			// 必要が出たらコンバートして
+			int iRarity = _iScrollId;
+
+			List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => p.rarity == iRarity);
+			int[] prob_arr = new int[hit_weapon_list.Count];
+			for (int i = 0; i < hit_weapon_list.Count; i++)
+			{
+				prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+			}
+
+			if ( _iCreateNum == 1)
+			{
+				int index = UtilRand.GetIndex(prob_arr);
+
+				MasterWeaponParam get_weapon = hit_weapon_list[index];
+				DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+
+				GachaMain.ChestData chest_data = new GachaMain.ChestData();
+				chest_data.rarity = get_weapon.rarity;
+				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				GachaMain.Instance.GachaSingle(chest_data);
+
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+			}
+			else
+			{
+				List<GachaMain.ChestData> chest_list = new List<GachaMain.ChestData>();
+
+				for (int i = 0; i < _iCreateNum; i++)
+				{
+					int index = UtilRand.GetIndex(prob_arr);
+					MasterWeaponParam get_weapon = hit_weapon_list[index];
+					DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+					GachaMain.ChestData chest_data = new GachaMain.ChestData();
+
+					chest_data.rarity = get_weapon.rarity;
+					chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+					chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+					chest_list.Add(chest_data);
+				}
+				GachaMain.Instance.GachaMulti(chest_list);
+
+				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+				GachaMain.Instance.OnGachaFinished.AddListener(() =>
+				{
+					GachaMain.Instance.Close();
+				});
+
+
+			}
+
 
 
 			ScrollInfoUpdate();

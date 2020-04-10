@@ -25,6 +25,15 @@ public class DataWeaponParam : CsvDataParam
 
 public class DataWeapon : CsvData<DataWeaponParam>
 {
+    public void Add( int _iWeaponId)
+    {
+        DataWeaponParam add_weapon = new DataWeaponParam();
+        add_weapon.weapon_id = _iWeaponId;
+        add_weapon.level = 0;
+        add_weapon.equip = 0;
+        Add(add_weapon);
+        DataManager.Instance.dataWeaponAlbum.AddAlbum(_iWeaponId);
+    }
     public void Add(DataWeaponParam _data )
     {
         int add_serial = 1;

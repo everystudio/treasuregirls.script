@@ -232,11 +232,11 @@ public class DataManager : DataManagerBase<DataManager>
 		dataScroll.SetSaveFilename(Defines.FILENAME_DATASCROLL);
 		if( dataScroll.LoadMulti()== false)
 		{
-			dataScroll.list.Add(new DataScrollParam(1, 20));
-			dataScroll.list.Add(new DataScrollParam(2, 20));
-			dataScroll.list.Add(new DataScrollParam(3, 20));
-			dataScroll.list.Add(new DataScrollParam(4, 20));
-			dataScroll.list.Add(new DataScrollParam(5, 20));
+			dataScroll.list.Add(new DataScrollParam(1, 120));
+			dataScroll.list.Add(new DataScrollParam(2, 120));
+			dataScroll.list.Add(new DataScrollParam(3, 120));
+			dataScroll.list.Add(new DataScrollParam(4, 120));
+			dataScroll.list.Add(new DataScrollParam(5, 120));
 		}
 		dataUnit.SetSaveFilename(Defines.FILENAME_DATAUNIT);
 		if( dataUnit.LoadMulti()== false)

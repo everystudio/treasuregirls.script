@@ -1,10 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
+	public bool is_setenemy;
+	public int enemy_id;
+	public int enemy_level;
+	public void SetEnemyData( int _iEnemyId , int _iEnemyLevel)
+	{
+		is_setenemy = true;
+		enemy_id = _iEnemyId;
+		enemy_level = _iEnemyLevel;
+	}
+	public SpriteAtlas m_sprAtlas;
+
 	public EnemyBody m_enemyBody;
 	public SpriteRenderer m_sprEnemy;
 	public Rigidbody2D m_rbEnemy;
@@ -26,11 +38,6 @@ public class Enemy : MonoBehaviour
 
 	private void Start()
 	{
-		if (m_sprEnemy.gameObject.GetComponent<BoxCollider2D>() != null)
-		{
-			Destroy(m_sprEnemy.gameObject.GetComponent<BoxCollider2D>());
-		}
-		m_bcEnemy = m_sprEnemy.gameObject.AddComponent<BoxCollider2D>();
 
 		MasterItemParam master_item = new MasterItemParam();
 		master_item.item_id = 1;

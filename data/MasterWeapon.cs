@@ -28,6 +28,23 @@ public class MasterWeaponParam : CsvDataParam
 
         return ret;
     }
+    public int GetGachaProb()
+    {
+        switch (rarity)
+        {
+            case 1:
+                return 1000;
+            case 2:
+                return 500;
+            case 3:
+                return 100;
+            case 4:
+                return 25;
+            case 5:
+                return 5;
+        }
+        return 0;
+    }
 
 }
 

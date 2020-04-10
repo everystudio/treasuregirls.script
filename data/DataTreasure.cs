@@ -38,6 +38,28 @@ public class DataTreasure : CsvData<DataTreasureParam>
             }
         }
         list.Add(new DataTreasureParam(add_serial,_iTreasureId));
+        DataManager.Instance.dataTreasureAlbum.AddAlbum(_iTreasureId);
+
     }
-    
+    public bool AddAlbum(int _iTreasureId)
+    {
+        DataTreasureParam check_exist = list.Find(p => p.treasure_id == _iTreasureId);
+        if (check_exist != null)
+        {
+            return false;
+        }
+
+        MasterTreasureParam master_exist = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == _iTreasureId);
+        if (master_exist == null)
+        {
+            // そもそもない
+            return false;
+        }
+
+        // シリアルは使わない
+        DataTreasureParam add = new DataTreasureParam(0, _iTreasureId);
+        list.Add(add);
+        return true;
+    }
+
 }
