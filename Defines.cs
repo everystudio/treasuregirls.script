@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Defines 
 {
-	public const string KeyGem = "gem";
+	public const string KeyGem = "key_gem";
+	public const string KeyCoin = "key_coin";
+	public const string KeyKey = "key_key";
+	public const string KeyGoldKey = "key_goldkey";
 
 	public const string SS_MASTER = "1w0Z0yCGWSTBN1SKzpPbpaOAUzaxcb866sElydp6cm4g";
 
@@ -32,6 +35,8 @@ public class Defines
 
 	public const int POTION_LIMIT = 20;
 
+
+	public const int REWORD_GEM = 20;
 
 	public const string TAG_PLAYER = "player";
 	public const string TAG_ENEMY = "enemy";

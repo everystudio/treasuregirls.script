@@ -12,7 +12,7 @@ public class MasterArmorParam : CsvDataParam
 	public int def { get; set; }
 	public int mind { get; set; }
 	public int luck { get; set; }
-	public int gold { get; set; }
+	public int coin { get; set; }
 	public int next_id { get; set; }
 
 	public string sprite_name { get;set;}  

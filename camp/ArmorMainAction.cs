@@ -88,7 +88,7 @@ namespace ArmorMainAction
 			armorMain.m_btnUpGrade.onClick.AddListener(OnUpgrade);
 
 			// 所持金額
-			armorMain.m_panelPotion.Initialize(DataManager.Instance.GetGold());
+			armorMain.m_panelPotion.Initialize(DataManager.Instance.GetCoin());
 			armorMain.m_panelPotion.m_btnUpgrade.onClick.AddListener(() =>
 			{
 				Fsm.Event("potion_upgrade");
@@ -165,7 +165,7 @@ namespace ArmorMainAction
 			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
 			MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
 
-			if(DataManager.Instance.UseGold(master_potion.upgrade_gold))
+			if(DataManager.Instance.UseCoin(master_potion.upgrade_coin))
 			{
 				data_potion.potion_id = master_potion.next_potion_id;
 			}
@@ -183,7 +183,7 @@ namespace ArmorMainAction
 			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
 			MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
 
-			if (DataManager.Instance.UseGold(master_potion.add_gold))
+			if (DataManager.Instance.UseCoin(master_potion.add_coin))
 			{
 				data_potion.num += 1;
 			}

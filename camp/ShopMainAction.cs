@@ -88,6 +88,7 @@ namespace ShopMainAction
 					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
 				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_GEM_FREE));
 
+				DataManager.Instance.AddGem(Defines.REWORD_GEM);
 			});
 		}
 
@@ -139,20 +140,20 @@ namespace ShopMainAction
 			shop.m_btnGoldPack1.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(20);
-				DataManager.Instance.AddGold(500);
+				DataManager.Instance.AddCoin(500);
 				button_interactable();
 			});
 			shop.m_btnGoldPack2.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(100);
-				DataManager.Instance.AddGold(3000);
+				DataManager.Instance.AddCoin(3000);
 				button_interactable();
 
 			});
 			shop.m_btnGoldPack3.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(500);
-				DataManager.Instance.AddGold(20000);
+				DataManager.Instance.AddCoin(20000);
 				button_interactable();
 
 			});

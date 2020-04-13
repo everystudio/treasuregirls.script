@@ -12,8 +12,8 @@ public class MasterPotionParam : CsvDataParam
 	public float cool_time { get; set; }
 
 	public int next_potion_id { get; set; }
-	public int upgrade_gold { get; set; }
-	public int add_gold { get; set; }
+	public int upgrade_coin { get; set; }
+	public int add_coin { get; set; }
 }
 
 public class MasterPotion : CsvData<MasterPotionParam>

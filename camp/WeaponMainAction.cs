@@ -49,7 +49,7 @@ namespace WeaponMainAction
 			{
 				DataWeaponParam data = DataManager.Instance.dataWeapon.list.Find(p => p.serial == weapon_serial.Value);
 				MasterWeaponParam master = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == data.weapon_id);
-				DataManager.Instance.UseGold(MasterWeapon.GetGradeupPrice(data, master));
+				DataManager.Instance.UseCoin(MasterWeapon.GetGradeupPrice(data, master));
 
 				data.level += 1;
 				main.m_weaponInfo.Setup(data, master);
@@ -210,7 +210,7 @@ namespace WeaponMainAction
 				MasterWeaponParam remove_master = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == remove_data.weapon_id);
 
 				int add_gold = MasterWeapon.GetSellPrice(remove_data, remove_master);
-				DataManager.Instance.AddGold(add_gold);
+				DataManager.Instance.AddCoin(add_gold);
 				DataManager.Instance.dataWeapon.list.Remove(remove_data);
 
 				Fsm.Event("buy");

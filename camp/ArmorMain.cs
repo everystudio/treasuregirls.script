@@ -79,8 +79,8 @@ public class ArmorMain : MonoBehaviour
 
 		if( 0 < master.next_id)
 		{
-			m_txtUpgradeGold.text = master.gold.ToString();
-			m_btnUpGrade.interactable = true;
+			m_txtUpgradeGold.text = master.coin.ToString();
+			m_btnUpGrade.interactable = DataManager.Instance.GetCoin() <= master.coin;
 		}
 		else
 		{

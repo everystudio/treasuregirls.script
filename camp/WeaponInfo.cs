@@ -48,7 +48,7 @@ public class WeaponInfo : MonoBehaviour
 				int price = MasterWeapon.GetGradeupPrice(_data, _master);
 				m_txtGradeupPrice.text = price.ToString();
 
-				m_btnGradeup.interactable = price <= DataManager.Instance.GetGold();
+				m_btnGradeup.interactable = price <= DataManager.Instance.GetCoin();
 			}
 			else
 			{

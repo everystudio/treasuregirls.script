@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DataManager : DataManagerBase<DataManager>
 {
@@ -43,79 +45,111 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataItem dataItem = new DataItem();
 	public DataItem dataGetItem = new DataItem();
 
+	#region Camp
+	public TextMeshProUGUI m_txtKey;
+	public TextMeshProUGUI m_txtGoldKey;
+	public TextMeshProUGUI m_txtCoin;
+	public TextMeshProUGUI m_txtGem;
+	#endregion
+
 	public int debug_gem;
-	public int debug_gold;
+	public int debug_coin;
 	public int debug_key;
 	public int debug_gold_key;
 	public bool UseGem(int _iGem)
 	{
 		// Gemの消費処理
-		if( debug_gem < _iGem)
+		if( GetGem() < _iGem)
 		{
 			return false;
 		}
-		debug_gem -= _iGem;
+		AddGem(-1 * _iGem);
 		return true;
 	}
 	public int GetGem()
 	{
-		return debug_gem;
+		return user_data.ReadInt(Defines.KeyGem);
 	}
-
-	public bool UseGold(int _iGold)
+	public void AddGem(int _iAdd)
 	{
-		// Gemの消費処理
-
-		if(debug_gold < _iGold )
-		{
-			return false;
-		}
-
-		debug_gold -= _iGold;
-
-		return true;
+		user_data.AddInt(Defines.KeyGem, _iAdd);
+		return;
 	}
-	public void AddGold(int _iAdd)
+	public void AddCoin(int _iAdd)
 	{
+		user_data.AddInt(Defines.KeyCoin, _iAdd);
+		return;
+	}
+	public void AddKey(int _iAdd)
+	{
+		user_data.AddInt(Defines.KeyKey, _iAdd);
+		return;
+	}
+	public void AddGoldKey(int _iAdd)
+	{
+		user_data.AddInt(Defines.KeyGoldKey, _iAdd);
 		return;
 	}
 
-	public int GetGold()
+	public bool UseCoin(int _iCoin)
 	{
-		return debug_gold;
+		// Gemの消費処理
+
+		if(GetCoin() < _iCoin )
+		{
+			return false;
+		}
+		AddCoin(-1 * _iCoin);
+		return true;
+	}
+
+	public int GetCoin()
+	{
+		return user_data.ReadInt(Defines.KeyCoin);
 	}
 
 	public bool UseKey(int _iUse)
 	{
-		if( debug_key < _iUse)
+		if (GetKey() < _iUse)
 		{
 			return false;
 		}
-		debug_key -= _iUse;
+		AddKey(-1 * _iUse);
 		return true;
 	}
 	public int GetKey()
 	{
-		return debug_key;
+		return user_data.ReadInt(Defines.KeyKey);
 	}
 
 	public bool UseGoldKey(int _iUse)
 	{
-		if( debug_gold_key < _iUse)
+		if(GetGoldKey() < _iUse)
 		{
 			return false;
 		}
-		debug_gold_key -= _iUse;
+		AddGoldKey(-1 * _iUse);
 		return true;
 	}
 	public int GetGoldKey()
 	{
-		return debug_gold_key;
+		return user_data.ReadInt(Defines.KeyGoldKey);
 	}
 
 	public override void Initialize()
 	{
 		Initialized = false;
+
+		#region Camp
+		if(m_txtKey != null)
+		{
+			m_txtKey.text = "0";
+			m_txtGoldKey.text = "0";
+			m_txtCoin.text = "0";
+			m_txtGem.text = "0";
+		}
+		#endregion
+
 		base.Initialize();
 		StartCoroutine(init_network());
 	}
@@ -277,6 +311,43 @@ public class DataManager : DataManagerBase<DataManager>
 			data2.status = 1;
 			dataFloor.list.Add(data2);
 		}
+
+
+		if (m_txtKey != null)
+		{
+			user_data.AddListenerInt(Defines.KeyKey, (iValue) =>
+			{
+				m_txtKey.text = iValue.ToString();
+			});
+			user_data.AddListenerInt(Defines.KeyGoldKey, (iValue) =>
+			{
+				m_txtGoldKey.text = iValue.ToString();
+			});
+			user_data.AddListenerInt(Defines.KeyCoin, (iValue) =>
+			{
+				m_txtCoin.text = iValue.ToString();
+			});
+			user_data.AddListenerInt(Defines.KeyGem, (iValue) =>
+			{
+				m_txtGem.text = iValue.ToString();
+			});
+
+#if UNITY_EDITOR
+			AddGem(debug_gem);
+			AddCoin(debug_coin);
+			AddKey(debug_key);
+			AddGoldKey(debug_gold_key);
+#endif
+			//m_txtKey.text = user_data.ReadInt(Defines.KeyKey).ToString(); ;
+			//m_txtGoldKey.text = user_data.Read(Defines.KeyGoldKey);
+			//m_txtCoin.text = user_data.Read(Defines.KeyCoin);
+			//m_txtGem.text = user_data.Read(Defines.KeyGem);
+
+
+		}
+
+
+
 
 		Initialized = true;
 		Debug.Log("init_network end");

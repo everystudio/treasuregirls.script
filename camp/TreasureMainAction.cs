@@ -83,7 +83,7 @@ namespace TreasureMainAction
 				DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial.Value);
 				MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
 
-				DataManager.Instance.UseGold(MasterTreasure.GetGradeupPrice(data, master));
+				DataManager.Instance.UseCoin(MasterTreasure.GetGradeupPrice(data, master));
 				data.level += 1;
 				treasureMain.m_treasureInfo.Setup(data, master);
 
@@ -188,7 +188,7 @@ namespace TreasureMainAction
 				DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial);
 				MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
 
-				DataManager.Instance.UseGold(MasterTreasure.GetGradeupPrice(data, master));
+				DataManager.Instance.UseCoin(MasterTreasure.GetGradeupPrice(data, master));
 				data.level += 1;
 				treasureMain.m_treasureInfo.Setup(data, master);
 
@@ -392,7 +392,7 @@ namespace TreasureMainAction
 				MasterTreasureParam remove_master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == remove_data.treasure_id);
 
 				int add_gold = MasterTreasure.GetSellPrice(remove_data, remove_master);
-				DataManager.Instance.AddGold(add_gold);
+				DataManager.Instance.AddCoin(add_gold);
 				DataManager.Instance.dataTreasure.list.Remove(remove_data);
 
 				Fsm.Event("buy");

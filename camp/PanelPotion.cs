@@ -18,7 +18,7 @@ public class PanelPotion : MonoBehaviour
 	public TextMeshProUGUI m_txtUpgradePrice;
 	public TextMeshProUGUI m_txtAddPrice;
 
-	public void Initialize( int _iGold )
+	public void Initialize( int _iCoin )
 	{
 		DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
 		MasterPotionParam master_potion = DataManager.Instance.masterPotion.list.Find(p => p.potion_id == data_potion.potion_id);
@@ -26,25 +26,25 @@ public class PanelPotion : MonoBehaviour
 
 		if (0 < master_potion.next_potion_id)
 		{
-			m_txtUpgradePrice.text = master_potion.upgrade_gold.ToString();
+			m_txtUpgradePrice.text = master_potion.upgrade_coin.ToString();
 		}
 		else
 		{
 			m_txtUpgradePrice.text = "-----";
 		}
-		m_txtAddPrice.text = master_potion.add_gold.ToString();
+		m_txtAddPrice.text = master_potion.add_coin.ToString();
 
-		m_btnUpgrade.interactable = (master_potion.upgrade_gold <=_iGold);
-		m_btnAdd.interactable = (master_potion.add_gold <= _iGold && data_potion.num < Defines.POTION_LIMIT );
+		m_btnUpgrade.interactable = (master_potion.upgrade_coin <= _iCoin);
+		m_btnAdd.interactable = (master_potion.add_coin <= _iCoin && data_potion.num < Defines.POTION_LIMIT );
 
 
 		if(master_potion.next_potion_id == 0)
 		{
 			m_txtLabelUpgrade.text = "アップグレード\n強化上限です";
 		}
-		else if(_iGold<master_potion.upgrade_gold)
+		else if(_iCoin < master_potion.upgrade_coin)
 		{
-			m_txtLabelUpgrade.text = "ゴールドが\n足りません";
+			m_txtLabelUpgrade.text = "コインが\n足りません";
 		}
 		else
 		{
@@ -56,9 +56,9 @@ public class PanelPotion : MonoBehaviour
 		{
 			m_txtLabelAdd.text = "これ以上\n購入できません";
 		}
-		else if (_iGold < master_potion.add_gold)
+		else if (_iCoin < master_potion.add_coin)
 		{
-			m_txtLabelAdd.text = "ゴールドが\n足りません";
+			m_txtLabelAdd.text = "コインが\n足りません";
 		}
 		else
 		{

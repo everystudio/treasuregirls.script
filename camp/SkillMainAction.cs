@@ -256,7 +256,7 @@ namespace SkillMainAction
 			base.OnEnter();
 			MasterSkillParam buy_skill = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == select_skill_id.Value);
 
-			if( DataManager.Instance.UseGold(buy_skill.gold))
+			if( DataManager.Instance.UseCoin(buy_skill.gold))
 			{
 				DataSkillParam add = new DataSkillParam(buy_skill.skill_id, 0);
 				DataManager.Instance.dataSkill.list.Add(add);
