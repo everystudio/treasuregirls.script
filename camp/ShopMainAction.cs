@@ -45,6 +45,12 @@ namespace ShopMainAction
 			shop.m_btnMainTreasure.onClick.AddListener(() => { Fsm.Event("treasure"); });
 			shop.m_btnMainScroll.onClick.AddListener(() => { Fsm.Event("scroll"); });
 
+			if( CampMain.Instance.sub_move != "")
+			{
+				Fsm.Event(CampMain.Instance.sub_move);
+			}
+			CampMain.Instance.sub_move = "";
+
 		}
 
 		public void ScrollInfoUpdate()
@@ -62,7 +68,6 @@ namespace ShopMainAction
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class gem : ShopMainActionBase
 	{
-
 		private DateTime check_datetime;
 		public override void OnEnter()
 		{
@@ -90,6 +95,9 @@ namespace ShopMainAction
 
 				DataManager.Instance.AddGem(Defines.REWORD_GEM);
 			});
+
+
+
 		}
 
 		public override void OnUpdate()

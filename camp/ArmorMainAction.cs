@@ -144,6 +144,7 @@ namespace ArmorMainAction
 			data_armor.armor_id = master_armor_next.armor_id;
 			data_armor.level = master_armor_next.level;
 
+			DataManager.Instance.UseCoin(master_armor_current.coin);
 
 			foreach( IconArmor icon in armorMain.icon_armor_list)
 			{
