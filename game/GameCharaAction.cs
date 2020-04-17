@@ -140,6 +140,7 @@ namespace GameCharaAction
 	public class battle : GameCharaActionBase
 	{
 		public float time;
+		public float attack_interval;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -151,7 +152,7 @@ namespace GameCharaAction
 
 			time += Time.deltaTime * chara.m_dataUnitParam.speed;
 
-			if( 300 < time)
+			if(attack_interval < time)
 			{
 				Fsm.Event("attack");
 			}
