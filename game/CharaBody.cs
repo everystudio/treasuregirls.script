@@ -9,7 +9,7 @@ public class CharaBody : MonoBehaviour
 	public Enemy enemy;
 	void OnCollisionEnter2D(Collision2D _collision)
 	{
-		Debug.Log(_collision.gameObject.name);
+		//Debug.Log(_collision.gameObject.name);
 		if (_collision.gameObject.tag == Defines.TAG_ENEMY)
 		{
 			//Debug.Log("start enemy");

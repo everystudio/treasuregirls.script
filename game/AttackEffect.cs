@@ -21,7 +21,12 @@ public class AttackEffect : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D _collider)
 	{
-		//Debug.Log(_collider.gameObject.tag);
+		/*
+		if (m_strTargetTag == "player")
+		{
+			Debug.Log(_collider.gameObject.tag);
+		}
+		*/
 
 		if (_collider.gameObject.tag == m_strTargetTag)
 		{
@@ -33,6 +38,14 @@ public class AttackEffect : MonoBehaviour
 					if( eb != null)
 					{
 						eb.enemy.Damage(m_data, m_skill);
+					}
+				}
+				else if( m_strTargetTag == "player")
+				{
+					CharaBody ch = _collider.gameObject.GetComponent<CharaBody>();
+					if( ch != null)
+					{
+						ch.game_chara_main.Damage(m_data, m_skill);
 					}
 				}
 				history.Add(_collider.gameObject);

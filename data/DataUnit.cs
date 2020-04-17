@@ -19,6 +19,8 @@ public class DataUnitParam :CsvDataParam
 	public int mind { get; set; }
 	public int luck { get; set; }
 
+	public UnityEventIntInt OnChangeHp = new UnityEventIntInt();
+
 	public void BuildPlayer()
 	{
 		int total_attack = 0;
@@ -100,11 +102,14 @@ public class DataUnitParam :CsvDataParam
 	public void Damage( int _iDamage)
 	{
 		hp = Mathf.Max(0, hp - _iDamage);
+		Debug.Log(hp);
+		OnChangeHp.Invoke(hp, hp_max);
 	}
 
 	public void Heal( int _iHeal)
 	{
 		hp = Mathf.Min(hp + _iHeal, hp_max);
+		OnChangeHp.Invoke(hp, hp_max);
 	}
 
 }

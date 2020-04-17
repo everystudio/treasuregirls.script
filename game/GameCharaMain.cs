@@ -53,4 +53,12 @@ public class GameCharaMain : Singleton<GameCharaMain>
         m_dataUnitParam.Damage(_iDamage);
         m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
     }
+
+    public void Damage(DataUnitParam _attack, MasterSkillParam _skill)
+    {
+        int damage = _attack.CalcDamage(m_dataUnitParam, null);
+        Damage(damage);
+    }
+
+
 }

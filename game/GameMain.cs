@@ -17,6 +17,7 @@ public class GameMain : Singleton<GameMain>
 	public GameCharaMain player_chara;
 
 	public AutoButton m_btnAuto;
+	public AutoButtonPotion m_btnAutoPotion;
 
 	public BackgroundControl background;
 

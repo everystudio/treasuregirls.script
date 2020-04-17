@@ -24,16 +24,16 @@ public class EnemyBody : MonoBehaviour
 	}
 	public void EventAttackSlash()
 	{
-		/*
-		AttackEffect script = PrefabManager.Instance.MakeScript<AttackEffect>(game_chara_main.m_prefAttack, game_chara_main.m_goAttackRoot);
+		//Debug.Log("EventAttackSlash");
+		AttackEffect script = PrefabManager.Instance.MakeScript<AttackEffect>(GameMain.Instance.player_chara.m_prefAttack, enemy.m_posAttack);
 		script.transform.localPosition = new Vector3(0.0f, 0.0f, -1.0f);
 		script.transform.localScale = Vector3.one * 2.0f;
 
-		script.Initialize(game_chara_main.m_dataUnitParam, "enemy");
-		*/
+		script.Initialize(enemy.dataUnitParam, null, "player");
 	}
 	public void EventAttackEnd()
 	{
+		//Debug.Log("EventAttackEnd");
 		enemy.OnAttackEnd.Invoke();
 	}
 

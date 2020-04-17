@@ -43,6 +43,7 @@ namespace GameMainAction
 			base.OnEnter();
 
 			gamemain.m_btnAuto.Initialize(true);
+			gamemain.m_btnAutoPotion.Initialize(true , 0.5f);
 
 			gamemain.player_chara.gameObject.SetActive(true);
 

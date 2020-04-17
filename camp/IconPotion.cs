@@ -20,6 +20,8 @@ public class IconPotion : MonoBehaviour
 	public Animator m_animator;
 	public bool is_gamemode;
 
+	public bool request_use;
+
 	public void Initialize(DataPotionParam _data , MasterPotionParam _master)
 	{
 		m_dataPotion = _data;
@@ -66,7 +68,14 @@ public class IconPotion : MonoBehaviour
 	public void CooltimeEnd()
 	{
 		// クールタイム終わりました
-		m_btn.interactable = true;
+		if (request_use)
+		{
+			m_btn.onClick.Invoke();
+		}
+		else
+		{
+			m_btn.interactable = true;
+		}
 	}
 
 }

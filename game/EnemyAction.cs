@@ -41,6 +41,7 @@ namespace EnemyAction
 					GameObject.Destroy(enemy.m_sprEnemy.gameObject.GetComponent<BoxCollider2D>());
 				}
 				enemy.m_bcEnemy = enemy.m_sprEnemy.gameObject.AddComponent<BoxCollider2D>();
+				enemy.attack_timer = enemy.attack_interval;
 
 				Finish();
 			}
@@ -58,7 +59,7 @@ namespace EnemyAction
 			enemy.enemy_search.IsFindPlayer = false;
 			enemy.enemy_search.gameObject.SetActive(true);
 
-			enemy.attack_timer = enemy.attack_interval;
+			//enemy.attack_timer = enemy.attack_interval;
 		}
 		public override void OnUpdate()
 		{
@@ -163,6 +164,8 @@ namespace EnemyAction
 			// 絶対消す
 			enemy.OnAttackEnd.AddListener(() =>
 			{
+				enemy.attack_timer += enemy.attack_interval;
+
 				Finish();
 			});
 			enemy.m_animatorBody.SetTrigger("attack");

@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
 	public Rigidbody2D m_rbEnemy;
 	[HideInInspector] public BoxCollider2D m_bcEnemy;
 	public EnemySearch enemy_search;
+	public GameObject m_posAttack;
 
 	public float move;
 	public float attack_interval;
