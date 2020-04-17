@@ -15,6 +15,7 @@ public class DataManager : DataManagerBase<DataManager>
 	}
 
 	public TextAssetHolder m_textAssetHolder;
+	public bool m_bLoadNetworkData;
 
 	public CsvKvs game_data = new CsvKvs();
 
@@ -159,26 +160,43 @@ public class DataManager : DataManagerBase<DataManager>
 		Debug.Log("init_network start");
 		masterChara.SetSaveFilename(Defines.FILENAME_MASTERCHARA);
 
-		#region 通信初期化
-		yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
-		yield return StartCoroutine(masterWeapon.SpreadSheet(Defines.SS_MASTER, "weapon", () => { }));
-		yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
-		yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
-		yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
-		yield return StartCoroutine(masterTreasure.SpreadSheet(Defines.SS_MASTER, "treasure", () => {
-			/*
-			foreach( MasterTreasureParam master in masterTreasure.list)
-			{
-				Debug.Log(string.Format("id:{0} name:{1} sprite:{2}", master.treasure_id , master.name , master.sprite_name));
-			}
-			*/
-		}));
-		yield return StartCoroutine(masterEnemy.SpreadSheet(Defines.SS_MASTER, "enemy", () => { }));
-		yield return StartCoroutine(masterItem.SpreadSheet(Defines.SS_MASTER, "item", () =>{ }));
-		yield return StartCoroutine(masterStage.SpreadSheet(Defines.SS_MASTER, "stage", () =>{ }));
-		yield return StartCoroutine(masterFloor.SpreadSheet(Defines.SS_MASTER, "floor", () =>{ }));
+		masterChara.Load(m_textAssetHolder.Get("master_chara"));
+		masterWeapon.Load(m_textAssetHolder.Get("master_weapon"));
+		masterArmor.Load(m_textAssetHolder.Get("master_armor"));
+		masterSkill.Load(m_textAssetHolder.Get("master_skill"));
+		masterPotion.Load(m_textAssetHolder.Get("master_potion"));
+		masterTreasure.Load(m_textAssetHolder.Get("master_treasure"));
+		masterEnemy.Load(m_textAssetHolder.Get("master_enemy"));
+		masterItem.Load(m_textAssetHolder.Get("master_item"));
+		masterStage.Load(m_textAssetHolder.Get("master_stage"));
+		masterFloor.Load(m_textAssetHolder.Get("master_floor"));
 
-		#endregion
+
+#if UNITY_EDITOR
+		if (m_bLoadNetworkData)
+		{
+			#region 通信初期化
+			yield return StartCoroutine(masterChara.SpreadSheet(Defines.SS_MASTER, "chara", () => { }));
+			yield return StartCoroutine(masterWeapon.SpreadSheet(Defines.SS_MASTER, "weapon", () => { }));
+			yield return StartCoroutine(masterArmor.SpreadSheet(Defines.SS_MASTER, "armor", () => { }));
+			yield return StartCoroutine(masterSkill.SpreadSheet(Defines.SS_MASTER, "skill", () => { }));
+			yield return StartCoroutine(masterPotion.SpreadSheet(Defines.SS_MASTER, "potion", () => { }));
+			yield return StartCoroutine(masterTreasure.SpreadSheet(Defines.SS_MASTER, "treasure", () =>
+			{
+				/*
+				foreach( MasterTreasureParam master in masterTreasure.list)
+				{
+					Debug.Log(string.Format("id:{0} name:{1} sprite:{2}", master.treasure_id , master.name , master.sprite_name));
+				}
+				*/
+			}));
+			yield return StartCoroutine(masterEnemy.SpreadSheet(Defines.SS_MASTER, "enemy", () => { }));
+			yield return StartCoroutine(masterItem.SpreadSheet(Defines.SS_MASTER, "item", () => { }));
+			yield return StartCoroutine(masterStage.SpreadSheet(Defines.SS_MASTER, "stage", () => { }));
+			yield return StartCoroutine(masterFloor.SpreadSheet(Defines.SS_MASTER, "floor", () => { }));
+			#endregion
+		}
+#endif
 
 		game_data.SetSaveFilename(Defines.FILENAME_GAMEDATA);
 		if (game_data.LoadMulti() == false)
