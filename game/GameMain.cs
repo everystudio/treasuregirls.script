@@ -28,6 +28,8 @@ public class GameMain : Singleton<GameMain>
 	public TextMeshProUGUI m_txtLastTime;
 	public GameObject m_goPauseCover;
 
+	public TextMeshProUGUI m_txtFloor;
+
 	public SpriteAtlas m_spriteAtlasBackground;
 
 	// 敵用

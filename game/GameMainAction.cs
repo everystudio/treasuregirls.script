@@ -29,6 +29,8 @@ namespace GameMainAction
 			gamemain.IsGoal = false;
 			gamemain.player_chara.gameObject.SetActive(false);
 			gamemain.m_fGameTime = 0.0f;
+			gamemain.m_txtFloor.text = string.Format("{0}", "-----");
+
 			Finish();
 		}
 	}
@@ -51,6 +53,8 @@ namespace GameMainAction
 			Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
 			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
+
+			gamemain.m_txtFloor.text = string.Format("{0}", floor_id);
 
 			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
 			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
