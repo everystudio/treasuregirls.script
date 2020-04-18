@@ -81,6 +81,12 @@ public class DataUnitParam :CsvDataParam
 	public int CalcDamage(DataUnitParam _target , MasterSkillParam _skill )
 	{
 		float base_damage = (attack * 3 - _target.def) * 0.717f;
+		Debug.Log(base_damage);
+
+		if (base_damage < 1.0f)
+		{
+			base_damage = 1.0f;
+		}
 
 		float skill_rate = 1.0f;
 		if( _skill != null)
@@ -89,20 +95,25 @@ public class DataUnitParam :CsvDataParam
 		}
 
 		float[] rand_rate_table = { 0.98f, 0.99f, 1.00f, 1.01f, 1.02f };
-		int[] rand_add_table = { 0,1,2,3,4 };
+		//int[] rand_add_table = { 0,1,2,3,4 };
+		int[] rand_add_table = { 0, 1,1,2,2 };
 
 		int index_rand_rate = UtilRand.GetRand(rand_rate_table.Length);
 		int index_rand_add = UtilRand.GetRand(rand_add_table.Length);
 
 		float fRet = (base_damage * skill_rate * rand_rate_table[index_rand_rate]) + rand_add_table[index_rand_add];
 
+		if( fRet < 1.0f)
+		{
+			fRet = 1.0f;
+		}
 		return (int)fRet;
 	}
 
 	public void Damage( int _iDamage)
 	{
 		hp = Mathf.Max(0, hp - _iDamage);
-		Debug.Log(hp);
+		//Debug.Log(hp);
 		OnChangeHp.Invoke(hp, hp_max);
 	}
 
