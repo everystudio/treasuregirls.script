@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.U2D;
+using TMPro;
 
 public class GameMain : Singleton<GameMain>
 {
@@ -21,6 +23,10 @@ public class GameMain : Singleton<GameMain>
 
 	public BackgroundControl background;
 
+	public Button m_btnPause;
+	public float m_fGameTime;
+	public TextMeshProUGUI m_txtLastTime;
+	public GameObject m_goPauseCover;
 
 	public SpriteAtlas m_spriteAtlasBackground;
 

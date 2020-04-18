@@ -8,6 +8,7 @@ using TMPro;
 public class PanelResult : MonoBehaviour
 {
 	public TextMeshProUGUI m_txtClearMessage;
+	public TextMeshProUGUI m_txtClearTime;
 
 	public GameObject m_prefPrizeIcon;
 	public GameObject m_goPrizeRoot;
@@ -19,9 +20,10 @@ public class PanelResult : MonoBehaviour
 
 	public SpriteAtlas m_spriteAtlas;
 
-	public void Initialize( int _iFloorId )
+	public void Initialize( int _iFloorId , int _iTime )
 	{
 		m_txtClearMessage.text = string.Format("{0}F Clear!!", _iFloorId);
+		m_txtClearTime.text = string.Format("{0:D2}:{1:D2}", _iTime / 60, _iTime % 60);
 
 		m_prefPrizeIcon.SetActive(false);
 

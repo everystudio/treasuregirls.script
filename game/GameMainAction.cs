@@ -28,7 +28,7 @@ namespace GameMainAction
 
 			gamemain.IsGoal = false;
 			gamemain.player_chara.gameObject.SetActive(false);
-
+			gamemain.m_fGameTime = 0.0f;
 			Finish();
 		}
 	}
@@ -124,6 +124,8 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class playing : GameMainActionBase
 	{
+		public int battle_time;
+		private bool bIsPausing;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -138,6 +140,20 @@ namespace GameMainAction
 					_icon.UseSkill();
 				});
 			}
+			bIsPausing = false;
+			gamemain.m_btnPause.onClick.AddListener(() =>
+			{
+				bIsPausing = !bIsPausing;
+				gamemain.m_goPauseCover.SetActive(bIsPausing);
+				if (bIsPausing)
+				{
+					Time.timeScale = 0.0f;
+				}
+				else
+				{
+					Time.timeScale = 1.0f;
+				}
+			});
 		}
 
 		private void use_potion()
@@ -157,9 +173,21 @@ namespace GameMainAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+			gamemain.m_fGameTime += Time.deltaTime;
+			int last_time = battle_time - (int)gamemain.m_fGameTime;
+			gamemain.m_txtLastTime.text = string.Format("{0:D2}:{1:D2}", last_time / 60, last_time % 60);
+
 			if (gamemain.IsGoal)
 			{
 				Fsm.Event("goal");
+			}
+			else if(battle_time < gamemain.m_fGameTime)
+			{
+				Fsm.Event("timeover");
+			}
+			else if(gamemain.player_chara.m_dataUnitParam.hp <= 0)
+			{
+				Fsm.Event("gameover");
 			}
 		}
 
@@ -167,6 +195,7 @@ namespace GameMainAction
 		{
 			base.OnExit();
 			gamemain.icon_potion.m_btn.onClick.RemoveAllListeners();
+			gamemain.m_btnPause.onClick.RemoveAllListeners();
 			foreach (IconSkill icon in gamemain.icon_skill_arr)
 			{
 				icon.OnClickIcon.RemoveAllListeners();
@@ -235,7 +264,7 @@ namespace GameMainAction
 
 
 			gamemain.m_goFadePanel.SetActive(true);
-			gamemain.m_panelResult.Initialize(floor_id);
+			gamemain.m_panelResult.Initialize(floor_id , (int)gamemain.m_fGameTime);
 			gamemain.m_panelResult.gameObject.SetActive(true);
 
 
