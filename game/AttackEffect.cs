@@ -39,6 +39,13 @@ public class AttackEffect : MonoBehaviour
 					{
 						eb.enemy.Damage(m_data, m_skill);
 					}
+					if( m_skill != null && m_skill.type == "brow")
+					{
+						eb.enemy.m_animatorBody.enabled = false;
+						eb.IsAir = true;
+						Rigidbody2D rb2 = eb.gameObject.GetComponent<Rigidbody2D>();
+						rb2.AddForce(new Vector2(1.0f, 0.5f) * 250);
+					}
 				}
 				else if( m_strTargetTag == "player")
 				{

@@ -256,6 +256,8 @@ public class DataManager : DataManagerBase<DataManager>
 		if( dataSkill.LoadMulti() == false)
 		{
 			dataSkill.list.Add(new DataSkillParam(1, 1));
+			dataSkill.list.Add(new DataSkillParam(6, 2));
+			dataSkill.list.Add(new DataSkillParam(11, 3));
 		}
 		dataPotion.SetSaveFilename(Defines.FILENAME_DATAPOTION);
 		if (dataPotion.LoadMulti() == false)

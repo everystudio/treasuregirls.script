@@ -5,13 +5,17 @@ using UnityEngine;
 public class EnemyBody : MonoBehaviour
 {
 	public Enemy enemy;
-
+	public bool IsAir = true;
 	public bool IsHitPlayer = true;
 	void OnCollisionEnter2D(Collision2D _collision)
 	{
 		if (_collision.gameObject.tag == "player")
 		{
 			IsHitPlayer = true;
+		}
+		else if(_collision.gameObject.name == "floor")
+		{
+			IsAir = false;
 		}
 	}
 
@@ -20,6 +24,10 @@ public class EnemyBody : MonoBehaviour
 		if (_collision.gameObject.tag == "player")
 		{
 			IsHitPlayer = false;
+		}
+		else if (_collision.gameObject.name == "floor")
+		{
+			IsAir = true;
 		}
 	}
 	public void EventAttackSlash()

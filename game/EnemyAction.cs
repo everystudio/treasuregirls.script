@@ -60,6 +60,9 @@ namespace EnemyAction
 			enemy.enemy_search.gameObject.SetActive(true);
 
 			//enemy.attack_timer = enemy.attack_interval;
+			//Rigidbody2D rb2 = enemy.m_enemyBody.gameObject.GetComponent<Rigidbody2D>();
+			//rb2.AddForce(new Vector2(1.0f, 0.0f) * 1000);
+
 		}
 		public override void OnUpdate()
 		{
@@ -83,10 +86,19 @@ namespace EnemyAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			Debug.Log("move");
 		}
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
+
+			if (enemy.m_enemyBody.IsAir)
+			{
+				Fsm.Event("air");
+				return;
+			}
+
+
 			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
 			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
@@ -124,6 +136,7 @@ namespace EnemyAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			Debug.Log("battle");
 		}
 		public override void OnUpdate()
 		{
@@ -136,6 +149,10 @@ namespace EnemyAction
 			if(enemy.dataUnitParam.hp <= 0)
 			{
 				Fsm.Event("dead");
+			}
+			if (enemy.m_enemyBody.IsAir)
+			{
+				Fsm.Event("air");
 			}
 			else if (enemy.m_enemyBody.IsHitPlayer == false)
 			{
@@ -151,8 +168,6 @@ namespace EnemyAction
 			}
 		}
 	}
-
-
 
 	[ActionCategory("EnemyAction")]
 	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
@@ -183,7 +198,6 @@ namespace EnemyAction
 		}
 	}
 
-
 	[ActionCategory("EnemyAction")]
 	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
 	public class Dead : EnemyActionlBase
@@ -191,6 +205,10 @@ namespace EnemyAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			// 一応ね
+			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+			enemy.m_animatorBody.enabled = true;
 
 			DropObject drop = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
 
@@ -211,4 +229,25 @@ namespace EnemyAction
 			Finish();
 		}
 	}
+
+	[ActionCategory("EnemyAction")]
+	[HutongGames.PlayMaker.Tooltip("EnemyAction")]
+	public class Air : EnemyActionlBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			Debug.Log("air");
+		}
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if( enemy.m_enemyBody.IsAir == false)
+			{
+				enemy.m_animatorBody.enabled = true;
+				Finish();
+			}
+		}
+	}
+
 }
