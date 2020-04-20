@@ -26,6 +26,8 @@ public class WeaponMain : MonoBehaviour
 	public Button m_btnBuyYes;
 	public Button m_btnBuyCancel;
 
+	public TextMeshProUGUI m_txtListTitle;
+
 	public void SelectListData(int _iSerial)
 	{
 		foreach (IconInventry icon in weapon_list)

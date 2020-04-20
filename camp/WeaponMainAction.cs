@@ -27,6 +27,7 @@ namespace WeaponMainAction
 		{
 			base.OnEnter();
 			//weapon_serial.Value = 0;
+			main.m_txtListTitle.text = "所持武器一覧";
 
 			if (weapon_serial.Value == 0)
 			{
@@ -143,6 +144,8 @@ namespace WeaponMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			main.m_txtListTitle.text = "武器アルバム";
+
 			main.m_btnEquip.gameObject.SetActive(false);
 			main.m_btnAlbum.gameObject.SetActive(false);
 			main.m_btnBuy.gameObject.SetActive(false);
