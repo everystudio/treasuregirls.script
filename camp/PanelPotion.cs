@@ -40,11 +40,11 @@ public class PanelPotion : MonoBehaviour
 
 		if(master_potion.next_potion_id == 0)
 		{
-			m_txtLabelUpgrade.text = "アップグレード\n強化上限です";
+			m_txtLabelUpgrade.text = "ポーション\nアップグレード\n<color=red>強化上限です</color";
 		}
 		else if(_iCoin < master_potion.upgrade_coin)
 		{
-			m_txtLabelUpgrade.text = "コインが\n足りません";
+			m_txtLabelUpgrade.text = "ポーション\nアップグレード\nコイン不足";
 		}
 		else
 		{
@@ -54,11 +54,11 @@ public class PanelPotion : MonoBehaviour
 
 		if ( Defines.POTION_LIMIT <= data_potion.num)
 		{
-			m_txtLabelAdd.text = "これ以上\n購入できません";
+			m_txtLabelAdd.text = "追加購入\n<color=red>所持数の上限</color>";
 		}
 		else if (_iCoin < master_potion.add_coin)
 		{
-			m_txtLabelAdd.text = "コインが\n足りません";
+			m_txtLabelAdd.text = "追加購入\n<color=red>コインが足りません</color>";
 		}
 		else
 		{

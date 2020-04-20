@@ -117,20 +117,30 @@ namespace SkillMainAction
 			skillMain.m_btnSet.onClick.AddListener(() =>
 			{
 				DataSkillParam target_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == banner_skill_id);
+				DataSkillParam icon_skill_data = DataManager.Instance.dataSkill.list.Find(p => p.position == icon_position);
+				DataSkillParam exchange_data = null;
 
 				int temp_icon_position = skillMain.m_charaView.GetSkillPosition(target_data.skill_id);
+
+				// 本命
+				target_data.position = icon_position;
 
 				if(temp_icon_position != 0)
 				{
 					int temp_skill_id = skillMain.m_charaView.GetSkillId(temp_icon_position);
-					DataSkillParam exchange_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == banner_skill_id);
+					exchange_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == banner_skill_id);
 
 					if( exchange_data != null)
 					{
-						exchange_data.position = temp_icon_position;
+						icon_skill_data.position = temp_icon_position;
 					}
 				}
-				target_data.position = icon_position;
+
+				Debug.Log(string.Format("id:{0} pos:{1}", target_data.skill_id, target_data.position));
+				if (exchange_data != null)
+				{
+					Debug.Log(string.Format("id:{0} pos:{1}", exchange_data.skill_id, exchange_data.position));
+				}
 
 				skillMain.m_charaView.Initialize();
 
