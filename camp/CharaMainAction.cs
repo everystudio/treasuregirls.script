@@ -69,6 +69,7 @@ namespace CharaMainAction
 				charaMain.m_txtBtnPrice.text = master.price.ToString();
 				charaMain.m_btnSet.interactable = false;
 				charaMain.m_btnBuy.interactable = true;
+				charaMain.m_goGemLessCover.SetActive(DataManager.Instance.GetGem() < master.price);
 			}
 			else
 			{
@@ -77,6 +78,7 @@ namespace CharaMainAction
 				charaMain.m_txtBtnPrice.text = master.price.ToString();
 				charaMain.m_btnSet.interactable = true;
 				charaMain.m_btnBuy.interactable = false;
+				charaMain.m_goGemLessCover.SetActive(false);
 			}
 
 
@@ -95,8 +97,8 @@ namespace CharaMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
-			foreach( IconCharaList icon in charaMain.icon_chara_list)
+			charaMain.m_charaView.Initialize();
+			foreach ( IconCharaList icon in charaMain.icon_chara_list)
 			{
 				icon.OnClickIcon.AddListener(OnSelect);
 			}

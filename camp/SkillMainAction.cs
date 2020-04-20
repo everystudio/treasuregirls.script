@@ -284,6 +284,7 @@ namespace SkillMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
 			skillMain.m_charaView.Initialize();
 
 			skillMain.m_goViewSkill_Setting.SetActive(false);

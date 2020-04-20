@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 using TMPro;
 
@@ -11,10 +12,13 @@ public class CharaView : MonoBehaviour
 	public IconPotion m_iconPotion;
 	public List<IconSkill> m_iconSkillList;
 
-
+	public SpriteAtlas m_spriteAtlas;
 
 	public void Initialize()
 	{
+		DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
+		MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
+		m_imgChara.sprite = m_spriteAtlas.GetSprite(master_chara.GetIconName());
 
 		int position = 1;
 		foreach (IconSkill icon in m_iconSkillList)

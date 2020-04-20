@@ -14,7 +14,10 @@ public class CharaMain : MonoBehaviour
 	public TextMeshProUGUI m_txtBtnBuy;
 	public TextMeshProUGUI m_txtBtnPrice;
 
+	public GameObject m_goGemLessCover;
 
 	public List<IconCharaList> icon_chara_list = new List<IconCharaList>();
+
+	public CharaView m_charaView;
 
 }

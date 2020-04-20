@@ -7,6 +7,7 @@ using TMPro;
 
 public class ArmorMain : MonoBehaviour
 {
+	public Image m_imgChara;
 	public List<IconArmor> icon_armor_list;
 
 	public GameObject m_prefArmorIcon;
@@ -28,6 +29,7 @@ public class ArmorMain : MonoBehaviour
 	public Button m_btnUpGrade;
 	public TextMeshProUGUI m_txtUpgradeGold;
 	public SpriteAtlas m_spriteAtlasArmor;
+	public SpriteAtlas m_spriteAtlasChara;
 
 	public PanelPotion m_panelPotion;
 

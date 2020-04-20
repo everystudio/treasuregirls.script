@@ -197,7 +197,6 @@ public class DataManager : DataManagerBase<DataManager>
 			#endregion
 		}
 #endif
-
 		game_data.SetSaveFilename(Defines.FILENAME_GAMEDATA);
 		if (game_data.LoadMulti() == false)
 		{

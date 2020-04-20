@@ -27,6 +27,10 @@ namespace ArmorMainAction
 		{
 			base.OnEnter();
 
+			DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
+			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
+			armorMain.m_imgChara.sprite = armorMain.m_spriteAtlasChara.GetSprite(master_chara.GetIconName());
+
 			armorMain.icon_armor_list.Clear();
 			armorMain.m_prefArmorIcon.SetActive(false);
 			MonoBehaviourEx.DeleteObjects<IconArmor>(armorMain.m_goRootLeft);
