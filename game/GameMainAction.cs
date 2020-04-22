@@ -49,8 +49,13 @@ namespace GameMainAction
 
 			gamemain.player_chara.gameObject.SetActive(true);
 
+			DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
+			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
+			//Debug.Log(master_chara.texture_name);
+			//Debug.Log(TextureManager.Instance.Get(master_chara.texture_name));
+			gamemain.player_chara.m_overrideSprite.overrideTexture = TextureManager.Instance.Get(master_chara.texture_name);
 
-			Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
+			//Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
 			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
 

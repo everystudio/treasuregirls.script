@@ -10,6 +10,8 @@ public class MasterCharaParam : CsvDataParam
 	public int price { get; set; }// gem
 
 	public string outline { get; set; }
+	public string texture_name { get; set; }
+	public string sprite_name { get; set; }
 
 	public string GetIconName()
 	{

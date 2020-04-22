@@ -29,6 +29,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public GameObject m_goAttackRoot;
     public GameObject m_prefAttack;
 	public bool is_goal;
+    public OverrideSprite m_overrideSprite;
 
     public void Skill( DataSkillParam _data , MasterSkillParam _master)
     {
