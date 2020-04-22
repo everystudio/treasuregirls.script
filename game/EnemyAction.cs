@@ -211,11 +211,35 @@ namespace EnemyAction
 			enemy.m_animatorBody.enabled = true;
 
 			DropObject drop = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
-
 			drop.transform.position = enemy.m_enemyBody.gameObject.transform.position;
 
 			MasterItemParam master_item = DataManager.Instance.masterItem.list.Find(p => p.item_id == 1);
-			drop.Initialize(master_item);
+			drop.Initialize(master_item, GameMain.Instance.master_floor_param.GetCoinNum());
+
+			int[] drop_item_prob_arr = new int[3]
+			{
+				1000,
+				50,
+				5
+			};
+
+			drop_item_prob_arr[0] -= GameMain.Instance.player_chara.m_dataUnitParam.luck;
+
+			int drop_index = UtilRand.GetIndex(drop_item_prob_arr);
+			if( drop_index == 1)
+			{
+				DropObject drop_item = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
+				drop.transform.position = enemy.m_enemyBody.gameObject.transform.position;
+				MasterItemParam master_item_drop = DataManager.Instance.masterItem.list.Find(p => p.item_id == GameMain.Instance.master_floor_param.drop_item_id);
+				drop.Initialize(master_item_drop, 1);
+			}
+			else if( drop_index == 2)
+			{
+				DropObject drop_item = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
+				drop.transform.position = enemy.m_enemyBody.gameObject.transform.position;
+				MasterItemParam master_item_drop = DataManager.Instance.masterItem.list.Find(p => p.item_id == GameMain.Instance.master_floor_param.rare_item_id);
+				drop.Initialize(master_item_drop, 1);
+			}
 
 			enemy.m_enemyBody.gameObject.layer = LayerMask.NameToLayer("dead");
 

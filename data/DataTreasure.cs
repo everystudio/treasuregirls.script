@@ -27,7 +27,7 @@ public class DataTreasureParam : CsvDataParam
 
 public class DataTreasure : CsvData<DataTreasureParam>
 {
-    public void Add(int _iTreasureId)
+    public int Add(int _iTreasureId)
     {
         int add_serial = 1;
         foreach( DataTreasureParam data in list)
@@ -39,7 +39,7 @@ public class DataTreasure : CsvData<DataTreasureParam>
         }
         list.Add(new DataTreasureParam(add_serial,_iTreasureId));
         DataManager.Instance.dataTreasureAlbum.AddAlbum(_iTreasureId);
-
+        return add_serial;
     }
     public bool AddAlbum(int _iTreasureId)
     {

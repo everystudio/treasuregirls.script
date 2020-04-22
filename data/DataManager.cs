@@ -38,7 +38,7 @@ public class DataManager : DataManagerBase<DataManager>
 	public DataPotion dataPotion = new DataPotion();
 	public DataTreasure dataTreasure = new DataTreasure();
 	public DataTreasure dataTreasureAlbum = new DataTreasure();
-	public DataScroll dataScroll = new DataScroll();
+	//public DataScroll dataScroll = new DataScroll();
 	public DataStage dataStage = new DataStage();
 	public DataFloor dataFloor = new DataFloor();
 
@@ -271,7 +271,10 @@ public class DataManager : DataManagerBase<DataManager>
 		dataTreasure.SetSaveFilename(Defines.FILENAME_DATATREASURE);
 		if(dataTreasure.LoadMulti() == false)
 		{
-			dataTreasure.Add(1001);
+			int add_serial = dataTreasure.Add(1001);
+
+			DataTreasureParam add_treasure = dataTreasure.list.Find(p => p.serial == add_serial);
+			add_treasure.equip = 1;
 		}
 		dataTreasureAlbum.SetSaveFilename(Defines.FILENAME_DATATREASUREALBUM);
 		if (dataTreasureAlbum.LoadMulti() == false)
@@ -282,6 +285,7 @@ public class DataManager : DataManagerBase<DataManager>
 			dataTreasureAlbum.Add(1010);
 			dataTreasureAlbum.Add(1026);
 		}
+		/*
 		dataScroll.SetSaveFilename(Defines.FILENAME_DATASCROLL);
 		if( dataScroll.LoadMulti()== false)
 		{
@@ -291,6 +295,7 @@ public class DataManager : DataManagerBase<DataManager>
 			dataScroll.list.Add(new DataScrollParam(4, 120));
 			dataScroll.list.Add(new DataScrollParam(5, 120));
 		}
+		*/
 		dataUnit.SetSaveFilename(Defines.FILENAME_DATAUNIT);
 		if( dataUnit.LoadMulti()== false)
 		{
@@ -299,7 +304,10 @@ public class DataManager : DataManagerBase<DataManager>
 		dataItem.SetSaveFilename(Defines.FILENAME_DATAITEM);
 		if (dataItem.LoadMulti() == false)
 		{
-
+			for(int i = 0; i < 5; i++)
+			{
+				dataItem.Add(Defines.ITEM_ID_SCROLL_BLUE + i, 100);
+			}
 		}
 		dataGetItem.SetSaveFilename(Defines.FILENAME_DATAITEM_GET);
 		if (dataGetItem.LoadMulti() == false)

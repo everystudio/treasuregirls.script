@@ -43,6 +43,9 @@ public class Defines
 	public const string TAG_DROP_ITEM = "drop_item";
 	public const string TAG_GOAL = "goal";
 
+	public const int ITEM_ID_COIN = 1;
+	public const int ITEM_ID_SCROLL_BLUE = 5;
+
 
 
 }

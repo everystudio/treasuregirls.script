@@ -18,6 +18,9 @@ public class DataUnitParam :CsvDataParam
 	public int def { get; set; }
 	public int mind { get; set; }
 	public int luck { get; set; }
+	public int move { get; set; }
+	public int heal { get; set; }
+	public int coin { get; set; }
 
 	public UnityEventIntInt OnChangeHp = new UnityEventIntInt();
 
@@ -30,6 +33,9 @@ public class DataUnitParam :CsvDataParam
 		int total_def = 0;
 		int total_mind = 0;
 		int total_luck = 0;
+		int total_move = 100;
+		int total_heal = 100;
+		int total_coin = 100;
 
 		DataWeaponParam data_equip_weapon = DataManager.Instance.dataWeapon.list.Find(p => 0 < p.equip);
 		MasterWeaponParam master_equip_weapon = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == data_equip_weapon.weapon_id);
@@ -50,6 +56,19 @@ public class DataUnitParam :CsvDataParam
 			total_luck += master.luck;
 		}
 
+		List<DataTreasureParam> data_treasure_list = DataManager.Instance.dataTreasure.list.FindAll(p => 0 < p.equip);
+
+		TreasureAssist assist = TreasureAssist.GetTreasureAssist(data_treasure_list);
+
+		total_hp = Mathf.CeilToInt((float)total_hp * (float)((float)assist.hp / 100.0f));
+		total_attack = Mathf.CeilToInt((float)total_attack * (float)((float)assist.attack / 100.0f));
+		total_def = Mathf.CeilToInt((float)total_def * (float)((float)assist.def / 100.0f));
+		total_mind = Mathf.CeilToInt((float)total_mind * (float)((float)assist.mind / 100.0f));
+		total_move = Mathf.CeilToInt((float)total_move * (float)((float)assist.move / 100.0f));
+		total_heal = Mathf.CeilToInt((float)total_heal * (float)((float)assist.heal / 100.0f));
+		total_luck = Mathf.CeilToInt((float)total_luck * (float)((float)assist.luck / 100.0f));
+		total_coin = Mathf.CeilToInt((float)total_coin * (float)((float)assist.coin / 100.0f));
+
 		hp = total_hp;
 		hp_max = total_hp;
 
@@ -58,6 +77,11 @@ public class DataUnitParam :CsvDataParam
 		def = total_def;
 		mind = total_mind;
 		luck = total_luck;
+
+		move = total_move;
+		heal = total_heal;
+		coin = total_coin;
+
 	}
 
 	public void BuildEnemy(MasterEnemyParam _enemy , int _iLevel)

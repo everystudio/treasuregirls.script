@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
 		MasterItemParam master_item = new MasterItemParam();
 		master_item.item_id = 1;
 		master_item.sprite_name = "BlueLootBox_18_t";
-		drop_object.Initialize(master_item);
+		drop_object.Initialize(master_item,1);
 	}
 
 	public void Damage(DataUnitParam _attack , MasterSkillParam _skill)

@@ -18,6 +18,13 @@ public class MasterFloorParam : CsvDataParam
 
 	public int next_floor_id { get; set; }
 
+	public int GetCoinNum()
+	{
+		int ret = stage_id * 3;
+		ret += UtilRand.GetRand(3);
+		return ret;
+	}
+
 }
 
 public class MasterFloor : CsvData<MasterFloorParam>

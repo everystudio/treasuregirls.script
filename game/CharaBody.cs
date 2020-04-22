@@ -22,7 +22,7 @@ public class CharaBody : MonoBehaviour
 			//Debug.Log(drop_obj);
 			if( drop_obj != null)
 			{
-				DataManager.Instance.dataGetItem.Add(drop_obj.m_master.item_id, 1);
+				DataManager.Instance.dataGetItem.Add(drop_obj.m_master.item_id, drop_obj.num);
 				foreach( DataItemParam getitem in DataManager.Instance.dataGetItem.list)
 				{
 					MasterItemParam master = DataManager.Instance.masterItem.list.Find(p => p.item_id == getitem.item_id);

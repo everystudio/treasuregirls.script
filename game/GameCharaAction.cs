@@ -31,6 +31,12 @@ namespace GameCharaAction
 			chara.is_goal = false;
 			chara.m_dataUnitParam.BuildPlayer();
 
+			DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
+			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
+			chara.m_overrideSprite.overrideTexture = TextureManager.Instance.Get(master_chara.texture_name);
+
+
+
 			chara.m_hpBar.SetValueMax(chara.m_dataUnitParam.hp_max);
 			chara.m_hpBar.SetValueCurrent(chara.m_dataUnitParam.hp);
 			Finish();

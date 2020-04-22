@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class DataScrollParam :CsvDataParam
 {
 	public int scroll_id { get; set; }
@@ -17,3 +17,4 @@ public class DataScrollParam :CsvDataParam
 public class DataScroll : CsvData<DataScrollParam>
 {
 }
+*/

@@ -55,11 +55,11 @@ namespace ShopMainAction
 
 		public void ScrollInfoUpdate()
 		{
-			shop.m_txtScrollNumBlue.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num.ToString();
-			shop.m_txtScrollNumYellow.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num.ToString();
-			shop.m_txtScrollNumGreen.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num.ToString();
-			shop.m_txtScrollNumPurple.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num.ToString();
-			shop.m_txtScrollNumRed.text = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num.ToString();
+			shop.m_txtScrollNumBlue.text = DataManager.Instance.dataItem.list.Find(p => p.item_id == Defines.ITEM_ID_SCROLL_BLUE).num.ToString();
+			shop.m_txtScrollNumYellow.text = DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE+1)).num.ToString();
+			shop.m_txtScrollNumGreen.text = DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 2)).num.ToString();
+			shop.m_txtScrollNumPurple.text = DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 3)).num.ToString();
+			shop.m_txtScrollNumRed.text = DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 4)).num.ToString();
 		}
 
 	}
@@ -503,16 +503,16 @@ namespace ShopMainAction
 
 			ScrollInfoUpdate();
 
-			shop.m_btnScroolUseBlueOne.onClick.AddListener(() => { Use(1, 1); });
-			shop.m_btnScroolUseBlueTen.onClick.AddListener(() => { Use(1, 10); });
-			shop.m_btnScroolUseYellowOne.onClick.AddListener(() => { Use(2, 1); });
-			shop.m_btnScroolUseYellowTen.onClick.AddListener(() => { Use(2, 10); });
-			shop.m_btnScroolUseGreenOne.onClick.AddListener(() => { Use(3, 1); });
-			shop.m_btnScroolUseGreanTen.onClick.AddListener(() => { Use(3, 10); });
-			shop.m_btnScroolUsePurpleOne.onClick.AddListener(() => { Use(4, 1); });
-			shop.m_btnScroolUsePurpleTen.onClick.AddListener(() => { Use(4, 10); });
-			shop.m_btnScroolUseRedOne.onClick.AddListener(() => { Use(5, 1); });
-			shop.m_btnScroolUseRedTen.onClick.AddListener(() => { Use(5, 10); });
+			shop.m_btnScroolUseBlueOne.onClick.AddListener(() => { Use(Defines.ITEM_ID_SCROLL_BLUE, 1); });
+			shop.m_btnScroolUseBlueTen.onClick.AddListener(() => { Use(Defines.ITEM_ID_SCROLL_BLUE, 10); });
+			shop.m_btnScroolUseYellowOne.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE+1), 1); });
+			shop.m_btnScroolUseYellowTen.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 1), 10); });
+			shop.m_btnScroolUseGreenOne.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 2), 1); });
+			shop.m_btnScroolUseGreanTen.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 2), 10); });
+			shop.m_btnScroolUsePurpleOne.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 3), 1); });
+			shop.m_btnScroolUsePurpleTen.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 3), 10); });
+			shop.m_btnScroolUseRedOne.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 4), 1); });
+			shop.m_btnScroolUseRedTen.onClick.AddListener(() => { Use((Defines.ITEM_ID_SCROLL_BLUE + 4), 10); });
 
 			ButtonInteractable();
 
@@ -528,11 +528,11 @@ namespace ShopMainAction
 
 		public void Use( int _iScrollId , int _iCreateNum)
 		{
-			DataScrollParam data = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId);
+			DataItemParam data = DataManager.Instance.dataItem.list.Find(p => p.item_id == _iScrollId);
 			data.num -= _iCreateNum * 10;
 
 			// 必要が出たらコンバートして
-			int iRarity = _iScrollId;
+			int iRarity = _iScrollId - (Defines.ITEM_ID_SCROLL_BLUE - 1);
 
 			List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => p.rarity == iRarity);
 			int[] prob_arr = new int[hit_weapon_list.Count];
@@ -595,16 +595,16 @@ namespace ShopMainAction
 
 		public void ButtonInteractable()
 		{
-			shop.m_btnScroolUseBlueOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
-			shop.m_btnScroolUseBlueTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
-			shop.m_btnScroolUseYellowOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
-			shop.m_btnScroolUseYellowTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
-			shop.m_btnScroolUseGreenOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
-			shop.m_btnScroolUseGreanTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
-			shop.m_btnScroolUsePurpleOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
-			shop.m_btnScroolUsePurpleTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
-			shop.m_btnScroolUseRedOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num;
-			shop.m_btnScroolUseRedTen.interactable = 100<= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 5).num;
+			shop.m_btnScroolUseBlueOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE)).num;
+			shop.m_btnScroolUseBlueTen.interactable = 100<= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE)).num;
+			shop.m_btnScroolUseYellowOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 1)).num;
+			shop.m_btnScroolUseYellowTen.interactable = 100<= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 1)).num;
+			shop.m_btnScroolUseGreenOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 2)).num;
+			shop.m_btnScroolUseGreanTen.interactable = 100<= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 2)).num;
+			shop.m_btnScroolUsePurpleOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE +3)).num;
+			shop.m_btnScroolUsePurpleTen.interactable = 100<= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 3)).num;
+			shop.m_btnScroolUseRedOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 4)).num;
+			shop.m_btnScroolUseRedTen.interactable = 100<= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 4)).num;
 		}
 
 		public override void OnExit()
@@ -647,22 +647,22 @@ namespace ShopMainAction
 				Fsm.Event("change");
 			});
 
-			shop.m_btnScroolCreateYellowOne.onClick.AddListener(() => { Create(1, 1); });
-			shop.m_btnScroolCreateYellowTen.onClick.AddListener(() => { Create(1, 10); });
-			shop.m_btnScroolCreateGreenOne.onClick.AddListener(() => { Create(2, 1); });
-			shop.m_btnScroolCreateGreanTen.onClick.AddListener(() => { Create(2, 10); });
-			shop.m_btnScroolCreatePurpleOne.onClick.AddListener(() => { Create(3, 1); });
-			shop.m_btnScroolCreatePurpleTen.onClick.AddListener(() => { Create(3, 10); });
-			shop.m_btnScroolCreateRedOne.onClick.AddListener(() => { Create(4, 1); });
-			shop.m_btnScroolCreateRedTen.onClick.AddListener(() => { Create(4, 10); });
+			shop.m_btnScroolCreateYellowOne.onClick.AddListener(() => { Create(5, 1); });
+			shop.m_btnScroolCreateYellowTen.onClick.AddListener(() => { Create(5, 10); });
+			shop.m_btnScroolCreateGreenOne.onClick.AddListener(() => { Create(6, 1); });
+			shop.m_btnScroolCreateGreanTen.onClick.AddListener(() => { Create(6, 10); });
+			shop.m_btnScroolCreatePurpleOne.onClick.AddListener(() => { Create(7, 1); });
+			shop.m_btnScroolCreatePurpleTen.onClick.AddListener(() => { Create(7, 10); });
+			shop.m_btnScroolCreateRedOne.onClick.AddListener(() => { Create(8, 1); });
+			shop.m_btnScroolCreateRedTen.onClick.AddListener(() => { Create(8, 10); });
 
 
 		}
 		public void Create( int _iScrollId , int _iNum)
 		{
 			// idは消費する方のid
-			DataScrollParam data = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId);
-			DataScrollParam next = DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == _iScrollId+1);
+			DataItemParam data = DataManager.Instance.dataItem.list.Find(p => p.item_id == _iScrollId);
+			DataItemParam next = DataManager.Instance.dataItem.list.Find(p => p.item_id == _iScrollId+1);
 
 			data.num -= _iNum * 10;
 			next.num += _iNum;
@@ -674,14 +674,14 @@ namespace ShopMainAction
 
 		public void ButtonInteractable()
 		{
-			shop.m_btnScroolCreateYellowOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
-			shop.m_btnScroolCreateYellowTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 1).num;
-			shop.m_btnScroolCreateGreenOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
-			shop.m_btnScroolCreateGreanTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 2).num;
-			shop.m_btnScroolCreatePurpleOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
-			shop.m_btnScroolCreatePurpleTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 3).num;
-			shop.m_btnScroolCreateRedOne.interactable = 10 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
-			shop.m_btnScroolCreateRedTen.interactable = 100 <= DataManager.Instance.dataScroll.list.Find(p => p.scroll_id == 4).num;
+			shop.m_btnScroolCreateYellowOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == Defines.ITEM_ID_SCROLL_BLUE).num;
+			shop.m_btnScroolCreateYellowTen.interactable = 100 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == Defines.ITEM_ID_SCROLL_BLUE).num;
+			shop.m_btnScroolCreateGreenOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE+1)).num;
+			shop.m_btnScroolCreateGreanTen.interactable = 100 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 1)).num;
+			shop.m_btnScroolCreatePurpleOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 2)).num;
+			shop.m_btnScroolCreatePurpleTen.interactable = 100 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 2)).num;
+			shop.m_btnScroolCreateRedOne.interactable = 10 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 3)).num;
+			shop.m_btnScroolCreateRedTen.interactable = 100 <= DataManager.Instance.dataItem.list.Find(p => p.item_id == (Defines.ITEM_ID_SCROLL_BLUE + 3)).num;
 		}
 		public override void OnExit()
 		{

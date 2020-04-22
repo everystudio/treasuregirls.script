@@ -39,6 +39,9 @@ public class GameMain : Singleton<GameMain>
 	public Enemy m_prefEnemy;
 	public EnergyBar m_prefEnemyHpBar;
 
+	public MasterStageParam master_stage_param;
+	public MasterFloorParam master_floor_param;
+
 
 
 

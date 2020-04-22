@@ -49,24 +49,18 @@ namespace GameMainAction
 
 			gamemain.player_chara.gameObject.SetActive(true);
 
-			DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
-			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
-			//Debug.Log(master_chara.texture_name);
-			//Debug.Log(TextureManager.Instance.Get(master_chara.texture_name));
-			gamemain.player_chara.m_overrideSprite.overrideTexture = TextureManager.Instance.Get(master_chara.texture_name);
-
 			//Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
 			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
 
 			gamemain.m_txtFloor.text = string.Format("{0}", floor_id);
 
-			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
-			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
+			gamemain.master_floor_param = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
+			gamemain.master_stage_param = DataManager.Instance.masterStage.list.Find(p => p.stage_id == gamemain.master_floor_param.stage_id);
 
-			gamemain.background.spr_renderer.sprite = gamemain.m_spriteAtlasBackground.GetSprite(current_stage.bg_name);
+			gamemain.background.spr_renderer.sprite = gamemain.m_spriteAtlasBackground.GetSprite(gamemain.master_stage_param.bg_name);
 
-			gamemain.player_chara.Damage(10);
+			//gamemain.player_chara.Damage(10);
 
 
 			DataPotionParam data_potion = DataManager.Instance.dataPotion.list.Find(p => p.is_use == true);
@@ -93,10 +87,16 @@ namespace GameMainAction
 			foreach( GameObject zako_pos in gamemain.zako_position)
 			{
 				MonoBehaviourEx.DeleteObjects<Transform>(zako_pos);
-				create_enemy(current_floor.enemy_id, current_floor.enemy_level, zako_pos);
+				create_enemy(
+					gamemain.master_floor_param.enemy_id,
+					gamemain.master_floor_param.enemy_level,
+					zako_pos);
 			}
 			MonoBehaviourEx.DeleteObjects<Transform>(gamemain.boss_position);
-			create_enemy(current_floor.boss_enemy_id, current_floor.boss_level, gamemain.boss_position);
+			create_enemy(
+				gamemain.master_floor_param.boss_enemy_id,
+				gamemain.master_floor_param.boss_level,
+				gamemain.boss_position);
 
 
 			#endregion
@@ -271,11 +271,27 @@ namespace GameMainAction
 			DataManager.Instance.dataStage.Save();
 			DataManager.Instance.dataFloor.Save();
 
+			// 獲得Coinの補正
+			DataItemParam data_item_coin = DataManager.Instance.dataGetItem.list.Find(p => p.item_id == Defines.ITEM_ID_COIN);
+			data_item_coin.num = Mathf.CeilToInt((float)data_item_coin.num * (float)((float)gamemain.player_chara.m_dataUnitParam.coin / 100.0f));
 
 			gamemain.m_goFadePanel.SetActive(true);
 			gamemain.m_panelResult.Initialize(floor_id , (int)gamemain.m_fGameTime);
 			gamemain.m_panelResult.gameObject.SetActive(true);
 
+			foreach( DataItemParam get in DataManager.Instance.dataGetItem.list)
+			{
+				if( get.item_id == 1)
+				{
+					DataManager.Instance.AddCoin(get.num);
+				}
+				else
+				{
+					DataManager.Instance.dataItem.Add(get.item_id, get.num);
+				}
+			}
+			DataManager.Instance.dataItem.Save();
+			DataManager.Instance.dataGetItem.list.Clear();
 
 
 			gamemain.m_panelResult.m_btnCamp.onClick.RemoveAllListeners();

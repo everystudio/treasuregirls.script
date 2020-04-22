@@ -25,7 +25,7 @@ public class TreasureInfo : MonoBehaviour
 		if (_master != null)
 		{
 			m_txtName.text = _master.name;
-			m_txtOutline.text = _master.name;
+			m_txtOutline.text = _master.GetOutline();
 		}
 		else
 		{
