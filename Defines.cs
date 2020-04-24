@@ -33,6 +33,14 @@ public class Defines
 	public const string KEY_LAST_REWARD_TIME_FREE_WEAPON = "KEY_LAST_REWARD_TIME_FREE_WEAPON";
 	public const string KEY_LAST_REWARD_TIME_FREE_TREASURE = "KEY_LAST_REWARD_TIME_FREE_TREASURE";
 
+	public const float SOUND_VOLUME_MAX = 0.0f;
+	public const float SOUND_VOLME_MIN = -80.0f;
+	public const string KEY_SOUNDVOLUME_BGM = "soundvolume_bgm";
+	public const string KEY_SOUNDVOLUME_SE = "soundvolume_se";
+
+	public const float DEFAULT_AUTOPOTION_RATE = 0.5f;
+	public const string KEY_AUTOPOTION_RATE = "autopotion_rate";
+
 	public const int POTION_LIMIT = 20;
 
 

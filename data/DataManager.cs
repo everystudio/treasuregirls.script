@@ -197,6 +197,15 @@ public class DataManager : DataManagerBase<DataManager>
 			#endregion
 		}
 #endif
+
+		if( !user_data.HasKey(Defines.KEY_AUTOPOTION_RATE))
+		{
+			user_data.WriteFloat(Defines.KEY_AUTOPOTION_RATE, Defines.DEFAULT_AUTOPOTION_RATE);
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, 1.0f);
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 1.0f);
+		}
+
+
 		game_data.SetSaveFilename(Defines.FILENAME_GAMEDATA);
 		if (game_data.LoadMulti() == false)
 		{

@@ -52,7 +52,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public void Damage( int _iDamage)
     {
         m_dataUnitParam.Damage(_iDamage);
-        Debug.Log(string.Format("player hp:{0} damage:{1}", m_dataUnitParam.hp, _iDamage));
+        //Debug.Log(string.Format("player hp:{0} damage:{1}", m_dataUnitParam.hp, _iDamage));
         m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
     }
 

@@ -42,7 +42,7 @@ public class GameMain : Singleton<GameMain>
 	public MasterStageParam master_stage_param;
 	public MasterFloorParam master_floor_param;
 
-
+	public PanelPauseMenu m_panelPauseMenu;
 
 
 }

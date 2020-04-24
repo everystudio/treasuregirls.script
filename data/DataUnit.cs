@@ -105,7 +105,7 @@ public class DataUnitParam :CsvDataParam
 	public int CalcDamage(DataUnitParam _target , MasterSkillParam _skill )
 	{
 		float base_damage = (attack * 3 - _target.def) * 0.717f;
-		Debug.Log(base_damage);
+		//Debug.Log(base_damage);
 
 		if (base_damage < 1.0f)
 		{

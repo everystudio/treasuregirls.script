@@ -44,11 +44,17 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
+
 			gamemain.m_btnAuto.Initialize(true);
-			gamemain.m_btnAutoPotion.Initialize(true , 0.5f);
+			gamemain.m_btnAutoPotion.Initialize(true , fAutoPotionRate);
 
 			gamemain.player_chara.gameObject.SetActive(true);
 
+			gamemain.m_panelPauseMenu.m_soundvolumeBGM.SetVolume(DataManager.Instance.user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+			BGMControl.Instance.Play("anime_06_loop");
+
+			gamemain.m_panelPauseMenu.m_soundvolumeSE.SetVolume(DataManager.Instance.user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
 			//Debug.Log( string.Format("floor_id={0}", DataManager.Instance.game_data.ReadInt("floor_id")));
 
 			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
@@ -152,6 +158,9 @@ namespace GameMainAction
 			bIsPausing = false;
 			gamemain.m_btnPause.onClick.AddListener(() =>
 			{
+				Debug.Log("pause");
+				Fsm.Event("pause");
+				/*
 				bIsPausing = !bIsPausing;
 				gamemain.m_goPauseCover.SetActive(bIsPausing);
 				if (bIsPausing)
@@ -162,6 +171,7 @@ namespace GameMainAction
 				{
 					Time.timeScale = 1.0f;
 				}
+				*/
 			});
 		}
 
@@ -209,6 +219,49 @@ namespace GameMainAction
 			{
 				icon.OnClickIcon.RemoveAllListeners();
 			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class pause : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			Debug.Log("pause enter");
+			Time.timeScale = 0.0f;
+
+			gamemain.m_panelPauseMenu.gameObject.SetActive(true);
+
+			gamemain.m_panelPauseMenu.m_btnClose.onClick.AddListener(() =>
+			{
+
+				Finish();
+			});
+			gamemain.m_panelPauseMenu.m_btnReturnCamp.onClick.AddListener(() =>
+			{
+				Fsm.Event("camp");
+			});
+
+		}
+		public override void OnExit()
+		{
+			Debug.Log("pause exit");
+			base.OnExit();
+			Time.timeScale = 1.0f;
+			gamemain.m_panelPauseMenu.gameObject.SetActive(false);
+
+			gamemain.m_panelPauseMenu.m_btnClose.onClick.RemoveAllListeners();
+			gamemain.m_panelPauseMenu.m_btnReturnCamp.onClick.RemoveAllListeners();
+
+			DataManager.Instance.user_data.WriteFloat(Defines.KEY_AUTOPOTION_RATE, gamemain.m_panelPauseMenu.m_autoPotionRate.rate);
+
+			DataManager.Instance.user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, gamemain.m_panelPauseMenu.m_soundvolumeBGM.rate);
+			DataManager.Instance.user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, gamemain.m_panelPauseMenu.m_soundvolumeSE.rate);
+
+			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
+			gamemain.m_btnAutoPotion.recover_rate = gamemain.m_panelPauseMenu.m_autoPotionRate.rate;
 		}
 	}
 
