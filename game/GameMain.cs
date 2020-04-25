@@ -44,6 +44,7 @@ public class GameMain : Singleton<GameMain>
 
 	public PanelPauseMenu m_panelPauseMenu;
 
+	public GameObject m_prefDamageNum;
 
 }
 

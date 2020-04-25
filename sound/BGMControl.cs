@@ -24,7 +24,8 @@ public class BGMControl : Singleton<BGMControl> {
 
 	public void Play(string _strName)
 	{
-		bool is_playing = audio_source.clip.name == _strName;
+		//bool is_playing = audio_source.clip.name == _strName;
+		bool is_playing = audio_source.clip != null && audio_source.clip.name == _strName;
 		if( is_playing)
 		{
 			return;

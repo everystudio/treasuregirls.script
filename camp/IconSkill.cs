@@ -63,9 +63,25 @@ public class IconSkill : MonoBehaviour
 	{
 		Initialize(_data, _master);
 
-		if(_data.skill_id != 0)
+		m_animator.Play("waiting");
+
+		if (_data.skill_id != 0)
 		{
-			m_animator.speed = 1 / _master.cool_time;
+			//Debug.Log(GameMain.Instance.player_chara.m_dataUnitParam.mind);
+			//GameMain.Instance.player_chara.m_dataUnitParam.mind = 500;
+			float mind_rate = -0.002f * Mathf.Min(GameMain.Instance.player_chara.m_dataUnitParam.mind, 500) + 0.2f;
+
+			float temp_cool_time = _master.cool_time +
+				_master.cool_time * mind_rate;
+
+			/*
+			Debug.Log(string.Format("cool_time:{0} temp_cool:{1} mind_rate:{3} mind:{2}",
+				_master.cool_time,
+				temp_cool_time,
+				GameMain.Instance.player_chara.m_dataUnitParam.mind,
+				mind_rate));
+				*/
+			m_animator.speed = (1.0f / temp_cool_time);
 			m_animator.SetBool("enable", true);
 		}
 		m_btn.interactable = false;

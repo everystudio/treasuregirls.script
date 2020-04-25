@@ -50,5 +50,11 @@ public class Enemy : MonoBehaviour
 	{
 		int damage = _attack.CalcDamage(dataUnitParam, null);
 		dataUnitParam.hp -= damage;
+
+		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(GameMain.Instance.m_prefDamageNum, m_enemyBody.gameObject);
+
+		script.Initialize(damage, true);
+		script.transform.parent = script.transform.parent.parent.parent;
+
 	}
 }

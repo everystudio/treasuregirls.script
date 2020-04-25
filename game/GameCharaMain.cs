@@ -54,6 +54,11 @@ public class GameCharaMain : Singleton<GameCharaMain>
         m_dataUnitParam.Damage(_iDamage);
         //Debug.Log(string.Format("player hp:{0} damage:{1}", m_dataUnitParam.hp, _iDamage));
         m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
+
+        DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(GameMain.Instance.m_prefDamageNum, m_charaBody.gameObject);
+
+        script.Initialize(_iDamage, false);
+        script.transform.parent = script.transform.parent.parent.parent;
     }
 
     public void Damage(DataUnitParam _attack, MasterSkillParam _skill)
