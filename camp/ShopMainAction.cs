@@ -1,8 +1,10 @@
-﻿using HutongGames.PlayMaker;
+﻿using GoogleMobileAds.Api;
+using HutongGames.PlayMaker;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Advertisements;
 
 namespace ShopMainAction
 {
@@ -69,6 +71,7 @@ namespace ShopMainAction
 	public class gem : ShopMainActionBase
 	{
 		private DateTime check_datetime;
+		public FsmString back_state;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -88,18 +91,10 @@ namespace ShopMainAction
 
 			shop.m_btnGemFree.onClick.AddListener(() =>
 			{
-				DataManager.Instance.user_data.Write(
-					Defines.KEY_LAST_REWARD_TIME_GEM_FREE,
-					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
-				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_GEM_FREE));
-
-				DataManager.Instance.AddGem(Defines.REWORD_GEM);
+				back_state.Value = "gem";
+				Fsm.Event("gem");
 			});
-
-
-
 		}
-
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
@@ -126,11 +121,132 @@ namespace ShopMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-
 			shop.m_btnGemFree.onClick.RemoveAllListeners();
+		}
+	}
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class get_free_gem : ShopMainActionBase
+	{
+		public override void OnEnter()
+		{
+			DateTime check_datetime;
+
+			if (!DataManager.Instance.user_data.HasKey(Defines.KEY_LAST_REWARD_TIME_GEM_FREE))
+			{
+				check_datetime = new DateTime(2020, 1, 1);
+			}
+			else
+			{
+				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_GEM_FREE));
+			}
+
+			base.OnEnter();
+			DataManager.Instance.user_data.Write(
+				Defines.KEY_LAST_REWARD_TIME_GEM_FREE,
+				NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
+			check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_GEM_FREE));
+
+			DataManager.Instance.AddGem(Defines.REWORD_GEM);
+
+			Finish();
+		}
+
+	}
+
+
+
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class play_movie : ShopMainActionBase
+	{
+		private bool use_rewardad;
+		private bool rewarded;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			rewarded = false;
+			use_rewardad = false;
+			if ( Advertisement.IsReady())
+			{
+				var options = new ShowOptions { resultCallback = HandleShowResult };
+				Advertisement.Show(options);
+			}
+			else
+			{
+				RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+				RewardAd.Instance.RequestRewardBasedVideo();
+			}
+
+		}
+
+		#region AdMob Reward
+		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+
+			if (RewardAd.Instance.rewardBasedVideo.IsLoaded())
+			{
+				use_rewardad = true;
+				RewardAd.Instance.rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+				RewardAd.Instance.rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+				RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+				RewardAd.Instance.rewardBasedVideo.Show();
+			}
+			else
+			{
+				Fsm.Event("fail");
+			}
+		}
+		private void HandleRewardBasedVideoRewarded(object sender, Reward e)
+		{
+			rewarded = true;
+		}
+		private void HandleRewardBasedVideoClosed(object sender, EventArgs e)
+		{
+			if( rewarded)
+			{
+				Fsm.Event("success");
+			}
+			else
+			{
+				Fsm.Event("fail");
+			}
+		}
+		private void HandleRewardBasedVideoStarted(object sender, EventArgs e)
+		{
+
+		}
+		#endregion
+
+		private void HandleShowResult(ShowResult obj)
+		{
+			if( obj == ShowResult.Finished)
+			{
+				Fsm.Event("success");
+			}
+			else
+			{
+				Fsm.Event("fail");
+			}
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (use_rewardad)
+			{
+				RewardAd.Instance.rewardBasedVideo.OnAdStarted -= HandleRewardBasedVideoStarted;
+				RewardAd.Instance.rewardBasedVideo.OnAdRewarded -= HandleRewardBasedVideoRewarded;
+				RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
+			}
 
 		}
 	}
+
+
+
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class gold : ShopMainActionBase
@@ -213,32 +329,7 @@ namespace ShopMainAction
 
 			shop.m_btnWeaponFree.onClick.AddListener(() =>
 			{
-				DataManager.Instance.user_data.Write(
-					Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON,
-					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
-				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON));
-
-				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
-				GachaMain.Instance.OnGachaFinished.AddListener(() =>
-				{
-					GachaMain.Instance.Close();
-				});
-				List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
-				int[] prob_arr = new int[hit_weapon_list.Count];
-				for (int i = 0; i < hit_weapon_list.Count; i++)
-				{
-					prob_arr[i] = hit_weapon_list[i].GetGachaProb();
-				}
-				int index = UtilRand.GetIndex(prob_arr);
-
-				MasterWeaponParam get_weapon = hit_weapon_list[index];
-				DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
-
-				GachaMain.ChestData chest_data = new GachaMain.ChestData();
-				chest_data.rarity = get_weapon.rarity;
-				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
-				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
-				GachaMain.Instance.GachaSingle(chest_data);
+				Fsm.Event("weapon");
 			});
 			shop.m_btnWeapon1.onClick.AddListener(() =>
 			{
@@ -338,6 +429,56 @@ namespace ShopMainAction
 	}
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class get_free_weapon : ShopMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DateTime check_datetime;
+
+			if (!DataManager.Instance.user_data.HasKey(Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON))
+			{
+				check_datetime = new DateTime(2020, 1, 1);
+			}
+			else
+			{
+				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON));
+			}
+
+			DataManager.Instance.user_data.Write(
+				Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON,
+				NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
+			check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_WEAPON));
+
+			GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+			GachaMain.Instance.OnGachaFinished.AddListener(() =>
+			{
+				GachaMain.Instance.Close();
+				Finish();
+			});
+			List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
+			int[] prob_arr = new int[hit_weapon_list.Count];
+			for (int i = 0; i < hit_weapon_list.Count; i++)
+			{
+				prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+			}
+			int index = UtilRand.GetIndex(prob_arr);
+
+			MasterWeaponParam get_weapon = hit_weapon_list[index];
+			DataManager.Instance.dataWeapon.Add(get_weapon.weapon_id);
+
+			GachaMain.ChestData chest_data = new GachaMain.ChestData();
+			chest_data.rarity = get_weapon.rarity;
+			chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
+			chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+			GachaMain.Instance.GachaSingle(chest_data);
+
+		}
+	}
+
+
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class treasure : ShopMainActionBase
 	{
 		private DateTime check_datetime;
@@ -362,34 +503,7 @@ namespace ShopMainAction
 
 			shop.m_btnTreasureFree.onClick.AddListener(() =>
 			{
-				DataManager.Instance.user_data.Write(
-					Defines.KEY_LAST_REWARD_TIME_FREE_TREASURE,
-					NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
-				check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_TREASURE));
-
-				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
-				GachaMain.Instance.OnGachaFinished.AddListener(() =>
-				{
-					GachaMain.Instance.Close();
-				});
-				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
-				int[] prob_arr = new int[hit_list.Count];
-				for (int i = 0; i < hit_list.Count; i++)
-				{
-					prob_arr[i] = hit_list[i].GetGachaProb();
-				}
-				int index = UtilRand.GetIndex(prob_arr);
-
-				MasterTreasureParam get_item = hit_list[index];
-				DataManager.Instance.dataTreasure.Add(get_item.treasure_id);
-
-				GachaMain.ChestData chest_data = new GachaMain.ChestData();
-				chest_data.rarity = get_item.rarity;
-				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
-				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
-				GachaMain.Instance.GachaSingle(chest_data);
-
-
+				Fsm.Event("treasure");
 			});
 			shop.m_btnTreasure1.onClick.AddListener(() =>
 			{
@@ -491,6 +605,47 @@ namespace ShopMainAction
 
 		}
 	}
+
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class get_free_treasure : ShopMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DateTime check_datetime;
+
+			DataManager.Instance.user_data.Write(
+				Defines.KEY_LAST_REWARD_TIME_FREE_TREASURE,
+				NTPTimer.Instance.now.ToString("yyyy/MM/dd HH:mm:ss"));
+			check_datetime = System.DateTime.Parse(DataManager.Instance.user_data.Read(Defines.KEY_LAST_REWARD_TIME_FREE_TREASURE));
+
+			GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
+			GachaMain.Instance.OnGachaFinished.AddListener(() =>
+			{
+				GachaMain.Instance.Close();
+				Finish();
+			});
+			List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 1 <= p.rarity && p.rarity <= 3);
+			int[] prob_arr = new int[hit_list.Count];
+			for (int i = 0; i < hit_list.Count; i++)
+			{
+				prob_arr[i] = hit_list[i].GetGachaProb();
+			}
+			int index = UtilRand.GetIndex(prob_arr);
+
+			MasterTreasureParam get_item = hit_list[index];
+			DataManager.Instance.dataTreasure.Add(get_item.treasure_id);
+
+			GachaMain.ChestData chest_data = new GachaMain.ChestData();
+			chest_data.rarity = get_item.rarity;
+			chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
+			chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+			GachaMain.Instance.GachaSingle(chest_data);
+		}
+	}
+
+
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
 	public class scroll_use : ShopMainActionBase
