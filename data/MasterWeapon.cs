@@ -20,8 +20,8 @@ public class MasterWeaponParam : CsvDataParam
         ret.weapon_id = weapon_id;
         ret.name = name;
         ret.rarity = rarity;
-        ret.attack = attack + (int)((float)attack * ((float)_iLevel / 100.0f));
-        ret.speed = speed + (int)((float)speed * ((float)_iLevel / 100.0f));
+        ret.attack = attack + (int)((float)attack * ((float)_iLevel / 5.0f));
+        ret.speed = speed + (int)((float)speed * ((float)_iLevel / 50.0f));
         ret.ability_id = ability_id;
         ret.ability_rate = ability_rate;
         ret.sprite_name = sprite_name;

@@ -20,6 +20,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public float gravity = 20.0f;
 
     public bool is_move;
+    public float attack_time;
 
     public Animator m_animator;
     public DataUnitParam m_dataUnitParam = new DataUnitParam();

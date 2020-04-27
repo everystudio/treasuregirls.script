@@ -25,12 +25,64 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
 			gamemain.IsGoal = false;
 			gamemain.player_chara.gameObject.SetActive(false);
+
+
 			gamemain.m_fGameTime = 0.0f;
 			gamemain.m_txtFloor.text = string.Format("{0}", "-----");
 
+#if UNITY_EDITOR
+			if (DataManager.Instance.IsTest)
+			{
+				Time.timeScale = DataManager.Instance.TestTimeScale;
+				if ( DataManager.Instance.test_result == 0)
+				{
+					DataManager.Instance.test_floor_id += 1;
+				}
+				else if (DataManager.Instance.test_result == 1 || 0 < DataManager.Instance.armor_interval )
+				{
+					DataManager.Instance.test_weapon_level += 1;
+					if(10 < DataManager.Instance.test_weapon_level)
+					{
+						int[] sword_weapon_id_arr = new int[5]
+						{
+							7 , 28 , 49,55,141
+						};
+						DataManager.Instance.test_weapon_index += 1;
+						DataManager.Instance.test_weapon_id = sword_weapon_id_arr[DataManager.Instance.test_weapon_index];
+						DataManager.Instance.test_weapon_level = 1;
+					}
+					DataManager.Instance.armor_interval -= 1;
+				}
+				else if(DataManager.Instance.test_result == 2)
+				{
+					DataManager.Instance.test_armor_level += 1;
+					DataManager.Instance.armor_interval = 5;
+				}
+				else
+				{
+					Debug.LogError("hairanaihazu");
+				}
+				DataManager.Instance.game_data.WriteInt("floor_id", DataManager.Instance.test_floor_id);
+
+				DataWeaponParam weapon = DataManager.Instance.dataWeapon.list.Find(p => 0 < p.equip);
+				weapon.weapon_id = DataManager.Instance.test_weapon_id;
+				weapon.level = DataManager.Instance.test_weapon_level;
+
+				foreach (DataArmorParam armor in DataManager.Instance.dataArmor.list)
+				{
+					MasterArmorParam armor_master = DataManager.Instance.masterArmor.list.Find(p => p.armor_id == armor.armor_id);
+					MasterArmorParam test_armor_master = DataManager.Instance.masterArmor.list.Find(p => 
+					p.position == armor_master.position &&
+					p.level == DataManager.Instance.test_armor_level);
+
+					armor.armor_id = test_armor_master.armor_id;
+					armor.level = test_armor_master.level;
+				}
+
+			}
+#endif
 			Finish();
 		}
 	}
@@ -47,7 +99,9 @@ namespace GameMainAction
 			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
 
 			gamemain.m_btnAuto.Initialize(true);
-			gamemain.m_btnAutoPotion.Initialize(true , fAutoPotionRate);
+			gamemain.m_btnAutoPotion.Initialize( 
+				DataManager.Instance.user_data.ReadInt(Defines.KEY_USE_AUTOPOTION) != 0,
+				fAutoPotionRate);
 
 			gamemain.player_chara.gameObject.SetActive(true);
 
@@ -198,14 +252,17 @@ namespace GameMainAction
 
 			if (gamemain.IsGoal)
 			{
+				DataManager.Instance.test_result = 0;
 				Fsm.Event("goal");
 			}
 			else if(battle_time < gamemain.m_fGameTime)
 			{
+				DataManager.Instance.test_result = 1;
 				Fsm.Event("timeover");
 			}
 			else if(gamemain.player_chara.m_dataUnitParam.hp <= 0)
 			{
+				DataManager.Instance.test_result = 2;
 				Fsm.Event("gameover");
 			}
 		}
@@ -278,8 +335,24 @@ namespace GameMainAction
 			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
 
 			DataFloorParam data_floor = DataManager.Instance.dataFloor.list.Find(p => p.floor_id == current_floor.floor_id);
+			if(data_floor == null)
+			{
+				data_floor = new DataFloorParam();
+				DataManager.Instance.dataFloor.list.Add(data_floor);
+				data_floor.floor_id = floor_id;
+			}
 			data_floor.count += 1;
 			data_floor.status = 2;
+			if( DataManager.Instance.IsTest)
+			{
+				// マジックナンバーか！
+				DataManager.Instance.armor_interval = 5;
+				DataWeaponParam weapon = DataManager.Instance.dataWeapon.list.Find(p => 0 < p.equip);
+				data_floor.test_weapon_id = weapon.weapon_id;
+				data_floor.test_weapon_level = weapon.level;
+				DataArmorParam armor = DataManager.Instance.dataArmor.list[0];
+				data_floor.test_armor_level = armor.level;
+			}
 
 			// 次のフロアが必要な場合
 			if ( 0 < current_floor.next_floor_id)
@@ -365,6 +438,11 @@ namespace GameMainAction
 				Fsm.Event("next");
 			});
 
+			if (DataManager.Instance.IsTest)
+			{
+				Fsm.Event("retry");
+			}
+
 		}
 
 		public override void OnExit()
@@ -403,7 +481,15 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Finish();
+
+			if (DataManager.Instance.IsTest)
+			{
+				Fsm.Event("test");
+			}
+			else
+			{
+				Finish();
+			}
 		}
 	}
 

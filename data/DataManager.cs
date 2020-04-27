@@ -13,6 +13,15 @@ public class DataManager : DataManagerBase<DataManager>
 		get;
 		private set;
 	}
+	public bool IsTest;
+	public float TestTimeScale;
+	public int armor_interval;
+	public int test_floor_id;
+	public int test_weapon_id;
+	public int test_weapon_level;
+	public int test_weapon_index;
+	public int test_armor_level;
+	public int test_result;
 
 	public TextAssetHolder m_textAssetHolder;
 	public bool m_bLoadNetworkData;

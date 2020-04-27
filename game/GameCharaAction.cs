@@ -145,21 +145,20 @@ namespace GameCharaAction
 	[HutongGames.PlayMaker.Tooltip("GameCharaAction")]
 	public class battle : GameCharaActionBase
 	{
-		public float time;
 		public float attack_interval;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			time = 0.0f;
 		}
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
 
-			time += Time.deltaTime * chara.m_dataUnitParam.speed;
+			chara.attack_time += Time.deltaTime * chara.m_dataUnitParam.speed;
 
-			if(attack_interval < time)
+			if(attack_interval < chara.attack_time)
 			{
+				chara.attack_time -= attack_interval;
 				Fsm.Event("attack");
 			}
 

@@ -86,7 +86,7 @@ namespace EnemyAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Debug.Log("move");
+			//Debug.Log("move");
 		}
 		public override void OnUpdate()
 		{
@@ -136,7 +136,7 @@ namespace EnemyAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Debug.Log("battle");
+			//Debug.Log("battle");
 		}
 		public override void OnUpdate()
 		{
@@ -144,7 +144,7 @@ namespace EnemyAction
 			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			base.OnUpdate();
-			enemy.attack_timer -= Time.deltaTime;
+			enemy.attack_timer -= Time.deltaTime * ((float)enemy.dataUnitParam.speed * 0.2f);
 
 			if(enemy.dataUnitParam.hp <= 0)
 			{

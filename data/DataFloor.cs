@@ -9,6 +9,11 @@ public class DataFloorParam :CsvDataParam
 	public int status { get; set; }
 
 	public int count { get; set; }
+
+	public int test_weapon_id { get; set; }
+	public int test_weapon_level { get; set; }
+	public int test_armor_level { get; set; }
+
 }
 
 public class DataFloor : CsvData<DataFloorParam>
