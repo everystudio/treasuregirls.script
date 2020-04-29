@@ -70,7 +70,9 @@ namespace TreasureMainAction
 			base.OnEnter();
 
 			treasure_serial.Value = 0;
-			treasureMain.m_txtListTitle.text = "所持おたから一覧";
+
+			int iNum = DataManager.Instance.dataTreasure.list.Count;
+			treasureMain.m_txtListTitle.text = string.Format("所持おたから一覧({0}/{1})", iNum, Defines.TREASURE_NUM_LIMIT);
 
 			treasureMain.m_goBuyWindow.SetActive(false);
 
@@ -114,7 +116,6 @@ namespace TreasureMainAction
 			treasureMain.m_btnEdit.gameObject.SetActive(true);
 			treasureMain.m_btnAlbum.gameObject.SetActive(true);
 
-			treasureMain.m_txtListTitle.text = "所持おたから一覧";
 			treasureMain.m_btnEdit.onClick.AddListener(() =>
 			{
 				Fsm.Event("edit");
@@ -122,6 +123,12 @@ namespace TreasureMainAction
 			treasureMain.m_btnAlbum.onClick.AddListener(() =>
 			{
 				Fsm.Event("album");
+			});
+
+			treasureMain.m_btnMenuBulk.gameObject.SetActive(true);
+			treasureMain.m_btnMenuBulk.onClick.AddListener(() =>
+			{
+				Fsm.Event("bulk");
 			});
 
 			SetupEquip();
@@ -163,7 +170,131 @@ namespace TreasureMainAction
 
 			treasure_serial.Value = arg0.serial;
 		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			treasureMain.m_btnBuy.onClick.RemoveAllListeners();
+			treasureMain.m_btnEdit.onClick.RemoveAllListeners();
+			treasureMain.m_btnAlbum.onClick.RemoveAllListeners();
+			treasureMain.m_btnMenuBulk.onClick.RemoveAllListeners();
+			treasureMain.m_btnMenuBulk.gameObject.SetActive(false);
+
+			foreach (IconInventry icon in treasureMain.treasure_list)
+			{
+				icon.OnClickTreasure.RemoveAllListeners();
+			}
+		}
 	}
+
+	[ActionCategory("TreasureMainAction")]
+	[HutongGames.PlayMaker.Tooltip("TreasureMainAction")]
+	public class bulk : TreasureMainActionBase
+	{
+		public List<DataTreasureParam> bulk_list = new List<DataTreasureParam>();
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			treasureMain.m_btnEdit.gameObject.SetActive(false);
+			treasureMain.m_btnAlbum.gameObject.SetActive(false);
+
+			treasureMain.m_btnBuyBulk.interactable = false;
+			treasureMain.m_txtBuyBulkPrice.text = "0";
+
+			treasureMain.m_goBulkPriceRoot.SetActive(true);
+
+			treasureMain.m_btnBuyBulkCancel.onClick.RemoveAllListeners();
+			treasureMain.m_btnBuyBulkCancel.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+			treasureMain.m_btnBack.gameObject.SetActive(true);
+			treasureMain.m_btnBack.onClick.RemoveAllListeners();
+			treasureMain.m_btnBack.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+
+
+			bulk_list.Clear();
+			foreach (IconInventry icon in treasureMain.treasure_list)
+			{
+				icon.OnSelect(false);
+				icon.OnClickTreasure.RemoveAllListeners();
+				icon.OnClickTreasure.AddListener(OnSelectListTreasure);
+			}
+
+			treasureMain.m_btnBuyBulk.onClick.RemoveAllListeners();
+			treasureMain.m_btnBuyBulk.onClick.AddListener(() =>
+			{
+				int total_price = 0;
+				foreach (DataTreasureParam buy in bulk_list)
+				{
+					DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == buy.serial);
+					MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
+					total_price += MasterTreasure.GetSellPrice(data, master);
+				}
+				DataManager.Instance.AddCoin(total_price);
+				foreach (DataTreasureParam buy in bulk_list)
+				{
+					DataManager.Instance.dataTreasure.list.Remove(buy);
+				}
+				DataManager.Instance.dataTreasure.Save();
+				DataManager.Instance.user_data.Save();
+				Finish();
+			});
+		}
+
+		private void OnSelectListTreasure(DataTreasureParam arg0)
+		{
+			if( 0 < arg0.equip)
+			{
+				return;
+			}
+			if (bulk_list.Contains(arg0))
+			{
+				bulk_list.Remove(arg0);
+			}
+			else
+			{
+				bulk_list.Add(arg0);
+			}
+			foreach (IconInventry icon in treasureMain.treasure_list)
+			{
+				bool bFlag = false;
+				foreach (DataTreasureParam w in bulk_list)
+				{
+					if (w.serial == icon.m_dataTreasure.serial)
+					{
+						bFlag = true;
+					}
+				}
+				icon.OnSelect(bFlag);
+			}
+
+			int total_price = 0;
+			foreach (DataTreasureParam buy in bulk_list)
+			{
+				DataTreasureParam data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == buy.serial);
+				MasterTreasureParam master = DataManager.Instance.masterTreasure.list.Find(p => p.treasure_id == data.treasure_id);
+				total_price += MasterTreasure.GetSellPrice(data, master);
+			}
+			treasureMain.m_txtBuyBulkPrice.text = total_price.ToString();
+			treasureMain.m_btnBuyBulk.interactable = 0 < bulk_list.Count;
+		}
+
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			treasureMain.m_btnBack.onClick.RemoveAllListeners();
+			treasureMain.m_goBulkPriceRoot.SetActive(false);
+
+		}
+	}
+
+
 
 	[ActionCategory("TreasureMainAction")]
 	[HutongGames.PlayMaker.Tooltip("TreasureMainAction")]
@@ -174,7 +305,9 @@ namespace TreasureMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			treasureMain.m_txtListTitle.text = "おたから編集";
+
+			int iNum = DataManager.Instance.dataTreasure.list.Count;
+			treasureMain.m_txtListTitle.text = string.Format("おたから編集({0}/{1})", iNum, Defines.TREASURE_NUM_LIMIT);
 
 			equip_position = -1;
 			treasure_serial = -1;
@@ -208,7 +341,8 @@ namespace TreasureMainAction
 						icon.SelectTreasure(data.serial);
 					}
 				}
-
+				DataManager.Instance.dataTreasure.Save();
+				DataManager.Instance.user_data.Save();
 			});
 
 
@@ -255,8 +389,10 @@ namespace TreasureMainAction
 				{
 					// 入らないんじゃない？
 				}
+				DataManager.Instance.dataTreasure.Save();
 				Fsm.Event("equip");
 			});
+			treasureMain.m_btnBack.onClick.RemoveAllListeners();
 			treasureMain.m_btnBack.onClick.AddListener(() =>
 			{
 				Fsm.Event("back");
@@ -331,7 +467,9 @@ namespace TreasureMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			treasureMain.m_txtListTitle.text = "おたから図鑑";
+			treasureMain.m_txtListTitle.text = string.Format("おたから図鑑({0}/{1})",
+				DataManager.Instance.dataTreasureAlbum.list.Count,
+				DataManager.Instance.masterTreasure.list.Count);
 
 			treasureMain.m_btnBack.gameObject.SetActive(true);
 			treasureMain.m_btnBuy.gameObject.SetActive(false);

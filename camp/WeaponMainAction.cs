@@ -27,7 +27,11 @@ namespace WeaponMainAction
 		{
 			base.OnEnter();
 			//weapon_serial.Value = 0;
-			main.m_txtListTitle.text = "所持武器一覧";
+
+			int iNum = DataManager.Instance.dataWeapon.list.Count;
+
+			main.m_txtListTitle.text = string.Format("所持武器一覧({0}/{1})", iNum, Defines.WEAPON_NUM_LIMIT);
+			main.m_goBulkBuyWindow.SetActive(false);
 
 			if (weapon_serial.Value == 0)
 			{
@@ -39,6 +43,14 @@ namespace WeaponMainAction
 				MasterWeaponParam master = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == data.weapon_id);
 				main.m_weaponInfo.Setup(data,master);
 			}
+			main.m_btnList.gameObject.SetActive(false);
+
+			main.m_btnBulk.gameObject.SetActive(true);
+			main.m_btnBulk.onClick.AddListener(() =>
+			{
+				weapon_serial.Value = 0;
+				Fsm.Event("bulk");
+			});
 
 			main.m_btnBuy.gameObject.SetActive(true);
 			main.m_btnBuy.onClick.AddListener(() =>
@@ -63,6 +75,9 @@ namespace WeaponMainAction
 						icon.SelectTreasure(data.serial);
 					}
 				}
+
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.user_data.Save();
 			});
 
 			main.m_btnEquip.gameObject.SetActive(true);
@@ -89,6 +104,8 @@ namespace WeaponMainAction
 					}
 				}
 				main.m_btnEquip.interactable = false;
+
+				DataManager.Instance.dataWeapon.Save();
 			});
 
 			main.m_btnAlbum.gameObject.SetActive(true);
@@ -133,6 +150,11 @@ namespace WeaponMainAction
 			main.m_btnGradeup.onClick.RemoveAllListeners();
 			main.m_btnEquip.onClick.RemoveAllListeners();
 			main.m_btnAlbum.onClick.RemoveAllListeners();
+			main.m_btnBulk.onClick.RemoveAllListeners();
+			foreach (IconInventry icon in main.weapon_list)
+			{
+				icon.OnClickWeapon.RemoveListener(OnSelectListWeapon);
+			}
 
 		}
 	}
@@ -144,12 +166,15 @@ namespace WeaponMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			main.m_txtListTitle.text = "武器アルバム";
+
+			int iNum = DataManager.Instance.dataWeaponAlbum.list.Count;
+			main.m_txtListTitle.text = string.Format("武器アルバム({0}/{1})", iNum, DataManager.Instance.masterWeapon.list.Count);
 
 			main.m_btnEquip.gameObject.SetActive(false);
 			main.m_btnAlbum.gameObject.SetActive(false);
 			main.m_btnBuy.gameObject.SetActive(false);
 			main.m_btnGradeup.gameObject.SetActive(false);
+			main.m_btnBulk.gameObject.SetActive(false);
 
 			main.m_btnList.gameObject.SetActive(true);
 			main.m_btnList.onClick.AddListener(() =>
@@ -187,6 +212,117 @@ namespace WeaponMainAction
 		}
 	}
 
+	[ActionCategory("WeaponMainAction")]
+	[HutongGames.PlayMaker.Tooltip("WeaponMainAction")]
+	public class bulk : TreasureMainActionBase
+	{
+		public List<DataWeaponParam> bulk_list = new List<DataWeaponParam>();
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			main.m_goBulkBuyWindow.SetActive(true);
+
+			main.m_btnBuyBulk.interactable = false;
+
+			main.m_btnEquip.gameObject.SetActive(false);
+			main.m_btnAlbum.gameObject.SetActive(false);
+			main.m_btnBulk.gameObject.SetActive(false);
+
+			main.m_btnCancel.onClick.RemoveAllListeners();
+			main.m_btnCancel.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+			main.m_txtBulkCoin.text = "0";
+
+			bulk_list.Clear();
+			foreach (IconInventry icon in main.weapon_list)
+			{
+				icon.OnSelect(false);
+				icon.OnClickWeapon.AddListener(OnSelectListWeapon);
+			}
+			main.m_btnList.gameObject.SetActive(true);
+			main.m_btnList.onClick.AddListener(() =>
+			{
+				Fsm.Event("list");
+			});
+
+			main.m_btnBuyBulk.onClick.RemoveAllListeners();
+			main.m_btnBuyBulk.onClick.AddListener(() =>
+			{
+				int total_price = 0;
+
+				foreach (DataWeaponParam buy in bulk_list)
+				{
+					DataWeaponParam data = DataManager.Instance.dataWeapon.list.Find(p => p.serial == buy.serial);
+					MasterWeaponParam master = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == data.weapon_id);
+					total_price += MasterWeapon.GetSellPrice(data, master);
+				}
+				DataManager.Instance.AddCoin(total_price);
+				foreach (DataWeaponParam buy in bulk_list)
+				{
+					DataManager.Instance.dataWeapon.list.Remove(buy);
+				}
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.user_data.Save();
+				Finish();
+			});
+		}
+
+		private void OnSelectListWeapon(DataWeaponParam arg0)
+		{
+			if( 0 < arg0.equip)
+			{
+				return;
+			}
+
+
+			if (bulk_list.Contains(arg0))
+			{
+				bulk_list.Remove(arg0);
+			}
+			else
+			{
+				bulk_list.Add(arg0);
+			}
+			foreach (IconInventry icon in main.weapon_list)
+			{
+				bool bFlag = false;
+				foreach( DataWeaponParam w in bulk_list)
+				{
+					if( w.serial == icon.m_dataWeapon.serial)
+					{
+						bFlag = true;
+					}
+				}
+				icon.OnSelect(bFlag);
+			}
+
+			int total_price = 0;
+
+			foreach( DataWeaponParam buy in bulk_list)
+			{
+				DataWeaponParam data = DataManager.Instance.dataWeapon.list.Find(p => p.serial == buy.serial);
+				MasterWeaponParam master = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == data.weapon_id);
+				total_price += MasterWeapon.GetSellPrice(data, master);
+			}
+			main.m_txtBulkCoin.text = total_price.ToString();
+			main.m_btnBuyBulk.interactable = 0 < bulk_list.Count;
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			main.m_goBulkBuyWindow.SetActive(false);
+			foreach (IconInventry icon in main.weapon_list)
+			{
+				icon.OnClickWeapon.RemoveListener(OnSelectListWeapon);
+			}
+		}
+
+	}
+
+
 
 	[ActionCategory("WeaponMainAction")]
 	[HutongGames.PlayMaker.Tooltip("WeaponMainAction")]
@@ -215,6 +351,9 @@ namespace WeaponMainAction
 				int add_gold = MasterWeapon.GetSellPrice(remove_data, remove_master);
 				DataManager.Instance.AddCoin(add_gold);
 				DataManager.Instance.dataWeapon.list.Remove(remove_data);
+
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.user_data.Save();
 
 				Fsm.Event("buy");
 			});

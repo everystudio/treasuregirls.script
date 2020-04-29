@@ -92,7 +92,7 @@ namespace ShopMainAction
 			shop.m_btnGemFree.onClick.AddListener(() =>
 			{
 				back_state.Value = "gem";
-				Fsm.Event("gem");
+				Fsm.Event("free");
 			});
 		}
 		public override void OnUpdate()
@@ -149,6 +149,7 @@ namespace ShopMainAction
 
 			DataManager.Instance.AddGem(Defines.REWORD_GEM);
 
+			DataManager.Instance.user_data.Save();
 			Finish();
 		}
 
@@ -166,6 +167,9 @@ namespace ShopMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			// 専用のものを用意するべきなんだろうけど、めんどかったのでこれを借ります
+			GachaMain.Instance.m_goBackground.SetActive(true);
+
 			rewarded = false;
 			use_rewardad = false;
 			if ( Advertisement.IsReady())
@@ -241,6 +245,7 @@ namespace ShopMainAction
 				RewardAd.Instance.rewardBasedVideo.OnAdRewarded -= HandleRewardBasedVideoRewarded;
 				RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
 			}
+			GachaMain.Instance.m_goBackground.SetActive(false);
 
 		}
 	}
@@ -265,21 +270,22 @@ namespace ShopMainAction
 			{
 				DataManager.Instance.UseGem(20);
 				DataManager.Instance.AddCoin(500);
+				DataManager.Instance.user_data.Save();
 				button_interactable();
 			});
 			shop.m_btnGoldPack2.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(100);
 				DataManager.Instance.AddCoin(3000);
+				DataManager.Instance.user_data.Save();
 				button_interactable();
-
 			});
 			shop.m_btnGoldPack3.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGem(500);
 				DataManager.Instance.AddCoin(20000);
+				DataManager.Instance.user_data.Save();
 				button_interactable();
-
 			});
 		}
 
@@ -329,7 +335,7 @@ namespace ShopMainAction
 
 			shop.m_btnWeaponFree.onClick.AddListener(() =>
 			{
-				Fsm.Event("weapon");
+				Fsm.Event("free");
 			});
 			shop.m_btnWeapon1.onClick.AddListener(() =>
 			{
@@ -356,6 +362,10 @@ namespace ShopMainAction
 				chest_data.rarity = get_weapon.rarity;
 				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
 				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.dataWeaponAlbum.Save();
+				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaSingle(chest_data);
 			});
 			shop.m_btnWeapon2.onClick.AddListener(() =>
@@ -389,6 +399,9 @@ namespace ShopMainAction
 					chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
 					chest_list.Add(chest_data);
 				}
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.dataWeaponAlbum.Save();
+				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaMulti(chest_list);
 			});
 		}
@@ -471,6 +484,9 @@ namespace ShopMainAction
 			chest_data.rarity = get_weapon.rarity;
 			chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
 			chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+			DataManager.Instance.dataWeapon.Save();
+			DataManager.Instance.dataWeaponAlbum.Save();
+			DataManager.Instance.user_data.Save();
 			GachaMain.Instance.GachaSingle(chest_data);
 
 		}
@@ -503,7 +519,7 @@ namespace ShopMainAction
 
 			shop.m_btnTreasureFree.onClick.AddListener(() =>
 			{
-				Fsm.Event("treasure");
+				Fsm.Event("free");
 			});
 			shop.m_btnTreasure1.onClick.AddListener(() =>
 			{
@@ -531,6 +547,9 @@ namespace ShopMainAction
 				chest_data.rarity = get_item.rarity;
 				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
 				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+				DataManager.Instance.dataTreasure.Save();
+				DataManager.Instance.dataTreasureAlbum.Save();
+				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaSingle(chest_data);
 
 
@@ -565,8 +584,11 @@ namespace ShopMainAction
 				chest_data.rarity = get_item.rarity;
 				chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
 				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
-				GachaMain.Instance.GachaSingle(chest_data);
 
+				DataManager.Instance.dataTreasure.Save();
+				DataManager.Instance.dataTreasureAlbum.Save();
+				DataManager.Instance.user_data.Save();
+				GachaMain.Instance.GachaSingle(chest_data);
 
 			});
 
@@ -641,6 +663,10 @@ namespace ShopMainAction
 			chest_data.rarity = get_item.rarity;
 			chest_data.spr_item = shop.m_sprAtlasTreasure.GetSprite(get_item.sprite_name);
 			chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+
+			DataManager.Instance.dataTreasure.Save();
+			DataManager.Instance.dataTreasureAlbum.Save();
+			DataManager.Instance.user_data.Save();
 			GachaMain.Instance.GachaSingle(chest_data);
 		}
 	}
@@ -707,6 +733,11 @@ namespace ShopMainAction
 				chest_data.rarity = get_weapon.rarity;
 				chest_data.spr_item = shop.m_sprAtlasWeapon.GetSprite(get_weapon.sprite_name);
 				chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
+
+				DataManager.Instance.dataItem.Save();
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.dataWeaponAlbum.Save();
+				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaSingle(chest_data);
 
 				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
@@ -731,6 +762,11 @@ namespace ShopMainAction
 					chest_data.spr_chest = shop.m_sprAtlasIcons.GetSprite("chest_t_01");
 					chest_list.Add(chest_data);
 				}
+
+				DataManager.Instance.dataItem.Save();
+				DataManager.Instance.dataWeapon.Save();
+				DataManager.Instance.dataWeaponAlbum.Save();
+				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaMulti(chest_list);
 
 				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
@@ -821,6 +857,8 @@ namespace ShopMainAction
 
 			data.num -= _iNum * 10;
 			next.num += _iNum;
+
+			DataManager.Instance.dataItem.Save();
 
 			ScrollInfoUpdate();
 			ButtonInteractable();

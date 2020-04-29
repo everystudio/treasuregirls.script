@@ -30,6 +30,9 @@ public class AutoButtonPotion : MonoBehaviour
 	{
 		m_goCover.SetActive(!_bFlag);
 
+		DataManager.Instance.user_data.WriteInt(Defines.KEY_USE_AUTOPOTION, _bFlag ? 1 : 0);
+
+
 		if (_bFlag)
 		{
 			GameMain.Instance.player_chara.m_dataUnitParam.OnChangeHp.AddListener(ChangeHp);

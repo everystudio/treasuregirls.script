@@ -33,6 +33,8 @@ public class AutoButton : MonoBehaviour
 
 	private void push_button(bool _bAuto)
 	{
+		DataManager.Instance.user_data.WriteInt(Defines.KEY_USE_AUTOMOVE, _bAuto ? 1 : 0);
+
 		m_animator.SetBool("on", _bAuto);
 
 		m_btnLeft.m_btn.interactable = !_bAuto;

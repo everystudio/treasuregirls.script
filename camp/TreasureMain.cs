@@ -27,6 +27,13 @@ public class TreasureMain : MonoBehaviour
 
 	public Button m_btnBack;
 
+	public GameObject m_goBulkPriceRoot;
+	public TextMeshProUGUI m_txtBuyBulkPrice;
+	public Button m_btnMenuBulk;
+	public Button m_btnBuyBulk;
+	public Button m_btnBuyBulkCancel;
+
+
 	// 売却系
 	public GameObject m_goBuyWindow;
 	public IconInventry icon_buy;

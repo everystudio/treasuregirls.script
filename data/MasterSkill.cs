@@ -18,6 +18,8 @@ public class MasterSkillParam : CsvDataParam
 	public int gold { get; set; }
 	public int gem { get; set; }
 
+	public bool usable { get; set; }
+
 }
 
 public class MasterSkill : CsvData<MasterSkillParam>

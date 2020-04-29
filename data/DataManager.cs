@@ -206,9 +206,12 @@ public class DataManager : DataManagerBase<DataManager>
 			#endregion
 		}
 #endif
-
+		// 未初期化扱い
 		if( !user_data.HasKey(Defines.KEY_AUTOPOTION_RATE))
 		{
+			user_data.WriteInt(Defines.KEY_USE_AUTOMOVE, 1);
+			user_data.WriteInt(Defines.KEY_USE_AUTOPOTION, 1);
+
 			user_data.WriteFloat(Defines.KEY_AUTOPOTION_RATE, Defines.DEFAULT_AUTOPOTION_RATE);
 			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, 1.0f);
 			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 1.0f);

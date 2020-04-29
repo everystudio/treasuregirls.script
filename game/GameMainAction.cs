@@ -98,7 +98,7 @@ namespace GameMainAction
 
 			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
 
-			gamemain.m_btnAuto.Initialize(true);
+			gamemain.m_btnAuto.Initialize(DataManager.Instance.user_data.ReadInt(Defines.KEY_USE_AUTOMOVE) != 0);
 			gamemain.m_btnAutoPotion.Initialize( 
 				DataManager.Instance.user_data.ReadInt(Defines.KEY_USE_AUTOPOTION) != 0,
 				fAutoPotionRate);
@@ -419,6 +419,7 @@ namespace GameMainAction
 			DataManager.Instance.dataItem.Save();
 			DataManager.Instance.dataGetItem.list.Clear();
 
+			DataManager.Instance.user_data.Save();
 
 			gamemain.m_panelResult.m_btnCamp.onClick.RemoveAllListeners();
 			gamemain.m_panelResult.m_btnCamp.onClick.AddListener(() =>

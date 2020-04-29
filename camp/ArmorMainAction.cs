@@ -157,6 +157,9 @@ namespace ArmorMainAction
 					icon.Initialize(data_armor, DataManager.Instance.masterArmor.list);
 				}
 			}
+
+			DataManager.Instance.dataArmor.Save();
+			DataManager.Instance.user_data.Save();
 			Finish();
 		}
 	}
@@ -174,6 +177,8 @@ namespace ArmorMainAction
 			{
 				data_potion.potion_id = master_potion.next_potion_id;
 			}
+			DataManager.Instance.dataPotion.Save();
+			DataManager.Instance.user_data.Save();
 
 			Finish();
 		}
@@ -192,6 +197,8 @@ namespace ArmorMainAction
 			{
 				data_potion.num += 1;
 			}
+			DataManager.Instance.dataPotion.Save();
+			DataManager.Instance.user_data.Save();
 
 			Finish();
 		}

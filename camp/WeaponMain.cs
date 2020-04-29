@@ -15,6 +15,12 @@ public class WeaponMain : MonoBehaviour
 	public Button m_btnAlbum;
 	public Button m_btnList;
 
+	public Button m_btnBulk;
+	public Button m_btnBuyBulk;
+	public Button m_btnCancel;
+	public GameObject m_goBulkBuyWindow;
+	public TextMeshProUGUI m_txtBulkCoin;
+
 	public List<IconInventry> weapon_list;
 	public GameObject m_goListContents;
 	public GameObject m_prefIconInventry;

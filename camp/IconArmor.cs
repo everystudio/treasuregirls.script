@@ -32,7 +32,7 @@ public class IconArmor : MonoBehaviour
 
 		if (1 < master_current.level)
 		{
-			m_txtLevel.text = string.Format("{0}", master_current.level);
+			m_txtLevel.text = string.Format("＋{0}", master_current.level-1);
 		}
 		else
 		{

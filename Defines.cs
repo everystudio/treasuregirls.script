@@ -40,6 +40,7 @@ public class Defines
 
 	public const float DEFAULT_AUTOPOTION_RATE = 0.5f;
 	public const string KEY_AUTOPOTION_RATE = "autopotion_rate";
+	public const string KEY_USE_AUTOMOVE = "use_automove";
 	public const string KEY_USE_AUTOPOTION = "use_autopotion";
 
 	public const int POTION_LIMIT = 20;
@@ -54,6 +55,10 @@ public class Defines
 
 	public const int ITEM_ID_COIN = 1;
 	public const int ITEM_ID_SCROLL_BLUE = 5;
+
+	public const int WEAPON_NUM_LIMIT = 100;
+	public const int TREASURE_NUM_LIMIT = 100;
+
 
 
 

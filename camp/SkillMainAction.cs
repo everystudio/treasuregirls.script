@@ -202,7 +202,7 @@ namespace SkillMainAction
 
 			skillMain.skill_banner_list.Clear();
 			MonoBehaviourEx.DeleteObjects<BannerSkill>(skillMain.m_goListContentsRoot);
-			foreach (MasterSkillParam master in DataManager.Instance.masterSkill.list.FindAll(p=>0<p.skill_id))
+			foreach (MasterSkillParam master in DataManager.Instance.masterSkill.list.FindAll(p=>0<p.skill_id && p.usable))
 			{
 				DataSkillParam check_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == master.skill_id );
 				if( check_data == null)
