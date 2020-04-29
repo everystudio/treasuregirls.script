@@ -87,4 +87,13 @@ public class ShopMain : MonoBehaviour
 	public Button m_btnScroolUseRedOne;
 	public Button m_btnScroolUseRedTen;
 
+
+	public GameObject m_goLimitCoverWeaponFree;
+	public GameObject m_goLimitCoverWeaponOne;
+	public GameObject m_goLimitCoverWeaponTen;
+
+	public GameObject m_goLimitCoverTreasureFree;
+	public GameObject m_goLimitCoverTreasureNormal;
+	public GameObject m_goLimitCoverTreasureGold;
+
 }

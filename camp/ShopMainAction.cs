@@ -333,6 +333,11 @@ namespace ShopMainAction
 			shop.m_goWeaponFreeButtonRoot.SetActive(false);
 			shop.m_goWeaponFreeTimeRoot.SetActive(false);
 
+			int weapon_num = DataManager.Instance.dataWeapon.list.Count;
+			shop.m_goLimitCoverWeaponFree.SetActive(!(weapon_num + 1 <= Defines.WEAPON_NUM_LIMIT));
+			shop.m_goLimitCoverWeaponOne.SetActive(!(weapon_num + 1 <= Defines.WEAPON_NUM_LIMIT));
+			shop.m_goLimitCoverWeaponTen.SetActive(!(weapon_num + 10 <= Defines.WEAPON_NUM_LIMIT));
+
 			shop.m_btnWeaponFree.onClick.AddListener(() =>
 			{
 				Fsm.Event("free");
@@ -345,6 +350,12 @@ namespace ShopMainAction
 				GachaMain.Instance.OnGachaFinished.AddListener(() =>
 				{
 					GachaMain.Instance.Close();
+
+					int weapon_num2 = DataManager.Instance.dataWeapon.list.Count;
+					shop.m_goLimitCoverWeaponFree.SetActive(!(weapon_num2 + 1 <= Defines.WEAPON_NUM_LIMIT));
+					shop.m_goLimitCoverWeaponOne.SetActive(!(weapon_num2 + 1 <= Defines.WEAPON_NUM_LIMIT));
+					shop.m_goLimitCoverWeaponTen.SetActive(!(weapon_num2 + 10 <= Defines.WEAPON_NUM_LIMIT));
+
 				});
 
 				List<MasterWeaponParam> hit_weapon_list = DataManager.Instance.masterWeapon.list.FindAll(p => 2 <= p.rarity && p.rarity <= 5);
@@ -376,6 +387,11 @@ namespace ShopMainAction
 				GachaMain.Instance.OnGachaFinished.AddListener(() =>
 				{
 					GachaMain.Instance.Close();
+
+					int weapon_num2 = DataManager.Instance.dataWeapon.list.Count;
+					shop.m_goLimitCoverWeaponFree.SetActive(!(weapon_num2 + 1 <= Defines.WEAPON_NUM_LIMIT));
+					shop.m_goLimitCoverWeaponOne.SetActive(!(weapon_num2 + 1 <= Defines.WEAPON_NUM_LIMIT));
+					shop.m_goLimitCoverWeaponTen.SetActive(!(weapon_num2 + 10 <= Defines.WEAPON_NUM_LIMIT));
 				});
 
 
@@ -517,6 +533,11 @@ namespace ShopMainAction
 			shop.m_goTreasureFreeButtonRoot.SetActive(false);
 			shop.m_goTreasureFreeTimeRoot.SetActive(false);
 
+			int treasure_num = DataManager.Instance.dataTreasure.list.Count;
+			shop.m_goLimitCoverTreasureFree.SetActive(!(treasure_num + 1 <= Defines.TREASURE_NUM_LIMIT));
+			shop.m_goLimitCoverTreasureNormal.SetActive(!(treasure_num + 1 <= Defines.TREASURE_NUM_LIMIT));
+			shop.m_goLimitCoverTreasureGold.SetActive(!(treasure_num + 10 <= Defines.TREASURE_NUM_LIMIT));
+
 			shop.m_btnTreasureFree.onClick.AddListener(() =>
 			{
 				Fsm.Event("free");
@@ -526,11 +547,15 @@ namespace ShopMainAction
 				DataManager.Instance.UseKey(50);
 				button_interactable();
 
-
 				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
 				GachaMain.Instance.OnGachaFinished.AddListener(() =>
 				{
 					GachaMain.Instance.Close();
+
+					int treasure_num2 = DataManager.Instance.dataTreasure.list.Count;
+					shop.m_goLimitCoverTreasureFree.SetActive(!(treasure_num2 + 1 <= Defines.TREASURE_NUM_LIMIT));
+					shop.m_goLimitCoverTreasureNormal.SetActive(!(treasure_num2 + 1 <= Defines.TREASURE_NUM_LIMIT));
+					shop.m_goLimitCoverTreasureGold.SetActive(!(treasure_num2 + 10 <= Defines.TREASURE_NUM_LIMIT));
 				});
 				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 2 <= p.rarity && p.rarity <= 3);
 				int[] prob_arr = new int[hit_list.Count];
@@ -551,19 +576,20 @@ namespace ShopMainAction
 				DataManager.Instance.dataTreasureAlbum.Save();
 				DataManager.Instance.user_data.Save();
 				GachaMain.Instance.GachaSingle(chest_data);
-
-
 			});
 			shop.m_btnTreasure2.onClick.AddListener(() =>
 			{
 				DataManager.Instance.UseGoldKey(50);
 				button_interactable();
 
-
 				GachaMain.Instance.OnGachaFinished.RemoveAllListeners();
 				GachaMain.Instance.OnGachaFinished.AddListener(() =>
 				{
 					GachaMain.Instance.Close();
+					int treasure_num2 = DataManager.Instance.dataTreasure.list.Count;
+					shop.m_goLimitCoverTreasureFree.SetActive(!(treasure_num2 + 1 <= Defines.TREASURE_NUM_LIMIT));
+					shop.m_goLimitCoverTreasureNormal.SetActive(!(treasure_num2 + 1 <= Defines.TREASURE_NUM_LIMIT));
+					shop.m_goLimitCoverTreasureGold.SetActive(!(treasure_num2 + 10 <= Defines.TREASURE_NUM_LIMIT));
 				});
 				List<MasterTreasureParam> hit_list = DataManager.Instance.masterTreasure.list.FindAll(p => 3 <= p.rarity && p.rarity <= 5);
 				int[] prob_arr = new int[hit_list.Count];
