@@ -126,21 +126,34 @@ public class MasterTreasureParam : CsvDataParam
         return ret;
     }
 
-
-    public int GetGachaProb()
+    public int GetGachaProbFree()
     {
         switch (rarity)
         {
             case 1:
-                return 1000;
+                return 100000;
             case 2:
-                return 500;
+                return 5000;
             case 3:
-                return 100;
+                return 10;
+        }
+        return 0;
+    }
+    public int GetGachaProb()
+    {
+        switch (rarity)
+        {
+            // なんか怖くなったので一応入れる。
+            case 1:
+                return 10;
+            case 2:
+                return 100000;
+            case 3:
+                return 5000;
             case 4:
-                return 25;
+                return 10;
             case 5:
-                return 5;
+                return 1;
         }
         return 0;
     }

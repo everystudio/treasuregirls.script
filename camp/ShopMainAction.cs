@@ -489,7 +489,7 @@ namespace ShopMainAction
 			int[] prob_arr = new int[hit_weapon_list.Count];
 			for (int i = 0; i < hit_weapon_list.Count; i++)
 			{
-				prob_arr[i] = hit_weapon_list[i].GetGachaProb();
+				prob_arr[i] = hit_weapon_list[i].GetGachaProbFree();
 			}
 			int index = UtilRand.GetIndex(prob_arr);
 
@@ -678,7 +678,7 @@ namespace ShopMainAction
 			int[] prob_arr = new int[hit_list.Count];
 			for (int i = 0; i < hit_list.Count; i++)
 			{
-				prob_arr[i] = hit_list[i].GetGachaProb();
+				prob_arr[i] = hit_list[i].GetGachaProbFree();
 			}
 			int index = UtilRand.GetIndex(prob_arr);
 
