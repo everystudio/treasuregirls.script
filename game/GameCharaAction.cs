@@ -107,11 +107,13 @@ namespace GameCharaAction
 			{
 				is_move = true;
 				move_speed = chara.move_power * 1.0f;
+				chara.m_animator.SetFloat("dir_x", 1.0f);
 			}
 			else if (Input.GetKey(KeyCode.LeftArrow) || chara.m_arrowLeft.is_press)
 			{
 				is_move = true;
 				move_speed = chara.move_power * -1.0f;
+				chara.m_animator.SetFloat("dir_x", -1.0f);
 			}
 
 			if (chara.m_charaBody.IsEnemy)
