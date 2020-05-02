@@ -474,6 +474,46 @@ namespace GameMainAction
 		}
 	}
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class player_dead : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gamemain.player_chara.OnDeadEnd.AddListener(OnDeadEnd);
+			gamemain.player_chara.m_animator.SetTrigger("dead");
+		}
+
+		private void OnDeadEnd()
+		{
+			Finish();
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class show_gameover : GameMainActionBase
+	{
+		public float wait_time;
+		private float time;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			time = 0.0f;
+			gamemain.m_goGameOver.SetActive(true);
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			time += Time.deltaTime;
+			if( wait_time < time)
+			{
+				Finish();
+			}
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

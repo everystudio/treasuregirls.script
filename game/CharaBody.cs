@@ -58,4 +58,9 @@ public class CharaBody : MonoBehaviour
 	{
 		game_chara_main.OnAttackEnd.Invoke();
 	}
+
+	public void EventDeadEnd()
+	{
+		game_chara_main.OnDeadEnd.Invoke();
+	}
 }

@@ -26,6 +26,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public DataUnitParam m_dataUnitParam = new DataUnitParam();
 
     public UnityEvent OnAttackEnd = new UnityEvent();
+    public UnityEvent OnDeadEnd = new UnityEvent();
 
     public GameObject m_goAttackRoot;
     public GameObject m_prefAttack;

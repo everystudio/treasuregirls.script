@@ -46,6 +46,7 @@ public class GameMain : Singleton<GameMain>
 
 	public GameObject m_prefDamageNum;
 
+	public GameObject m_goGameOver;
 }
 
 

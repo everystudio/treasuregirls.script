@@ -9,8 +9,11 @@ public class BGMControl : Singleton<BGMControl> {
 	public AudioSource audio_source;
 	public List<AudioClip> audio_clip_list = new List<AudioClip>();
 
+	private bool is_stoped = false;
+
 	public void Stop()
 	{
+		is_stoped = true;
 		audio_source.Stop();
 	}
 	public void Pause()
@@ -19,6 +22,7 @@ public class BGMControl : Singleton<BGMControl> {
 	}
 	public void Play()
 	{
+		is_stoped = false;
 		audio_source.Play();
 	}
 
@@ -26,7 +30,7 @@ public class BGMControl : Singleton<BGMControl> {
 	{
 		//bool is_playing = audio_source.clip.name == _strName;
 		bool is_playing = audio_source.clip != null && audio_source.clip.name == _strName;
-		if( is_playing)
+		if( is_playing && is_stoped == false)
 		{
 			return;
 		}
@@ -36,6 +40,8 @@ public class BGMControl : Singleton<BGMControl> {
 		{
 			audio_source.clip = clip;
 			audio_source.Play();
+
+			is_stoped = false;
 		}
 		else
 		{
