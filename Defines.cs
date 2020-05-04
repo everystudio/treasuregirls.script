@@ -35,6 +35,8 @@ public class Defines
 
 	public const float SOUND_VOLUME_MAX = 0.0f;
 	public const float SOUND_VOLME_MIN = -80.0f;
+	public const float SOUND_VOLME_DEFAULT = 0.8f;
+
 	public const string KEY_SOUNDVOLUME_BGM = "soundvolume_bgm";
 	public const string KEY_SOUNDVOLUME_SE = "soundvolume_se";
 

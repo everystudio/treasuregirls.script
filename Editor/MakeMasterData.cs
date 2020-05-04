@@ -105,6 +105,8 @@ namespace CorridorGirls
 				<MasterStage, MasterStageParam>(new MasterStage(), Defines.SS_MASTER, "stage", "07data/master", "master_stage"));
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(CreateMasterDataFile.CreateMasterData
 				<MasterFloor, MasterFloorParam>(new MasterFloor(), Defines.SS_MASTER, "floor", "07data/master", "master_floor"));
+			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(CreateMasterDataFile.CreateMasterData
+				<MasterHelp, MasterHelpParam>(new MasterHelp(), Defines.SS_MASTER, "help", "07data/master", "master_help"));
 
 
 			/*

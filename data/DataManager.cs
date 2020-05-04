@@ -38,6 +38,7 @@ public class DataManager : DataManagerBase<DataManager>
 	public MasterItem masterItem = new MasterItem();
 	public MasterStage masterStage = new MasterStage();
 	public MasterFloor masterFloor = new MasterFloor();
+	public MasterHelp masterHelp = new MasterHelp();
 
 	public DataChara dataChara = new DataChara();
 	public DataWeapon dataWeapon = new DataWeapon();
@@ -179,7 +180,7 @@ public class DataManager : DataManagerBase<DataManager>
 		masterItem.Load(m_textAssetHolder.Get("master_item"));
 		masterStage.Load(m_textAssetHolder.Get("master_stage"));
 		masterFloor.Load(m_textAssetHolder.Get("master_floor"));
-
+		masterHelp.Load(m_textAssetHolder.Get("master_help"));
 
 #if UNITY_EDITOR
 		if (m_bLoadNetworkData)
@@ -203,18 +204,19 @@ public class DataManager : DataManagerBase<DataManager>
 			yield return StartCoroutine(masterItem.SpreadSheet(Defines.SS_MASTER, "item", () => { }));
 			yield return StartCoroutine(masterStage.SpreadSheet(Defines.SS_MASTER, "stage", () => { }));
 			yield return StartCoroutine(masterFloor.SpreadSheet(Defines.SS_MASTER, "floor", () => { }));
+			yield return StartCoroutine(masterHelp.SpreadSheet(Defines.SS_MASTER, "help", () => { }));
 			#endregion
 		}
 #endif
 		// 未初期化扱い
-		if( !user_data.HasKey(Defines.KEY_AUTOPOTION_RATE))
+		if ( !user_data.HasKey(Defines.KEY_AUTOPOTION_RATE))
 		{
 			user_data.WriteInt(Defines.KEY_USE_AUTOMOVE, 1);
 			user_data.WriteInt(Defines.KEY_USE_AUTOPOTION, 1);
 
 			user_data.WriteFloat(Defines.KEY_AUTOPOTION_RATE, Defines.DEFAULT_AUTOPOTION_RATE);
-			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, 1.0f);
-			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 1.0f);
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, Defines.SOUND_VOLME_DEFAULT);
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, Defines.SOUND_VOLME_DEFAULT);
 		}
 
 
