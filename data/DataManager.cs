@@ -240,24 +240,14 @@ public class DataManager : DataManagerBase<DataManager>
 		{
 			DataWeaponParam add_weapon = new DataWeaponParam();
 			add_weapon.weapon_id = 1;
-			add_weapon.level = 3;
+			add_weapon.level = 1;
 			add_weapon.equip = 1;   // 武器はtfで良いのでは？
-
-			DataWeaponParam add_weapon2 = new DataWeaponParam();
-			add_weapon2.weapon_id = 2;
-			add_weapon2.level = 1;
-			add_weapon2.equip = 0;   // 武器はtfで良いのでは？
-
 			dataWeapon.Add(add_weapon);
-			dataWeapon.Add(add_weapon2);
 		}
 		dataWeaponAlbum.SetSaveFilename(Defines.FILENAME_DATAWEAPONALBUM);
 		if (dataWeaponAlbum.LoadMulti() == false)
 		{
 			dataWeaponAlbum.AddAlbum(1);
-			dataWeaponAlbum.AddAlbum(2);
-			dataWeaponAlbum.AddAlbum(3);
-			dataWeaponAlbum.AddAlbum(4);
 		}
 
 
@@ -278,8 +268,6 @@ public class DataManager : DataManagerBase<DataManager>
 		if( dataSkill.LoadMulti() == false)
 		{
 			dataSkill.list.Add(new DataSkillParam(1, 1));
-			dataSkill.list.Add(new DataSkillParam(6, 2));
-			dataSkill.list.Add(new DataSkillParam(11, 3));
 		}
 		dataPotion.SetSaveFilename(Defines.FILENAME_DATAPOTION);
 		if (dataPotion.LoadMulti() == false)
@@ -294,19 +282,22 @@ public class DataManager : DataManagerBase<DataManager>
 		dataTreasure.SetSaveFilename(Defines.FILENAME_DATATREASURE);
 		if(dataTreasure.LoadMulti() == false)
 		{
+			/*
 			int add_serial = dataTreasure.Add(1001);
-
 			DataTreasureParam add_treasure = dataTreasure.list.Find(p => p.serial == add_serial);
 			add_treasure.equip = 1;
+			*/
 		}
 		dataTreasureAlbum.SetSaveFilename(Defines.FILENAME_DATATREASUREALBUM);
 		if (dataTreasureAlbum.LoadMulti() == false)
 		{
+			/*
 			dataTreasureAlbum.Add(1002);
 			dataTreasureAlbum.Add(1003);
 			dataTreasureAlbum.Add(1006);
 			dataTreasureAlbum.Add(1010);
 			dataTreasureAlbum.Add(1026);
+			*/
 		}
 		/*
 		dataScroll.SetSaveFilename(Defines.FILENAME_DATASCROLL);
@@ -329,7 +320,7 @@ public class DataManager : DataManagerBase<DataManager>
 		{
 			for(int i = 0; i < 5; i++)
 			{
-				dataItem.Add(Defines.ITEM_ID_SCROLL_BLUE + i, 100);
+				dataItem.Add(Defines.ITEM_ID_SCROLL_BLUE + i, 0);
 			}
 		}
 		dataGetItem.SetSaveFilename(Defines.FILENAME_DATAITEM_GET);
@@ -344,22 +335,14 @@ public class DataManager : DataManagerBase<DataManager>
 			data.stage_id = 1;
 			data.status = 1;
 			dataStage.list.Add(data);
-			DataStageParam data2 = new DataStageParam();
-			data2.stage_id = 2;
-			data2.status = 1;
-			dataStage.list.Add(data2);
 		}
 		dataFloor.SetSaveFilename(Defines.FILENAME_DATAFLOOR);
 		if (dataFloor.LoadMulti() == false)
 		{
 			DataFloorParam data = new DataFloorParam();
 			data.floor_id = 1;
-			data.status = 2;
+			data.status = 1;
 			dataFloor.list.Add(data);
-			DataFloorParam data2 = new DataFloorParam();
-			data2.floor_id = 2;
-			data2.status = 1;
-			dataFloor.list.Add(data2);
 		}
 
 
@@ -383,10 +366,12 @@ public class DataManager : DataManagerBase<DataManager>
 			});
 
 #if UNITY_EDITOR
+			/*
 			AddGem(debug_gem);
 			AddCoin(debug_coin);
 			AddKey(debug_key);
 			AddGoldKey(debug_gold_key);
+			*/
 #endif
 			//m_txtKey.text = user_data.ReadInt(Defines.KeyKey).ToString(); ;
 			//m_txtGoldKey.text = user_data.Read(Defines.KeyGoldKey);
