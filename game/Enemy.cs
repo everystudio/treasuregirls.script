@@ -9,11 +9,13 @@ public class Enemy : MonoBehaviour
 	public bool is_setenemy;
 	public int enemy_id;
 	public int enemy_level;
-	public void SetEnemyData( int _iEnemyId , int _iEnemyLevel)
+	public bool is_boss;
+	public void SetEnemyData( int _iEnemyId , int _iEnemyLevel , bool _bIsBoss)
 	{
 		is_setenemy = true;
 		enemy_id = _iEnemyId;
 		enemy_level = _iEnemyLevel;
+		is_boss = _bIsBoss;
 	}
 	public SpriteAtlas m_sprAtlas;
 

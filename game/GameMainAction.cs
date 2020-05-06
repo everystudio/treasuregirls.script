@@ -150,19 +150,19 @@ namespace GameMainAction
 				create_enemy(
 					gamemain.master_floor_param.enemy_id,
 					gamemain.master_floor_param.enemy_level,
-					zako_pos);
+					zako_pos,false);
 			}
 			MonoBehaviourEx.DeleteObjects<Transform>(gamemain.boss_position);
 			create_enemy(
 				gamemain.master_floor_param.boss_enemy_id,
 				gamemain.master_floor_param.boss_level,
-				gamemain.boss_position);
+				gamemain.boss_position,true);
 
 
 			#endregion
 		}
 
-		private void create_enemy( int _iEnemyId , int _iEnemyLevel , GameObject _goRoot)
+		private void create_enemy( int _iEnemyId , int _iEnemyLevel , GameObject _goRoot , bool _bIsBoss )
 		{
 			Enemy script = PrefabManager.Instance.MakeScript<Enemy>(gamemain.m_prefEnemy.gameObject, _goRoot);
 			script.transform.localPosition = Vector3.zero;
@@ -171,7 +171,7 @@ namespace GameMainAction
 			boss_hp_bar.followObject = script.m_enemyBody.gameObject;
 			script.hp_bar = boss_hp_bar.gameObject.GetComponent<EnergyBar>();
 
-			script.SetEnemyData(_iEnemyId , _iEnemyLevel);
+			script.SetEnemyData(_iEnemyId , _iEnemyLevel , _bIsBoss);
 		}
 
 		public override void OnUpdate()

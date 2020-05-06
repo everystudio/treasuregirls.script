@@ -35,6 +35,10 @@ namespace EnemyAction
 			{
 				MasterEnemyParam master_enemy = DataManager.Instance.masterEnemy.list.Find(p => p.enemy_id == enemy.enemy_id);
 				enemy.dataUnitParam.BuildEnemy(master_enemy, enemy.enemy_level);
+				if (enemy.is_boss)
+				{
+					//enemy.gameObject.transform.localScale = Vector3.one * 2.0f;
+				}
 				enemy.m_sprEnemy.sprite = enemy.m_sprAtlas.GetSprite(master_enemy.sprite_name);
 				if (enemy.m_sprEnemy.gameObject.GetComponent<BoxCollider2D>() != null)
 				{
