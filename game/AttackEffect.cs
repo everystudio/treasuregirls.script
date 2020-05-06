@@ -15,7 +15,7 @@ public class AttackEffect : MonoBehaviour
 		m_data = _data;
 		m_skill = _skill;
 		m_strTargetTag = _target_tag;
-		Destroy(gameObject, 5.0f);
+		Destroy(gameObject, 0.5f);
 	}
 
 
