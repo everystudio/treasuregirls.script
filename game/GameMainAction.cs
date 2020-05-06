@@ -330,6 +330,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			bool bFirstClear = false;
+
 			int floor_id = DataManager.Instance.game_data.ReadInt("floor_id");
 			MasterFloorParam current_floor = DataManager.Instance.masterFloor.list.Find(p => p.floor_id == floor_id);
 			MasterStageParam current_stage = DataManager.Instance.masterStage.list.Find(p => p.stage_id == current_floor.stage_id);
@@ -342,6 +344,8 @@ namespace GameMainAction
 				data_floor.floor_id = floor_id;
 			}
 			data_floor.count += 1;
+			// 初クリア判定は2(クリア状態じゃなければ)
+			bFirstClear = data_floor.status != 2;
 			data_floor.status = 2;
 			if( DataManager.Instance.IsTest)
 			{
@@ -393,13 +397,18 @@ namespace GameMainAction
 				data_current_stage.status = 2;
 			}
 
-
 			DataManager.Instance.dataStage.Save();
 			DataManager.Instance.dataFloor.Save();
+			DataManager.Instance.dataPotion.Save();
 
 			// 獲得Coinの補正
 			DataItemParam data_item_coin = DataManager.Instance.dataGetItem.list.Find(p => p.item_id == Defines.ITEM_ID_COIN);
-			data_item_coin.num = Mathf.CeilToInt((float)data_item_coin.num * (float)((float)gamemain.player_chara.m_dataUnitParam.coin / 100.0f));
+			int get_coin_num = 0;
+			if( data_item_coin != null)
+			{
+				get_coin_num = data_item_coin.num;
+			}
+			get_coin_num = Mathf.CeilToInt((float)get_coin_num * (float)((float)gamemain.player_chara.m_dataUnitParam.coin / 100.0f));
 
 			gamemain.m_goFadePanel.SetActive(true);
 			gamemain.m_panelResult.Initialize(floor_id , (int)gamemain.m_fGameTime);
@@ -442,6 +451,10 @@ namespace GameMainAction
 			if (DataManager.Instance.IsTest)
 			{
 				Fsm.Event("retry");
+			}
+			if( current_floor.next_floor_id == 0 && bFirstClear)
+			{
+				Fsm.Event("ending");
 			}
 
 		}
