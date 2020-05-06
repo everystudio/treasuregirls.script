@@ -25,7 +25,6 @@ namespace QuestMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			main.m_panelStage.gameObject.SetActive(false);
 
 			main.m_btnQuest.onClick.RemoveAllListeners();
 			main.m_btnQuest.onClick.AddListener(() =>
@@ -85,6 +84,7 @@ namespace QuestMainAction
 				DataArmorParam data = DataManager.Instance.dataArmor.list.Find(p => p.position == MasterArmor.ArmorPositionArr[i]);
 				main.icon_armor_list[i].Initialize(data, DataManager.Instance.masterArmor.list);
 			}
+			main.m_panelStage.gameObject.SetActive(false);
 			ShowParamsTotal();
 			Finish();
 		}
