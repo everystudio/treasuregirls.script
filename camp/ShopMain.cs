@@ -96,4 +96,12 @@ public class ShopMain : MonoBehaviour
 	public GameObject m_goLimitCoverTreasureNormal;
 	public GameObject m_goLimitCoverTreasureGold;
 
+
+	#region
+	public GameObject m_goCodeRoot;
+	public TMPro.TMP_InputField m_inputCode;
+	public Button m_btnCodeCheck;
+	public TextMeshProUGUI m_txtCodeResult;
+	#endregion
+
 }

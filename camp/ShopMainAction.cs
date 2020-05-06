@@ -46,8 +46,11 @@ namespace ShopMainAction
 			shop.m_btnMainWeapon.onClick.AddListener(() => { Fsm.Event("weapon"); });
 			shop.m_btnMainTreasure.onClick.AddListener(() => { Fsm.Event("treasure"); });
 			shop.m_btnMainScroll.onClick.AddListener(() => { Fsm.Event("scroll"); });
+			shop.m_btnMainCode.onClick.AddListener(() => { Fsm.Event("code"); });
 
-			if( CampMain.Instance.sub_move != "")
+			shop.m_goCodeRoot.SetActive(false);
+
+			if ( CampMain.Instance.sub_move != "")
 			{
 				Fsm.Event(CampMain.Instance.sub_move);
 			}
@@ -842,7 +845,6 @@ namespace ShopMainAction
 			shop.m_btnScrollCreate.onClick.RemoveAllListeners();
 
 		}
-
 	}
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
@@ -918,6 +920,60 @@ namespace ShopMainAction
 
 		}
 
+	}
+
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class code_input : ShopMainActionBase
+	{
+		private string input_message;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			input_message = "";
+			shop.m_goCodeRoot.SetActive(true);
+
+			shop.m_btnCodeCheck.interactable = false;
+			shop.m_txtCodeResult.text = "-----";
+			shop.m_inputCode.text = "";
+			shop.m_inputCode.onEndEdit.RemoveAllListeners();
+			shop.m_inputCode.onEndEdit.AddListener((msg) =>
+			{
+				shop.m_btnCodeCheck.interactable = true;
+				input_message = msg;
+			});
+
+			shop.m_btnCodeCheck.onClick.RemoveAllListeners();
+			shop.m_btnCodeCheck.onClick.AddListener(() =>
+			{
+				if( input_message == "yoyakutop10")
+				{
+					if(DataManager.Instance.user_data.HasKey("yoyakutop10"))
+					{
+						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム50個\n<color=red>すでに受け取り済みです</color>";
+					}
+					else
+					{
+						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム50個獲得！";
+						DataManager.Instance.user_data.Write(input_message, "used");
+						DataManager.Instance.AddGem(50);
+						DataManager.Instance.user_data.Save();
+					}
+
+				}
+				else
+				{
+					shop.m_txtCodeResult.text = "<color=red>コードを確認してください</color>";
+				}
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			shop.m_goCodeRoot.SetActive(false);
+
+		}
 	}
 
 }
