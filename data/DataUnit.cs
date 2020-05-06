@@ -82,7 +82,7 @@ public class DataUnitParam :CsvDataParam
 		heal = total_heal;
 		coin = total_coin;
 
-		Debug.Log(string.Format("HP:{0} atk:{1} def:{2}", hp_max, attack, def));
+		//Debug.Log(string.Format("HP:{0} atk:{1} def:{2}", hp_max, attack, def));
 
 	}
 
