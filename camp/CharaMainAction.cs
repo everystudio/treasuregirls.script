@@ -156,6 +156,8 @@ namespace CharaMainAction
 				icon.SetData(add_chara);
 			}
 
+			DataManager.Instance.dataChara.Save();
+			DataManager.Instance.user_data.Save();
 			Finish();
 		}
 
