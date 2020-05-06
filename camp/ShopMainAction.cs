@@ -950,13 +950,13 @@ namespace ShopMainAction
 				{
 					if(DataManager.Instance.user_data.HasKey("yoyakutop10"))
 					{
-						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム50個\n<color=red>すでに受け取り済みです</color>";
+						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム450個\n<color=red>すでに受け取り済みです</color>";
 					}
 					else
 					{
-						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム50個獲得！";
+						shop.m_txtCodeResult.text = "予約トップ10特典\nジェム450個獲得！";
 						DataManager.Instance.user_data.Write(input_message, "used");
-						DataManager.Instance.AddGem(50);
+						DataManager.Instance.AddGem(450);
 						DataManager.Instance.user_data.Save();
 					}
 
