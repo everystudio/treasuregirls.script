@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoogleMobileAds.Api;
+//using GoogleMobileAds.Api;
 
 public class AdsBanner : MonoBehaviour {
-
+#if false
 	public bool m_bAutoShow = true;
 	[SerializeField]
 	string adUnitIdAndroid = "";
@@ -60,4 +60,10 @@ public class AdsBanner : MonoBehaviour {
 			view.Hide();
 		}
 	}
+#else
+	public void Show()
+	{ }
+
+#endif
+
 }

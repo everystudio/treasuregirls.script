@@ -1,19 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoogleMobileAds.Api;
+//using GoogleMobileAds.Api;
 using System;
 
+public class Reward
+{
+	public int test;
+}
+public class AdFailedToLoadEventArgs
+{
+
+}
 public class RewardAd : Singleton<RewardAd> {
 
-	public RewardBasedVideoAd rewardBasedVideo;
+
+	//public RewardBasedVideoAd rewardBasedVideo;
 
 	public bool ad_load_error;
 
     public void Start()
 	{
 		ad_load_error = false;
-
+		/*
 		// Get singleton reward based video ad reference.
 		this.rewardBasedVideo = RewardBasedVideoAd.Instance;
 
@@ -31,6 +40,7 @@ public class RewardAd : Singleton<RewardAd> {
 		rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
 		// Called when the ad click caused the user to leave the application.
 		rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
+		*/
 
 		//this.RequestRewardBasedVideo();
 	}
@@ -92,7 +102,7 @@ public class RewardAd : Singleton<RewardAd> {
 			Debug.LogError("ad load error");
 			return;
 		}
-
+		/*
 		// Create an empty ad request.
 		AdRequest request = new AdRequest.Builder()
 			.AddTestDevice("B58A62380C00BF9DC7BA75C756B5F550")
@@ -100,5 +110,6 @@ public class RewardAd : Singleton<RewardAd> {
 			.Build();
 		// Load the rewarded video ad with the request.
 		this.rewardBasedVideo.LoadAd(request, adUnitId);
+		*/
 	}
 }
