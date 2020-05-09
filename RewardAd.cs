@@ -24,6 +24,10 @@ public class RewardAd : Singleton<RewardAd> {
 	public override void Initialize()
 	{
 		base.Initialize();
+	}
+
+	public void CreateRewardAd()
+	{
 
 #if UNITY_ANDROID
             string adUnitId = "ca-app-pub-3940256099942544/5224354917";

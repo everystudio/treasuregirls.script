@@ -212,6 +212,8 @@ namespace ShopMainAction
 			not_play = true;
 			get_earn = false;
 
+			RewardAd.Instance.CreateRewardAd();
+
 			RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
 			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
 
