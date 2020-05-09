@@ -35,7 +35,8 @@ namespace GameCharaAction
 			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
 			chara.m_overrideSprite.overrideTexture = TextureManager.Instance.Get(master_chara.texture_name);
 
-
+			chara.m_imgHpBar.transform.localScale = Vector3.one;
+			chara.m_txtHp.text = string.Format("{0}/{1}", chara.m_dataUnitParam.hp, chara.m_dataUnitParam.hp_max);
 
 			//chara.m_hpBar.SetValueMax(chara.m_dataUnitParam.hp_max);
 			//chara.m_hpBar.SetValueCurrent(chara.m_dataUnitParam.hp);
