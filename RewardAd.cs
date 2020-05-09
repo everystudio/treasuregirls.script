@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoogleMobileAds.Api;
+//using GoogleMobileAds.Api;
 using System;
 
 public class RewardAd : Singleton<RewardAd> {
-
+	/*
 	public RewardBasedVideoAd rewardBasedVideo;
 
 	public bool ad_load_error;
@@ -101,4 +101,5 @@ public class RewardAd : Singleton<RewardAd> {
 		// Load the rewarded video ad with the request.
 		this.rewardBasedVideo.LoadAd(request, adUnitId);
 	}
+	*/
 }
