@@ -175,7 +175,7 @@ namespace ShopMainAction
 
 			rewarded = false;
 			use_rewardad = false;
-			if ( Advertisement.IsReady())
+			if ( false )
 			{
 				var options = new ShowOptions { resultCallback = HandleShowResult };
 				Advertisement.Show(options);
