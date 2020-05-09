@@ -37,7 +37,7 @@ public class GameMain : Singleton<GameMain>
 	public GameObject boss_position;
 	public GameObject panel_energy_bar;
 	public Enemy m_prefEnemy;
-	public EnergyBar m_prefEnemyHpBar;
+	//public EnergyBar m_prefEnemyHpBar;
 
 	public MasterStageParam master_stage_param;
 	public MasterFloorParam master_floor_param;
