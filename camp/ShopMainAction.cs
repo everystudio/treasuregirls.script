@@ -1,4 +1,4 @@
-﻿//using GoogleMobileAds.Api;
+﻿using GoogleMobileAds.Api;
 using HutongGames.PlayMaker;
 using System;
 using System.Collections;
@@ -182,8 +182,8 @@ namespace ShopMainAction
 			}
 			else
 			{
-				//RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-				//RewardAd.Instance.RequestRewardBasedVideo();
+				RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+				RewardAd.Instance.RequestRewardBasedVideo();
 			}
 
 		}
@@ -191,7 +191,6 @@ namespace ShopMainAction
 		#region AdMob Reward
 		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
 		{
-			/*
 			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
 
 			if (RewardAd.Instance.rewardBasedVideo.IsLoaded())
@@ -206,9 +205,7 @@ namespace ShopMainAction
 			{
 				Fsm.Event("fail");
 			}
-			*/
 		}
-		/*
 		private void HandleRewardBasedVideoRewarded(object sender, Reward e)
 		{
 			rewarded = true;
@@ -228,7 +225,6 @@ namespace ShopMainAction
 		{
 
 		}
-		*/
 		#endregion
 
 		private void HandleShowResult(ShowResult obj)
@@ -248,11 +244,9 @@ namespace ShopMainAction
 			base.OnExit();
 			if (use_rewardad)
 			{
-				/*
 				RewardAd.Instance.rewardBasedVideo.OnAdStarted -= HandleRewardBasedVideoStarted;
 				RewardAd.Instance.rewardBasedVideo.OnAdRewarded -= HandleRewardBasedVideoRewarded;
-				RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
-				*/
+				RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;				
 			}
 			GachaMain.Instance.m_goBackground.SetActive(false);
 
