@@ -168,7 +168,7 @@ namespace ShopMainAction
 			// 専用のものを用意するべきなんだろうけど、めんどかったのでこれを借ります
 			GachaMain.Instance.m_goBackground.SetActive(true);
 
-			if ( false )
+			if (Advertisement.IsReady())
 			{
 				var options = new ShowOptions { resultCallback = HandleShowResult };
 				Advertisement.Show(options);
