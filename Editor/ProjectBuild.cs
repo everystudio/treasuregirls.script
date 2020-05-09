@@ -47,7 +47,9 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 					}
 					break;
 				case "build_number":
-					PlayerSettings.iOS.buildNumber = args[i + 1];
+					int temp = int.Parse(args[i + 1]);
+					temp += 11;
+					PlayerSettings.iOS.buildNumber = temp.ToString();
 					break;
 			}
 		}
