@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 	public float attack_interval;
 	public float attack_timer;
 
-	public EnergyBar hp_bar;
+	//public EnergyBar hp_bar;
 
 	public Animator m_animatorBody;
 

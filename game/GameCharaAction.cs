@@ -37,8 +37,8 @@ namespace GameCharaAction
 
 
 
-			chara.m_hpBar.SetValueMax(chara.m_dataUnitParam.hp_max);
-			chara.m_hpBar.SetValueCurrent(chara.m_dataUnitParam.hp);
+			//chara.m_hpBar.SetValueMax(chara.m_dataUnitParam.hp_max);
+			//chara.m_hpBar.SetValueCurrent(chara.m_dataUnitParam.hp);
 			Finish();
 		}
 	}
