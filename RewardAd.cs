@@ -54,7 +54,7 @@ public class RewardAd : Singleton<RewardAd> {
 		// Called when the ad click caused the user to leave the application.
 		//rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
-		//this.RequestRewardBasedVideo();
+		this.RequestRewardBasedVideo();
 	}
 	/*
 	private void HandleRewardBasedVideoLeftApplication(object sender, EventArgs e)
