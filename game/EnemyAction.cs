@@ -71,8 +71,8 @@ namespace EnemyAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
-			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+			//enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			//enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 
 			if (enemy.enemy_search.IsFindPlayer)
@@ -103,8 +103,8 @@ namespace EnemyAction
 			}
 
 
-			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+			//enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			//enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			Vector3 dir = GameCharaMain.Instance.m_sprChara.gameObject.transform.position -
 				enemy.m_sprEnemy.gameObject.transform.position;
@@ -144,8 +144,8 @@ namespace EnemyAction
 		}
 		public override void OnUpdate()
 		{
-			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+			//enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			//enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 
 			base.OnUpdate();
 			enemy.attack_timer -= Time.deltaTime * ((float)enemy.dataUnitParam.speed * 0.2f);
@@ -210,8 +210,8 @@ namespace EnemyAction
 		{
 			base.OnEnter();
 			// 一応ね
-			enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
-			enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
+			//enemy.hp_bar.SetValueMax(enemy.dataUnitParam.hp_max);
+			//enemy.hp_bar.SetValueCurrent(enemy.dataUnitParam.hp);
 			enemy.m_animatorBody.enabled = true;
 
 			DropObject drop = PrefabManager.Instance.MakeScript<DropObject>(enemy.drop_object.gameObject, enemy.gameObject.transform.parent.gameObject);
@@ -270,7 +270,7 @@ namespace EnemyAction
 
 			enemy.m_animatorBody.SetBool("dead", true);
 
-			GameObject.Destroy(enemy.hp_bar.gameObject, 3);
+			//GameObject.Destroy(enemy.hp_bar.gameObject, 3);
 			GameObject.Destroy(enemy.gameObject, 3);
 			Finish();
 		}

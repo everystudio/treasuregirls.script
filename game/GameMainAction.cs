@@ -142,7 +142,7 @@ namespace GameMainAction
 
 			#region 敵
 			gamemain.m_prefEnemy.gameObject.SetActive(false);
-			gamemain.m_prefEnemyHpBar.gameObject.SetActive(false);
+			//gamemain.m_prefEnemyHpBar.gameObject.SetActive(false);
 
 			foreach( GameObject zako_pos in gamemain.zako_position)
 			{
@@ -166,10 +166,10 @@ namespace GameMainAction
 		{
 			Enemy script = PrefabManager.Instance.MakeScript<Enemy>(gamemain.m_prefEnemy.gameObject, _goRoot);
 			script.transform.localPosition = Vector3.zero;
-			EnergyBarToolkit.EnergyBarFollowObject boss_hp_bar = PrefabManager.Instance.MakeScript<EnergyBarToolkit.EnergyBarFollowObject>(
-				gamemain.m_prefEnemyHpBar.gameObject, gamemain.panel_energy_bar);
-			boss_hp_bar.followObject = script.m_enemyBody.gameObject;
-			script.hp_bar = boss_hp_bar.gameObject.GetComponent<EnergyBar>();
+			//EnergyBarToolkit.EnergyBarFollowObject boss_hp_bar = PrefabManager.Instance.MakeScript<EnergyBarToolkit.EnergyBarFollowObject>(
+			//	gamemain.m_prefEnemyHpBar.gameObject, gamemain.panel_energy_bar);
+			//boss_hp_bar.followObject = script.m_enemyBody.gameObject;
+			//script.hp_bar = boss_hp_bar.gameObject.GetComponent<EnergyBar>();
 
 			script.SetEnemyData(_iEnemyId , _iEnemyLevel , _bIsBoss);
 		}

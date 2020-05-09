@@ -14,7 +14,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public BoxCollider2D collidor2d;
 
     public CharaBody m_charaBody;
-    public EnergyBar m_hpBar;
+    //public EnergyBar m_hpBar;
 
     public float move_power = 1.0f;
     public float gravity = 20.0f;
@@ -48,14 +48,14 @@ public class GameCharaMain : Singleton<GameCharaMain>
     public void Heal( int _iHeal )
     {
         m_dataUnitParam.Heal(_iHeal);
-        m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
+        //m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
     }
 
     public void Damage( int _iDamage)
     {
         m_dataUnitParam.Damage(_iDamage);
         //Debug.Log(string.Format("player hp:{0} damage:{1}", m_dataUnitParam.hp, _iDamage));
-        m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
+        //m_hpBar.SetValueCurrent(m_dataUnitParam.hp);
 
         DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(GameMain.Instance.m_prefDamageNum, m_charaBody.gameObject);
 
