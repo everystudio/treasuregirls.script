@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using GoogleMobileAds.Api;
+using GoogleMobileAds.Api;
 
 public class AdsBanner : MonoBehaviour {
 
@@ -10,9 +10,9 @@ public class AdsBanner : MonoBehaviour {
 	string adUnitIdAndroid = "";
 	[SerializeField]
 	string adUnitIdIOS = "";
-	//BannerView view = null;        // 縦画面
+	BannerView view = null;        // 縦画面
 
-	//public AdPosition banner_position;
+	public AdPosition banner_position;
 
 	void Start()
 	{
@@ -33,7 +33,6 @@ public class AdsBanner : MonoBehaviour {
 
 	public void Show()
 	{
-		/*
 		if(view != null)
 		{
 			view.Show();
@@ -60,6 +59,5 @@ public class AdsBanner : MonoBehaviour {
 		{
 			view.Hide();
 		}
-	*/
 	}
 }

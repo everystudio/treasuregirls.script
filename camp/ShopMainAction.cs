@@ -1,4 +1,4 @@
-﻿//using GoogleMobileAds.Api;
+﻿using GoogleMobileAds.Api;
 using HutongGames.PlayMaker;
 using System;
 using System.Collections;
@@ -158,78 +158,27 @@ namespace ShopMainAction
 
 	}
 
-
-
 	[ActionCategory("ShopMainAction")]
 	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
-	public class play_movie : ShopMainActionBase
+	public class play_movie_unityads : ShopMainActionBase
 	{
-		private bool use_rewardad;
-		private bool rewarded;
-
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			// 専用のものを用意するべきなんだろうけど、めんどかったのでこれを借ります
 			GachaMain.Instance.m_goBackground.SetActive(true);
 
-			rewarded = false;
-			use_rewardad = false;
-			if ( Advertisement.IsReady())
+			if (Advertisement.IsReady())
 			{
 				var options = new ShowOptions { resultCallback = HandleShowResult };
 				Advertisement.Show(options);
 			}
 			else
 			{
-				//RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-				//RewardAd.Instance.RequestRewardBasedVideo();
+				Fsm.Event("admob");
 			}
 
 		}
-
-		#region AdMob Reward
-		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
-		{
-			/*
-			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
-
-			if (RewardAd.Instance.rewardBasedVideo.IsLoaded())
-			{
-				use_rewardad = true;
-				RewardAd.Instance.rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
-				RewardAd.Instance.rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
-				RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-				RewardAd.Instance.rewardBasedVideo.Show();
-			}
-			else
-			{
-				Fsm.Event("fail");
-			}
-			*/
-		}
-		/*
-		private void HandleRewardBasedVideoRewarded(object sender, Reward e)
-		{
-			rewarded = true;
-		}
-		private void HandleRewardBasedVideoClosed(object sender, EventArgs e)
-		{
-			if( rewarded)
-			{
-				Fsm.Event("success");
-			}
-			else
-			{
-				Fsm.Event("fail");
-			}
-		}
-		private void HandleRewardBasedVideoStarted(object sender, EventArgs e)
-		{
-
-		}
-		*/
-		#endregion
 
 		private void HandleShowResult(ShowResult obj)
 		{
@@ -246,16 +195,69 @@ namespace ShopMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			if (use_rewardad)
-			{
-				/*
-				RewardAd.Instance.rewardBasedVideo.OnAdStarted -= HandleRewardBasedVideoStarted;
-				RewardAd.Instance.rewardBasedVideo.OnAdRewarded -= HandleRewardBasedVideoRewarded;
-				RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
-				*/
-			}
 			GachaMain.Instance.m_goBackground.SetActive(false);
+		}
+	}
+	[ActionCategory("ShopMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ShopMainAction")]
+	public class play_movie_admob : ShopMainActionBase
+	{
+		private bool not_play;
+		private bool get_earn;
 
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GachaMain.Instance.m_goBackground.SetActive(true);
+			not_play = true;
+			get_earn = false;
+
+			RewardAd.Instance.CreateRewardAd();
+
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+
+			RewardAd.Instance.RequestRewardBasedVideo();
+		}
+
+		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad -= HandleRewardBasedVideoFailedToLoad;
+
+			RewardAd.Instance.rewardBasedVideo.Show();
+			RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward += HandleUserEarnedReward;
+			RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+		}
+		private void HandleRewardBasedVideoFailedToLoad(object sender, AdErrorEventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad -= HandleRewardBasedVideoFailedToLoad;
+			Fsm.Event("fail");
+		}
+
+		private void HandleUserEarnedReward(object sender, Reward e)
+		{
+			get_earn = true;
+		}
+		private void HandleRewardBasedVideoClosed(object sender, EventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward -= HandleUserEarnedReward;
+			RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
+
+			if ( get_earn)
+			{
+				Fsm.Event("success");
+			}
+			else
+			{
+				Fsm.Event("fail");
+			}
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			GachaMain.Instance.m_goBackground.SetActive(false);
 		}
 	}
 
