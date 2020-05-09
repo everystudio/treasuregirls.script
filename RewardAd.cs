@@ -21,13 +21,9 @@ public class RewardAd : Singleton<RewardAd> {
 	}
 	public STATUS m_eRewardAdStatus;
 
-    public void Start()
+	public override void Initialize()
 	{
-		m_bLoaded = false;
-		ad_load_error = false;
-
-		m_eRewardAdStatus = STATUS.NONE;
-
+		base.Initialize();
 
 #if UNITY_ANDROID
             string adUnitId = "ca-app-pub-3940256099942544/5224354917";
@@ -38,6 +34,16 @@ public class RewardAd : Singleton<RewardAd> {
 #endif
 		// Get singleton reward based video ad reference.
 		this.rewardBasedVideo = new RewardedAd(adUnitId);
+
+	}
+
+	public void Start()
+	{
+		m_bLoaded = false;
+		ad_load_error = false;
+
+		m_eRewardAdStatus = STATUS.NONE;
+		/*
 
 		// Called when an ad request has successfully loaded.
 		rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
@@ -55,6 +61,7 @@ public class RewardAd : Singleton<RewardAd> {
 		//rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
 		this.RequestRewardBasedVideo();
+		*/
 	}
 	/*
 	private void HandleRewardBasedVideoLeftApplication(object sender, EventArgs e)

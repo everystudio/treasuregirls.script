@@ -211,34 +211,39 @@ namespace ShopMainAction
 			GachaMain.Instance.m_goBackground.SetActive(true);
 			not_play = true;
 			get_earn = false;
+
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+
+			RewardAd.Instance.RequestRewardBasedVideo();
 		}
-		public override void OnUpdate()
+
+		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
 		{
-			base.OnUpdate();
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad -= HandleRewardBasedVideoFailedToLoad;
 
-			if(not_play == true)
-			{
-				if( RewardAd.Instance.rewardBasedVideo.IsLoaded())
-				{
-					// ステータスのチェックはカットしました
-					// RewardAd.Instance.m_eRewardAdStatus == RewardAd.STATUS.STANDBY &&
-
-					not_play = false;
-					RewardAd.Instance.rewardBasedVideo.Show();
-
-					RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward += HandleUserEarnedReward;
-					RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-				}
-			}
+			RewardAd.Instance.rewardBasedVideo.Show();
+			RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward += HandleUserEarnedReward;
+			RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
 		}
+		private void HandleRewardBasedVideoFailedToLoad(object sender, AdErrorEventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+			RewardAd.Instance.rewardBasedVideo.OnAdFailedToLoad -= HandleRewardBasedVideoFailedToLoad;
+			Fsm.Event("fail");
+		}
+
 		private void HandleUserEarnedReward(object sender, Reward e)
 		{
 			get_earn = true;
 		}
-
 		private void HandleRewardBasedVideoClosed(object sender, EventArgs e)
 		{
-			if( get_earn)
+			RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward -= HandleUserEarnedReward;
+			RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
+
+			if ( get_earn)
 			{
 				Fsm.Event("success");
 			}
@@ -250,10 +255,7 @@ namespace ShopMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			RewardAd.Instance.rewardBasedVideo.OnUserEarnedReward -= HandleUserEarnedReward;
-			RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
 			GachaMain.Instance.m_goBackground.SetActive(false);
-
 		}
 	}
 
