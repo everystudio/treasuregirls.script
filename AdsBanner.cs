@@ -53,7 +53,7 @@ public class AdsBanner : MonoBehaviour {
 		// Create an empty ad request.
 		AdRequest request = new AdRequest.Builder()
 			.AddTestDevice("B58A62380C00BF9DC7BA75C756B5F550")
-			.AddTestDevice("30ec665ef7c68238905003e951174579")
+			//.AddTestDevice("30ec665ef7c68238905003e951174579")
 			.Build();
 		// Load the banner with the request.
 		view.LoadAd(request);
