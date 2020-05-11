@@ -33,11 +33,14 @@ public class AdsBanner : MonoBehaviour {
 
 	public void Show()
 	{
+		/*
 		// iPadはバナー表示させない！
 		if(SystemInfo.deviceModel.Contains("iPad"))
 		{
 			return;
 		}
+		*/
+
 		if(view != null)
 		{
 			view.Show();
