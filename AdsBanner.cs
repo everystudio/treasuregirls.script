@@ -59,11 +59,11 @@ public class AdsBanner : MonoBehaviour {
 
 		if(aspect_rate < check_aspect)
 		{
-			view = new BannerView(strUnitId, AdSize.Banner, banner_position);
+			view = new BannerView(strUnitId, AdSize.Banner, AdPosition.Top);
 		}
 		else
 		{
-			view = new BannerView(strUnitId, AdSize.SmartBanner, banner_position);
+			view = new BannerView(strUnitId, AdSize.SmartBanner, AdPosition.TopRight);
 		}
 
 		// Create an empty ad request.
