@@ -18,6 +18,17 @@ namespace ShopMainAction
 			base.OnEnter();
 			shop = Owner.GetComponent<ShopMain>();
 
+			bool bCodeInputButton = false;
+			if( DataManager.Instance.config.HasKey("code_input"))
+			{
+				//Debug.Log(DataManager.Instance.config.Read("code_input"));
+				//Debug.Log(Application.version);
+				if (  DataManager.Instance.config.Read("code_input") == Application.version)
+				{
+					bCodeInputButton = true;
+				}
+			}
+			shop.m_btnMainCode.gameObject.SetActive(bCodeInputButton);
 
 			shop.m_goBannerGemFree.SetActive(false);
 			shop.m_goBannerGoldPack1.SetActive(false);

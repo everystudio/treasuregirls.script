@@ -16,6 +16,11 @@ public class AdsBanner : MonoBehaviour {
 
 	void Start()
 	{
+		float aspect_rate = (float)Screen.width / (float)Screen.height;
+		float check_aspect = 13.0f / 9.0f;
+		Debug.Log(check_aspect);
+		Debug.Log(aspect_rate);
+
 		if (adUnitIdAndroid.Equals(""))
 		{
 			Debug.LogError("no set AdsBanner.adUnitIdAndroid");

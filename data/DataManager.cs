@@ -168,6 +168,8 @@ public class DataManager : DataManagerBase<DataManager>
 	IEnumerator init_network()
 	{
 		Debug.Log("init_network start");
+		yield return StartCoroutine(config.SpreadSheet(Defines.SS_MASTER, "config", () => { }));
+
 		masterChara.SetSaveFilename(Defines.FILENAME_MASTERCHARA);
 
 		masterChara.Load(m_textAssetHolder.Get("master_chara"));
