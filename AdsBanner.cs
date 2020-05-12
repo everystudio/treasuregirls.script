@@ -54,12 +54,18 @@ public class AdsBanner : MonoBehaviour {
 #endif
 
 
+		float aspect_rate = (float)Screen.width / (float)Screen.height;
+		float check_aspect = 13.0f / 9.0f;
 
+		if(aspect_rate < check_aspect)
+		{
+			view = new BannerView(strUnitId, AdSize.Banner, banner_position);
+		}
+		else
+		{
+			view = new BannerView(strUnitId, AdSize.SmartBanner, banner_position);
+		}
 
-
-
-		view = new BannerView(strUnitId, AdSize.SmartBanner, banner_position);
-		view = new BannerView(strUnitId, AdSize.Banner, banner_position);
 		// Create an empty ad request.
 		AdRequest request = new AdRequest.Builder()
 			.Build();
