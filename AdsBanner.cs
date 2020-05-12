@@ -33,11 +33,13 @@ public class AdsBanner : MonoBehaviour {
 
 	public void Show()
 	{
+		/*
 		// iPadはバナー表示させない！
 		if(SystemInfo.deviceModel.Contains("iPad"))
 		{
 			return;
 		}
+		*/
 
 		if(view != null)
 		{
@@ -50,12 +52,21 @@ public class AdsBanner : MonoBehaviour {
 #elif UNITY_IOS
 		strUnitId = adUnitIdIOS;
 #endif
+
+
+
+
+
+
 		view = new BannerView(strUnitId, AdSize.SmartBanner, banner_position);
+		view = new BannerView(strUnitId, AdSize.Banner, banner_position);
 		// Create an empty ad request.
 		AdRequest request = new AdRequest.Builder()
-			//.AddTestDevice("B58A62380C00BF9DC7BA75C756B5F550")
-			.AddTestDevice("30ec665ef7c68238905003e951174579")
 			.Build();
+
+			//.AddTestDevice("B58A62380C00BF9DC7BA75C756B5F550")
+			//.AddTestDevice("30ec665ef7c68238905003e951174579")
+
 		// Load the banner with the request.
 		view.LoadAd(request);
 	}
