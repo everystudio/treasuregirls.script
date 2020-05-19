@@ -9,6 +9,8 @@ public class Defines
 	public const string KeyKey = "key_key";
 	public const string KeyGoldKey = "key_goldkey";
 
+	public const string REVIEWED = "reviewed";
+
 	public const string SS_MASTER = "1w0Z0yCGWSTBN1SKzpPbpaOAUzaxcb866sElydp6cm4g";
 
 	public const string FILENAME_MASTERCHARA = "master_chara";
