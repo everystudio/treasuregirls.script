@@ -132,7 +132,11 @@ namespace SkillMainAction
 
 					if( exchange_data != null)
 					{
-						icon_skill_data.position = temp_icon_position;
+						//Debug.Log(icon_skill_data);
+						if (icon_skill_data != null)
+						{
+							icon_skill_data.position = temp_icon_position;
+						}
 					}
 				}
 
@@ -149,6 +153,8 @@ namespace SkillMainAction
 
 				skillMain.SkillBannerSelect(0);
 				skillMain.m_charaView.SkillSelect(0);
+				DataManager.Instance.dataSkill.Save();
+
 			});
 
 			skillMain.m_btnBack.gameObject.SetActive(true);
@@ -270,6 +276,7 @@ namespace SkillMainAction
 			{
 				DataSkillParam add = new DataSkillParam(buy_skill.skill_id, 0);
 				DataManager.Instance.dataSkill.list.Add(add);
+				DataManager.Instance.dataSkill.Save();
 			}
 			Finish();
 		}

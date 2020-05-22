@@ -23,10 +23,15 @@ namespace ShopMainAction
 			{
 				//Debug.Log(DataManager.Instance.config.Read("code_input"));
 				//Debug.Log(Application.version);
-				if (  DataManager.Instance.config.Read("code_input") == Application.version)
+				if (DataManager.Instance.config.Read("code_input") == Application.version)
 				{
 					bCodeInputButton = true;
 				}
+				if (DataManager.Instance.config.Read("code_input2") == Application.version)
+				{
+					bCodeInputButton = true;
+				}
+
 			}
 			shop.m_btnMainCode.gameObject.SetActive(bCodeInputButton);
 
