@@ -421,6 +421,18 @@ namespace GameMainAction
 				{
 					DataManager.Instance.AddCoin(get.num);
 				}
+				else if (get.item_id == 2)
+				{
+					DataManager.Instance.AddGem(get.num);
+				}
+				else if (get.item_id == 3)
+				{
+					DataManager.Instance.AddKey(get.num);
+				}
+				else if (get.item_id == 4)
+				{
+					DataManager.Instance.AddGoldKey(get.num);
+				}
 				else
 				{
 					DataManager.Instance.dataItem.Add(get.item_id, get.num);

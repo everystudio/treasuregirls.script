@@ -174,7 +174,7 @@ namespace CharaMainAction
 
 			DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString()).status = DataChara.STATUS.IDLE.ToString();
 			DataManager.Instance.dataChara.list.Find(p => p.chara_id == chara_id.Value).status = DataChara.STATUS.USING.ToString();
-
+			DataManager.Instance.dataChara.Save();
 			Finish();
 		}
 
