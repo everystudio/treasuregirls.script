@@ -52,6 +52,7 @@ namespace SpeedControlAction
 				speed.Value = Defines.GAMESPEED_MIN;
 			}
 			speedcontrol.m_img.sprite = sprite_atlas.GetSprite(get_sprite(speed.Value));
+			Time.timeScale = speed.Value;
 		}
 		private string get_sprite( int _iSpeed)
 		{
@@ -64,6 +65,11 @@ namespace SpeedControlAction
 				_iSpeed = Defines.GAMESPEED_MAX;
 			}
 			return string.Format("gamespeed_{0}", _iSpeed);
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			Time.timeScale = 1.0f;
 		}
 	}
 
