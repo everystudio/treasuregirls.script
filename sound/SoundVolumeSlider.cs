@@ -51,7 +51,7 @@ public class SoundVolumeSlider : MonoBehaviour {
 	
 	void OnEnable()
 	{
-		Debug.Log(slider.value);
+		//Debug.Log(slider.value);
 		slider.value = DataManager.Instance.user_data.ReadFloat(key_name);
 	}
 }

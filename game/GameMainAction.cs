@@ -213,7 +213,7 @@ namespace GameMainAction
 			bIsPausing = false;
 			gamemain.m_btnPause.onClick.AddListener(() =>
 			{
-				Debug.Log("pause");
+				//Debug.Log("pause");
 				Fsm.Event("pause");
 				/*
 				bIsPausing = !bIsPausing;
@@ -288,7 +288,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Debug.Log("pause enter");
+			//Debug.Log("pause enter");
 
 			save_game_speed = Time.timeScale;
 			Time.timeScale = 0.0f;
@@ -308,7 +308,7 @@ namespace GameMainAction
 		}
 		public override void OnExit()
 		{
-			Debug.Log("pause exit");
+			//Debug.Log("pause exit");
 			base.OnExit();
 			Time.timeScale = save_game_speed;
 			gamemain.m_panelPauseMenu.gameObject.SetActive(false);
@@ -323,7 +323,7 @@ namespace GameMainAction
 
 			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
 			gamemain.m_btnAutoPotion.recover_rate = gamemain.m_panelPauseMenu.m_autoPotionRate.rate;
-			Debug.Log(gamemain.m_btnAutoPotion.recover_rate);
+			//Debug.Log(gamemain.m_btnAutoPotion.recover_rate);
 		}
 	}
 
