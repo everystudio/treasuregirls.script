@@ -33,11 +33,11 @@ public class MasterWeaponParam : CsvDataParam
         switch (rarity)
         {
             case 1:
-                return 100000;
+                return 10000;
             case 2:
-                return 5000;
+                return 1000;
             case 3:
-                return 10;
+                return 100;
         }
         return 0;
     }
@@ -51,11 +51,11 @@ public class MasterWeaponParam : CsvDataParam
             case 2:
                 return 100000;
             case 3:
-                return 5000;
+                return 25000;
             case 4:
-                return 10;
+                return 5000;
             case 5:
-                return 1;
+                return 500;
         }
         return 0;
     }
