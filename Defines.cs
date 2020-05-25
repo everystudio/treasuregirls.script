@@ -11,6 +11,10 @@ public class Defines
 
 	public const string REVIEWED = "reviewed";
 
+	public const string GAMESPEED = "gamespeed";
+	public const int GAMESPEED_MIN = 1;
+	public const int GAMESPEED_MAX = 3;
+
 	public const string SS_MASTER = "1w0Z0yCGWSTBN1SKzpPbpaOAUzaxcb866sElydp6cm4g";
 
 	public const string FILENAME_MASTERCHARA = "master_chara";
