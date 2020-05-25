@@ -27,6 +27,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
 
     public Animator m_animator;
     public DataUnitParam m_dataUnitParam = new DataUnitParam();
+    public MasterWeaponParam m_masterWeaponParam = new MasterWeaponParam();
 
     public UnityEvent OnAttackEnd = new UnityEvent();
     public UnityEvent OnDeadEnd = new UnityEvent();
@@ -44,7 +45,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
         script.transform.localPosition = new Vector3(0.0f, 0.0f, -1.0f);
         script.transform.localScale = Vector3.one * 2.0f;
 
-        script.Initialize(m_dataUnitParam,_master, "enemy");
+        script.Initialize(m_dataUnitParam, _master, "enemy", null);
 
     }
 
@@ -75,7 +76,7 @@ public class GameCharaMain : Singleton<GameCharaMain>
 
     public void Damage(DataUnitParam _attack, MasterSkillParam _skill)
     {
-        int damage = _attack.CalcDamage(m_dataUnitParam, null);
+        int damage = _attack.CalcDamage(m_dataUnitParam, null , null);
         Damage(damage);
     }
 

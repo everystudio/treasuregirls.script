@@ -104,9 +104,27 @@ public class DataUnitParam :CsvDataParam
 		return _iParam + (int)(_iParam * rate);
 	}
 
-	public int CalcDamage(DataUnitParam _target , MasterSkillParam _skill )
+	public int CalcDamage(DataUnitParam _target , MasterSkillParam _skill , MasterWeaponParam _weapon)
 	{
-		float base_damage = (attack * 3 - _target.def) * 0.717f;
+		int use_attack = attack;
+		if( _weapon != null)
+		{
+			//Debug.Log(_weapon.weapon_type);
+			if(_weapon.weapon_type == "hammer")
+			{
+				use_attack /= 2;
+			}
+			else if( _weapon.weapon_type == "dagger")
+			{
+				use_attack = use_attack + use_attack/2;
+			}
+			else
+			{
+			}
+		}
+		//Debug.Log(string.Format("{0}:{1}", attack, use_attack));
+
+		float base_damage = (use_attack * 3 - _target.def) * 0.717f;
 		//Debug.Log(base_damage);
 
 		if (base_damage < 1.0f)

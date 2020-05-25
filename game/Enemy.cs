@@ -48,9 +48,9 @@ public class Enemy : MonoBehaviour
 		drop_object.Initialize(master_item,1);
 	}
 
-	public void Damage(DataUnitParam _attack , MasterSkillParam _skill)
+	public void Damage(DataUnitParam _attack , MasterSkillParam _skill , MasterWeaponParam _weapon)
 	{
-		int damage = _attack.CalcDamage(dataUnitParam, null);
+		int damage = _attack.CalcDamage(dataUnitParam, _skill, _weapon);
 		dataUnitParam.hp -= damage;
 
 		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(GameMain.Instance.m_prefDamageNum, m_enemyBody.gameObject);

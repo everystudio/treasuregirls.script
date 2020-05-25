@@ -31,6 +31,9 @@ namespace GameCharaAction
 			chara.is_goal = false;
 			chara.m_dataUnitParam.BuildPlayer();
 
+			DataWeaponParam my_weapon = DataManager.Instance.dataWeapon.list.Find(p => p.equip != 0);
+			chara.m_masterWeaponParam = DataManager.Instance.masterWeapon.list.Find(p => p.weapon_id == my_weapon.weapon_id);
+			Debug.Log(chara.m_masterWeaponParam.weapon_type);
 			DataCharaParam data_chara = DataManager.Instance.dataChara.list.Find(p => p.status == DataChara.STATUS.USING.ToString());
 			MasterCharaParam master_chara = DataManager.Instance.masterChara.list.Find(p => p.chara_id == data_chara.chara_id);
 			chara.m_overrideSprite.overrideTexture = TextureManager.Instance.Get(master_chara.texture_name);

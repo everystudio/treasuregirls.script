@@ -6,15 +6,17 @@ public class AttackEffect : MonoBehaviour
 {
 	public DataUnitParam m_data;
 	public MasterSkillParam m_skill;
+	public MasterWeaponParam m_weapon;
 	public string m_strTargetTag;
 
 	public List<GameObject> history;
 
-	public void Initialize(DataUnitParam _data ,MasterSkillParam _skill, string _target_tag)
+	public void Initialize(DataUnitParam _data ,MasterSkillParam _skill, string _target_tag , MasterWeaponParam _weapon)
 	{
 		m_data = _data;
 		m_skill = _skill;
 		m_strTargetTag = _target_tag;
+		m_weapon = _weapon;
 		Destroy(gameObject, 0.5f);
 	}
 
@@ -37,7 +39,7 @@ public class AttackEffect : MonoBehaviour
 					EnemyBody eb = _collider.gameObject.GetComponent<EnemyBody>();
 					if( eb != null)
 					{
-						eb.enemy.Damage(m_data, m_skill);
+						eb.enemy.Damage(m_data, m_skill , m_weapon);
 					}
 					if( m_skill != null && m_skill.type == "brow")
 					{

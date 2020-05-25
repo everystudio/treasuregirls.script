@@ -37,7 +37,7 @@ public class EnemyBody : MonoBehaviour
 		script.transform.localPosition = new Vector3(0.0f, 0.0f, -1.0f);
 		script.transform.localScale = Vector3.one * 2.0f;
 
-		script.Initialize(enemy.dataUnitParam, null, "player");
+		script.Initialize(enemy.dataUnitParam, null, "player", null);
 	}
 	public void EventAttackEnd()
 	{

@@ -12,6 +12,7 @@ public class MasterWeaponParam : CsvDataParam
     public int ability_id { get; set; }
     public int ability_rate { get; set; }
     public string sprite_name { get; set; }
+    public string weapon_type { get; set; }
 
     public MasterWeaponParam GetParam( int _iLevel)
     {
