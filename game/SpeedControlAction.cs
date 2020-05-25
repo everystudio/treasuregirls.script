@@ -43,6 +43,8 @@ namespace SpeedControlAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			DataManager.Instance.user_data.WriteInt(Defines.GAMESPEED, speed.Value);
+
 			if (speed.Value < Defines.GAMESPEED_MIN)
 			{
 				speed.Value = Defines.GAMESPEED_MIN;
