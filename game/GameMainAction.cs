@@ -284,10 +284,13 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class pause : GameMainActionBase
 	{
+		private float save_game_speed;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			Debug.Log("pause enter");
+
+			save_game_speed = Time.timeScale;
 			Time.timeScale = 0.0f;
 
 			gamemain.m_panelPauseMenu.gameObject.SetActive(true);
@@ -307,7 +310,7 @@ namespace GameMainAction
 		{
 			Debug.Log("pause exit");
 			base.OnExit();
-			Time.timeScale = 1.0f;
+			Time.timeScale = save_game_speed;
 			gamemain.m_panelPauseMenu.gameObject.SetActive(false);
 
 			gamemain.m_panelPauseMenu.m_btnClose.onClick.RemoveAllListeners();
@@ -320,6 +323,7 @@ namespace GameMainAction
 
 			float fAutoPotionRate = DataManager.Instance.user_data.ReadFloat(Defines.KEY_AUTOPOTION_RATE);
 			gamemain.m_btnAutoPotion.recover_rate = gamemain.m_panelPauseMenu.m_autoPotionRate.rate;
+			Debug.Log(gamemain.m_btnAutoPotion.recover_rate);
 		}
 	}
 
