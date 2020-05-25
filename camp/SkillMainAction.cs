@@ -116,34 +116,36 @@ namespace SkillMainAction
 
 			skillMain.m_btnSet.onClick.AddListener(() =>
 			{
+				// セットしたいスキル
 				DataSkillParam target_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == banner_skill_id);
+
+				// セット済みのスキル
 				DataSkillParam icon_skill_data = DataManager.Instance.dataSkill.list.Find(p => p.position == icon_position);
-				DataSkillParam exchange_data = null;
+
+				//DataSkillParam exchange_data = null;
 
 				int temp_icon_position = skillMain.m_charaView.GetSkillPosition(target_data.skill_id);
+				Debug.Log(temp_icon_position);
 
 				// 本命
 				target_data.position = icon_position;
 
+
+				// セットしたいスキルがすでにセット済みの場合
 				if(temp_icon_position != 0)
 				{
-					int temp_skill_id = skillMain.m_charaView.GetSkillId(temp_icon_position);
-					exchange_data = DataManager.Instance.dataSkill.list.Find(p => p.skill_id == banner_skill_id);
-
-					if( exchange_data != null)
+					// 入れ替えないとだめ
+					if (icon_skill_data != null)
 					{
-						//Debug.Log(icon_skill_data);
-						if (icon_skill_data != null)
-						{
-							icon_skill_data.position = temp_icon_position;
-						}
+						icon_skill_data.position = temp_icon_position;
 					}
 				}
-
-				Debug.Log(string.Format("id:{0} pos:{1}", target_data.skill_id, target_data.position));
-				if (exchange_data != null)
+				else
 				{
-					Debug.Log(string.Format("id:{0} pos:{1}", exchange_data.skill_id, exchange_data.position));
+					if (icon_skill_data != null)
+					{
+						icon_skill_data.position = 0;
+					}
 				}
 
 				skillMain.m_charaView.Initialize();
