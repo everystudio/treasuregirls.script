@@ -356,9 +356,29 @@ namespace TreasureMainAction
 			treasureMain.m_btnSet.onClick.AddListener(() =>
 			{
 				DataTreasureParam temp_data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial);
-
 				DataTreasureParam preset_data = DataManager.Instance.dataTreasure.list.Find(p => p.equip == equip_position);
 
+				if( temp_data.equip != 0)
+				{
+					if( preset_data != null)
+					{
+						int temp_position = temp_data.equip;
+						preset_data.equip = temp_position;
+					}
+				}
+				else
+				{
+					if( preset_data != null)
+					{
+						preset_data.equip = 0;
+					}
+				}
+				temp_data.equip = equip_position;
+
+
+
+
+				/*
 				if(preset_data != null && temp_data != null)
 				{
 					if( preset_data.serial == temp_data.serial)
@@ -389,6 +409,7 @@ namespace TreasureMainAction
 				{
 					// 入らないんじゃない？
 				}
+				*/
 				DataManager.Instance.dataTreasure.Save();
 				Fsm.Event("equip");
 			});
