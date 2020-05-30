@@ -105,6 +105,9 @@ namespace TreasureMainAction
 						icon.SelectTreasure(data.serial);
 					}
 				}
+
+				DataManager.Instance.dataTreasure.Save();
+				DataManager.Instance.user_data.Save();
 			});
 			treasureMain.m_btnBuy.onClick.AddListener(() =>
 			{
