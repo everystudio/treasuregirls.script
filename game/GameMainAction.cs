@@ -26,6 +26,9 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			// 自動スリープを無効にする場合
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
 			gamemain.IsGoal = false;
 			gamemain.player_chara.gameObject.SetActive(false);
 

@@ -27,6 +27,8 @@ namespace CampMainAction
 		{
 			base.OnEnter();
 			//gamemain.m_panelPauseMenu.m_soundvolumeBGM.SetVolume(DataManager.Instance.user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+			// デフォルトの設定にする場合
+			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
 			mixer.SetFloat("BGM", Mathf.Lerp(
 				Defines.SOUND_VOLME_MIN,
