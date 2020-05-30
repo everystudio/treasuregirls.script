@@ -361,13 +361,14 @@ namespace TreasureMainAction
 				DataTreasureParam temp_data = DataManager.Instance.dataTreasure.list.Find(p => p.serial == treasure_serial);
 				DataTreasureParam preset_data = DataManager.Instance.dataTreasure.list.Find(p => p.equip == equip_position);
 
-				if( temp_data.equip != 0)
+				if(temp_data != null )
 				{
 					if( preset_data != null)
 					{
 						int temp_position = temp_data.equip;
 						preset_data.equip = temp_position;
 					}
+					temp_data.equip = equip_position;
 				}
 				else
 				{
@@ -376,7 +377,6 @@ namespace TreasureMainAction
 						preset_data.equip = 0;
 					}
 				}
-				temp_data.equip = equip_position;
 
 
 
