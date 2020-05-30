@@ -17,6 +17,8 @@ public class PanelResult : MonoBehaviour
 	public Button m_btnRetry;
 	public Button m_btnRetry10;
 	public Button m_btnNext;
+	public Button m_btnContinueEnd;
+	public Button m_btnQuickNext;
 
 	public SpriteAtlas m_spriteAtlas;
 

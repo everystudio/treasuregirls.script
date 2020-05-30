@@ -22,11 +22,22 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class ready : GameMainActionBase
 	{
+		public FsmInt continue_count;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			gamemain.IsGoal = false;
 			gamemain.player_chara.gameObject.SetActive(false);
+
+			if (0 < continue_count.Value)
+			{
+				gamemain.m_goContinueCountRoot.SetActive(true);
+				gamemain.m_txtContinueCount.text = continue_count.Value.ToString();
+			}
+			else
+			{
+				gamemain.m_goContinueCountRoot.SetActive(false);
+			}
 
 
 			gamemain.m_fGameTime = 0.0f;
@@ -331,6 +342,7 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class result : GameMainActionBase
 	{
+		public FsmInt continue_count;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -457,6 +469,11 @@ namespace GameMainAction
 			{
 				Fsm.Event("retry");
 			});
+			gamemain.m_panelResult.m_btnRetry10.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnRetry10.onClick.AddListener(() =>
+			{
+				Fsm.Event("retry10");
+			});
 
 			gamemain.m_panelResult.m_btnNext.interactable = 0 < current_floor.next_floor_id;
 			gamemain.m_panelResult.m_btnNext.onClick.RemoveAllListeners();
@@ -464,6 +481,28 @@ namespace GameMainAction
 			{
 				Fsm.Event("next");
 			});
+
+			gamemain.m_panelResult.m_btnContinueEnd.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnContinueEnd.onClick.AddListener(() =>
+			{
+				button_active(true);
+				continue_count.Value = 0;
+			});
+			gamemain.m_panelResult.m_btnQuickNext.onClick.RemoveAllListeners();
+			gamemain.m_panelResult.m_btnQuickNext.onClick.AddListener(() =>
+			{
+				Fsm.Event("retry");
+			});
+
+			if( 0 < continue_count.Value)
+			{
+				button_active(false);
+				StartCoroutine(auto_retry());
+			}
+			else
+			{
+				button_active(true);
+			}
 
 			if (DataManager.Instance.IsTest)
 			{
@@ -474,6 +513,25 @@ namespace GameMainAction
 				Fsm.Event("ending");
 			}
 
+		}
+
+		private void button_active(bool _bFlag)
+		{
+			gamemain.m_panelResult.m_btnCamp.gameObject.SetActive(_bFlag);
+			gamemain.m_panelResult.m_btnRetry.gameObject.SetActive(_bFlag);
+			gamemain.m_panelResult.m_btnRetry10.gameObject.SetActive(_bFlag);
+			gamemain.m_panelResult.m_btnNext.gameObject.SetActive(_bFlag);
+			gamemain.m_panelResult.m_btnContinueEnd.gameObject.SetActive(!_bFlag);
+			gamemain.m_panelResult.m_btnQuickNext.gameObject.SetActive(!_bFlag);
+		}
+
+		private IEnumerator auto_retry()
+		{
+			yield return new WaitForSecondsRealtime(2.0f);
+			if( 0 < continue_count.Value)
+			{
+				Fsm.Event("retry");
+			}
 		}
 
 		public override void OnExit()
